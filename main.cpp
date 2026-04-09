@@ -22,9 +22,6 @@ namespace Vi {
             }
         }
     };
-}
-
-namespace Vi {
 
     class Window {
     public:
@@ -97,9 +94,6 @@ namespace Vi {
 
 int main() {
 
-    {
-        Vi::Window window = Vi::Window("Application Title", 1920, 1080);
-    }
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
 

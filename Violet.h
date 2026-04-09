@@ -19,7 +19,10 @@
 #define Vi Vi
 namespace Vi {
 
+    class Vertex;
+    class Transform;
     class Camera;
+
     class Texture;
     class Material;
     class Mesh;
@@ -28,20 +31,39 @@ namespace Vi {
     class Mouse;
     class Window;
 
-    /* Camera, Texture, Material, Mesh */
+    /* Vertex, Transform, Camera */
 
-    class Camera {
+    class Vertex {
     public:
-        double far, near, fov;
-        Transform transform;
-        Camera();
-        Camera(double, double, double);
-        Vec3d forward() const;
-        Vec3d up() const;
-        Vec3d right() const;
+        Vertex() = default;
+        Vec3d position = Vec3d();
+        Color color = Color::white();
+        Vec2f tex_coord = Vec2f();
+    };
+
+    class Transform {
+    public:
+        Transform() = default;
+        double scale = 1.0;
+        Vec3d position = Vec3d();
+        Quat orientation = Quat();
         Mat4 view_matrix() const;
         Mat4 projection_matrix() const;
     };
+
+    class Camera {
+    public:
+        Camera() = default;
+        double far = 100.0f;
+        double near = 0.1f;
+        double fov = 70.0f;
+        Transform transform = Transform();
+        Vec3d forward() const;
+        Vec3d up() const;
+        Vec3d right() const;
+    };
+
+    /* Texture, Material, Mesh */
 
     class Texture {
     public:
@@ -77,7 +99,7 @@ namespace Vi {
         Texture texture = Texture();
         Material material = Material();
         Transform transform = Transform();
-        std::vector<Vertex> vertices;
+        std::vector<Vertex> vertices = {};
         void paint(const Color&);
     };
 
@@ -90,8 +112,7 @@ namespace Vi {
     private:
         friend Window;
         struct KeyboardEvent { int key; int scancode; int action; int mods; };
-        Keyboard() = default;
-        std::vector<KeyboardEvent> keyboard_events;
+        std::vector<KeyboardEvent> keyboard_events = {};
         void reset();
     };
 
@@ -104,13 +125,13 @@ namespace Vi {
         double scroll() const;
     private:
         friend Window;
+        Mouse() = default;
         struct MouseEvent { int button; int action; int mods; };
         struct ScrollEvent { double xoffset; double yoffset; };
         Vec2d pos = Vec2d();
         Vec2d vel = Vec2d();
-        std::vector<MouseEvent> mouse_events;
-        std::vector<ScrollEvent> scroll_events;
-        Mouse() = default;
+        std::vector<MouseEvent> mouse_events = {};
+        std::vector<ScrollEvent> scroll_events = {};
         void reset();
     };
 

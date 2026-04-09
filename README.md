@@ -43,6 +43,51 @@ int main() {
 }
 ```
 
+```cpp
+
+/* Class Layout Standard */
+
+class Baz {
+public:
+    /* Special Member Functions */
+    /* Variables */
+    /* Functions */
+    /* Operators */
+private:
+    /* Friendships */
+    /* Deleted or Private Special Member Functions */
+    /* Internal Types (Always Plain Structs) */
+    /* Variables */
+    /* Functions */
+};
+
+/* Single Constructor set to Default */
+
+class Foo {
+public:
+    Foo() = default;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+/* All Special Members Present */
+
+class Bar {
+public:
+    Bar();
+    Bar(const Bar&);
+    Bar(Bar&&) noexcept;
+    Bar& operator = (const Bar&);
+    Bar& operator = (Bar&&) noexcept;
+    ~Bar();
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+```
+
 ![Alt text](image_url)
 
 > This is a quote

@@ -25,17 +25,23 @@ namespace Vi {
 
     class Vec2i {
     public:
-        int x, y;
+        Vec2i() = default;
+        Vec2i(int x, int y) { this->x = x; this->y = y; }
+        int x = 0, y = 0;
     };
 
     class Vec2f {
     public:
-        float x, y;
+        Vec2f() = default;
+        Vec2f(float x, float y) { this->x = x; this->y = y; }
+        float x = 0.0f, y = 0.0f;
     };
 
     class Vec2d {
     public:
-        double x, y;
+        Vec2d() = default;
+        Vec2d(double x, double y) { this->x = x; this->y = y; }
+        double x = 0.0, y = 0.0;
 
         Vec2d  operator + (const Vec2d& other) { return Vec2d(x + other.x, y + other.y); }
         Vec2d  operator - (const Vec2d& other) { return Vec2d(x - other.x, y - other.y); }
@@ -86,20 +92,6 @@ namespace Vi {
         static Color cyan()   { return Color(0.0f, 1.0f, 1.0f, 1.0f); }
         static Color purple() { return Color(1.0f, 0.0f, 1.0f, 1.0f); }
         static Color yellow() { return Color(1.0f, 1.0f, 0.0f, 1.0f); }
-    };
-
-    class Vertex {
-    public:
-        Vec3d position;
-        Color color;
-        Vec2f tex_coord;
-    };
-
-    class Transform {
-    public:
-        double scale = 1.0;
-        Vec3d position = Vec3d();
-        Quat orientation = Quat();
     };
 }
 

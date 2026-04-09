@@ -80,6 +80,10 @@ namespace Vi {
         return Vec2i(x, y);
     }
 
+    void Window::vsync(bool sync) {
+        glfwSwapInterval((int)sync);
+    }
+
     bool Window::is_open() {
         GLFWwindow* window = glfwGetCurrentContext();
         return !glfwWindowShouldClose(window);
@@ -96,6 +100,10 @@ namespace Vi {
     void Window::clear(const Color& color) {
         glClearColor(color.r, color.g, color.b, color.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void Window::draw(const Mesh& mesh, const Camera& camera) {
+
     }
 
     void Window::display() {

@@ -1,4 +1,8 @@
 
+/*
+    Logger.h
+*/
+
 #pragma once
 #include <string>
 

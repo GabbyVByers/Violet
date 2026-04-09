@@ -50,7 +50,7 @@ int main() {
 >> A nested quote
 
 $$
-\int_0^1 x^2 \, dx = \frac{1}{3}
+\int_0^1x^2\ dx=\frac{1}{3}
 $$
 
 $$

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CudaCompile Include="kernel.cu" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Libraries\opengl\glad.c">
       <Filter>Additional Libraries\opengl</Filter>
     </ClCompile>
@@ -29,9 +25,30 @@
     <ClCompile Include="Libraries\imgui\imgui_impl_opengl3.cpp">
       <Filter>Additional Libraries\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">
@@ -42,6 +59,24 @@
     </Filter>
     <Filter Include="Additional Libraries\imgui">
       <UniqueIdentifier>{7491b034-1589-4b7c-b363-4d9fd430e0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Violet">
+      <UniqueIdentifier>{706b53a0-559c-4b11-8c84-b16a47e2bf6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Violet\Source Files">
+      <UniqueIdentifier>{0d4f22ee-05d5-4668-bbd0-c835bfc6aab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Violet\Header Files">
+      <UniqueIdentifier>{c76207a2-7d28-409f-88fa-d12fc8ac3ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA">
+      <UniqueIdentifier>{9eabd3c1-88ad-4ff0-b8bc-f18616c34449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Violet\Documentation">
+      <UniqueIdentifier>{2d41c1b3-1df3-4394-bef9-30316e08bfb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Additional Libraries\image">
+      <UniqueIdentifier>{e5c369e4-8243-40d2-b71d-ec31a8484888}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,8 +107,27 @@
     <ClInclude Include="Libraries\imgui\imgui_impl_opengl3_loader.h">
       <Filter>Additional Libraries\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Violet.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="Types.h" />
+    <ClInclude Include="Logger.h">
+      <Filter>Violet\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Violet\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Violet.h">
+      <Filter>Violet\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\image\stb_image.h">
+      <Filter>Additional Libraries\image</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="kernel.cu">
+      <Filter>CUDA</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>Violet\Documentation</Filter>
+    </None>
   </ItemGroup>
 </Project>

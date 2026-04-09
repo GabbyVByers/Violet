@@ -37,7 +37,7 @@ namespace Vi {
         return false;
     }
 
-    float Mouse::scroll() const {
+    double Mouse::scroll() const {
         double scroll = 0.0;
         for (const ScrollEvent& event : scroll_events) {
             scroll += event.yoffset;
@@ -46,17 +46,6 @@ namespace Vi {
     }
 
     /* Private */
-
-    Mouse::Mouse() {
-        pos = {
-            .x = 0.0f,
-            .y = 0.0f
-        };
-        vel = {
-            .x = 0.0f,
-            .y = 0.0f
-        };
-    }
 
     void Mouse::reset() {
         GLFWwindow* window = glfwGetCurrentContext();

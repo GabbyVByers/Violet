@@ -25,23 +25,46 @@ namespace Vi {
 
     class Vec2i {
     public:
-        Vec2i() = default;
-        Vec2i(int x, int y) { this->x = x; this->y = y; }
-        int x = 0, y = 0;
+        int x, y;
+        Vec2i();
+        Vec2i(int, int);
+        Vec2i(const Vec2i&) = default;
+        Vec2i(Vec2i&&) noexcept = default;
+        Vec2i& operator = (const Vec2i&) = default;
+        Vec2i& operator = (Vec2i&&) noexcept = default;
+        ~Vec2i() = default;
+        
+        static double hypot(const Vec2i&);
+        static int    cross(const Vec2i&, const Vec2i&);
+        static int    dot(const Vec2i&, const Vec2i&);
+        
+        Vec2i(const Vec2f&);
+        Vec2i(const Vec2d&);
+        Vec2i& operator = (const Vec2f&);
+        Vec2i& operator = (const Vec2d&);
+        
+        Vec2i  operator +  (const Vec2i&);
+        Vec2i  operator -  (const Vec2i&);
+        Vec2i  operator *  (const int);
+        Vec2i  operator /  (const int);
+        Vec2i& operator += (const Vec2i&);
+        Vec2i& operator -= (const Vec2i&);
+        Vec2i& operator *= (const int);
+        Vec2i& operator /= (const int);
     };
 
     class Vec2f {
     public:
-        Vec2f() = default;
-        Vec2f(float x, float y) { this->x = x; this->y = y; }
-        float x = 0.0f, y = 0.0f;
+        float x, y;
+        Vec2f();
+        Vec2f(float, float);
     };
 
     class Vec2d {
     public:
-        Vec2d() = default;
-        Vec2d(double x, double y) { this->x = x; this->y = y; }
-        double x = 0.0, y = 0.0;
+        double x, y;
+        Vec2d();
+        Vec2d(double, double);
 
         Vec2d  operator + (const Vec2d& other) { return Vec2d(x + other.x, y + other.y); }
         Vec2d  operator - (const Vec2d& other) { return Vec2d(x - other.x, y - other.y); }

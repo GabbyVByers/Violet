@@ -29,21 +29,6 @@ __This is some text__
 [hyperlink](https://example.com)
 
 ```cpp
-int main() {
-
-    Vi::Window window = Vi::Window("App Title", 1920, 1080);
-
-    while (window.is_open()) {
-        window.poll_events();
-        window.clear(Vi::Color::blue());
-        window.display();
-    }
-
-    return 0;
-}
-```
-
-```cpp
 
 /* Class Layout Standard */
 
@@ -100,5 +85,9 @@ $$
 
 $$
 \frac{x^{3}}{9}+\frac{\sqrt{67}}{21}
+$$
+
+$$
+a\times b=a_{x}b_{y}-a_{y}b_{x}
 $$
 

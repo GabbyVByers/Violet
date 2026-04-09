@@ -11,8 +11,6 @@ int main() {
     
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
-	Vi::Mouse mouse = Vi::Mouse();
-
     while (window.is_open()) {
         window.poll_events();
         window.clear(Vi::Color::blue());

@@ -47,6 +47,7 @@ namespace Vi {
         double scale = 1.0;
         Vec3d position = Vec3d();
         Quat orientation = Quat();
+        Mat4 model_matrix() const;
         Mat4 view_matrix() const;
         Mat4 projection_matrix() const;
     };
@@ -74,7 +75,7 @@ namespace Vi {
     private:
         friend Window;
         GLuint texture = NULL;
-        Texture(const Texture&) = delete;
+        Texture(const Texture&) = delete; /* todo: these could be implemented instead */
         Texture& operator = (const Texture&) = delete;
     };
 
@@ -90,17 +91,36 @@ namespace Vi {
         GLuint vbo = NULL;
         GLuint shader = NULL;
         GLuint primitive = NULL;
-        Material(const Material&) = delete;
+        Material(const Material&) = delete; /* todo: these could be implemented instead */
         Material& operator = (const Material&) = delete;
     };
 
     class Mesh {
     public:
+        Mesh();
+        Mesh(const Mesh&);
+        Mesh(Mesh&&) noexcept;
+        Mesh& operator = (const Mesh&);
+        Mesh& operator = (Mesh&&) noexcept;
+        ~Mesh();
         Texture texture = Texture();
         Material material = Material();
         Transform transform = Transform();
         std::vector<Vertex> vertices = {};
         void paint(const Color&);
+    };
+
+    /* Shapes */
+
+    class Shapes {
+    public:
+    private:
+        Shapes() = delete;
+        Shapes(const Shapes&) = delete;
+        Shapes(Shapes&&) noexcept = delete;
+        Shapes& operator = (const Shapes&) = delete;
+        Shapes& operator = (Shapes&&) noexcept = delete;
+        ~Shapes() = delete;
     };
 
     /* Keyboard, Mouse, Window */
@@ -111,6 +131,12 @@ namespace Vi {
         bool pressing(int) const;
     private:
         friend Window;
+        Keyboard() = default;
+        Keyboard(const Keyboard&) = delete;
+        Keyboard(Keyboard&&) noexcept = delete;
+        Keyboard& operator = (const Keyboard&) = delete;
+        Keyboard& operator = (Keyboard&&) noexcept = delete;
+        ~Keyboard() = default;
         struct KeyboardEvent { int key; int scancode; int action; int mods; };
         std::vector<KeyboardEvent> keyboard_events = {};
         void reset();
@@ -126,6 +152,11 @@ namespace Vi {
     private:
         friend Window;
         Mouse() = default;
+        Mouse(const Mouse&) = delete;
+        Mouse(Mouse&&) noexcept = delete;
+        Mouse& operator = (const Mouse&) = delete;
+        Mouse& operator = (Mouse&&) noexcept = delete;
+        ~Mouse() = default;
         struct MouseEvent { int button; int action; int mods; };
         struct ScrollEvent { double xoffset; double yoffset; };
         Vec2d pos = Vec2d();
@@ -150,9 +181,9 @@ namespace Vi {
         static Keyboard& keyboard();
     private:
         Window(const Window&) = delete;
-        Window(Window&&) = delete;
+        Window(Window&&) noexcept = delete;
         Window& operator = (const Window&) = delete;
-        Window& operator = (Window&&) = delete;
+        Window& operator = (Window&&) noexcept = delete;
         static void callback_window_resize(GLFWwindow*, int, int);
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);

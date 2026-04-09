@@ -49,12 +49,6 @@ int main() {
 
 >> A nested quote
 
-Einstein’s equation:
-
-$E = mc^2$
-
-Integral example:
-
 $$
 \int_0^1 x^2 \, dx = \frac{1}{3}
 $$
@@ -63,4 +57,3 @@ $$
 \frac{x^{3}}{9}+\frac{\sqrt{67}}{21}
 $$
 
-[![View the demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)

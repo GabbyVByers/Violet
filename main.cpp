@@ -1,119 +1,68 @@
 
+/*
+    main.cpp
+*/
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "Violet.h"
 
-#include <iostream>
-#include <string>
-
-#define Vi Vi
-
-namespace Vi {
-
-    class Logger {
-    public:
-        static std::string error_message(std::string message = "") {
-            return "\033[31mCatastrophic Error\033[0m: " + message + "\n";
-        }
-    };
-
-    class Window {
-    public:
-        Window(std::string title, unsigned int width, unsigned int height) {
-
-            GLFWwindow* window = glfwGetCurrentContext();
-            if (window != nullptr) {
-                std::cerr << Logger::error_message("GLFW context already exists");
-                std::terminate();
-            }
-
-            GLuint status = glfwInit();
-            if (status == NULL) {
-                std::cerr << Logger::error_message("Failed to initialize GLFW");
-                std::terminate();
-            }
-
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-            window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-            if (window == nullptr) {
-                std::cerr << Logger::error_message("Failed to create GLFW window");
-                std::terminate();
-            }
-
-            glfwMakeContextCurrent(window);
-            window = glfwGetCurrentContext();
-            if (window == nullptr) {
-                std::cerr << Logger::error_message("Failed to make GLFW current context");
-                std::terminate();
-            }
-
-            status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-            if (status == NULL) {
-                std::cerr << Logger::error_message("Failed to load GLAD");
-                std::terminate();
-            }
-            
-            glViewport(0, 0, width, height);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_PROGRAM_POINT_SIZE);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            IMGUI_CHECKVERSION();
-            ImGui::CreateContext();
-            ImGuiIO& io = ImGui::GetIO();
-            io.FontGlobalScale = 2.0f;
-            io.IniFilename = nullptr;
-            ImGui::StyleColorsDark();
-            ImGui_ImplGlfw_InitForOpenGL(window, true);
-            ImGui_ImplOpenGL3_Init("#version 330");
-        }
-
-        ~Window() {
-            ImGui_ImplOpenGL3_Shutdown();
-            ImGui_ImplGlfw_Shutdown();
-            ImGui::DestroyContext();
-            glfwDestroyWindow(glfwGetCurrentContext());
-            glfwTerminate();
-        }
-
-        bool is_open() {
-            GLFWwindow* window = glfwGetCurrentContext();
-            return !glfwWindowShouldClose(window);
-        }
-
-        void poll_events() {
-            glfwPollEvents();
-        }
-
-        void clear() {
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        }
-
-        void display() {
-            GLFWwindow* window = glfwGetCurrentContext();
-            glfwSwapBuffers(window);
-        }
-    };
-}
+static void input_test(Vi::Window& window);
 
 int main() {
-
+    
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
     while (window.is_open()) {
         window.poll_events();
-        window.clear();
+        window.clear(Vi::Color::blue());
         window.display();
+		input_test(window);
     }
 
     return 0;
+}
+
+void input_test(Vi::Window& window) {
+	Vi::Mouse& mouse = Vi::Window::mouse();
+	Vi::Keyboard& keyboard = Vi::Window::keyboard();
+
+	if (mouse.clicked(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS))
+		std::cout << "Left Mouse Button Pressed\n";
+	if (mouse.clicked(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE))
+		std::cout << "Left Mouse Button Released\n";
+	if (mouse.clicked(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS))
+		std::cout << "Right Mouse Button Pressed\n";
+	if (mouse.clicked(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE))
+		std::cout << "Right Mouse Button Released\n";
+	if (mouse.clicked(GLFW_MOUSE_BUTTON_MIDDLE, GLFW_PRESS))
+		std::cout << "Middle Mouse Button Pressed\n";
+	if (mouse.clicked(GLFW_MOUSE_BUTTON_MIDDLE, GLFW_RELEASE))
+		std::cout << "Middle Mouse Button Released\n";
+
+	double scroll = mouse.scroll();
+	if (scroll > 0.0)
+		std::cout << "Scrolled Up: scroll = " << scroll << "\n";
+	if (scroll < 0.0)
+		std::cout << "Scrolled Down: scroll = " << scroll << "\n";
+
+	if (keyboard.pressing(GLFW_KEY_SPACE)) {
+		Vi::Vec2d pos = mouse.position();
+		std::cout << "Cursor Position: x = " << pos.x << " y = " << pos.y << "\n";
+	}
+	if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) {
+		Vi::Vec2d vel = mouse.velocity();
+		if ((vel.x != 0.0) || (vel.y != 0.0))
+			std::cout << "Cursor Velocity: x = " << vel.x << " y = " << vel.y << "\n";
+	}
+
+	if (keyboard.pressed(GLFW_KEY_W, GLFW_PRESS))
+		std::cout << "W key Pressed\n";
+	if (keyboard.pressed(GLFW_KEY_W, GLFW_RELEASE))
+		std::cout << "W key Released\n";
+	if (keyboard.pressing(GLFW_KEY_A))
+		std::cout << "A Button Being Held Down\n";
+	if (keyboard.pressing(GLFW_KEY_S)) {
+		Vi::Vec2i size = window.size();
+		std::cout << "Window Size: " << size.x << " " << size.y << "\n";
+	}
 }
 

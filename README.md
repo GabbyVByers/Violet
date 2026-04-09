@@ -87,7 +87,20 @@ $$
 \frac{x^{3}}{9}+\frac{\sqrt{67}}{21}
 $$
 
+2D Cross Product
+
 $$
 a\times b=a_{x}b_{y}-a_{y}b_{x}
+$$
+
+3D Cross Product
+
+$$
+a\times b= 
+\begin{Bmatrix}
+c_{x}=a_{y}b_{z}-a_{z}b_{y}\\
+c_{y}=a_{z}b_{x}-a_{x}b_{z}\\
+c_{z}=a_{x}b_{y}-a_{y}b_{x}
+\end{Bmatrix}
 $$
 

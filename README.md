@@ -79,14 +79,6 @@ public:
 
 >> A nested quote
 
-$$
-\int_0^1x^2\ dx=\frac{1}{3}
-$$
-
-$$
-\frac{x^{3}}{9}+\frac{\sqrt{67}}{21}
-$$
-
 2D Cross Product
 
 $$
@@ -114,5 +106,17 @@ c_{x}=a_{w}b_{x}+a_{x}b_{w}+a_{y}b_{z}-a_{z}b_{y}\\
 c_{y}=a_{w}b_{y}-a_{x}b_{z}+a_{y}b_{w}+a_{z}b_{x}\\
 c_{z}=a_{w}b_{z}+a_{x}b_{y}-a_{y}b_{x}+a_{z}b_{w}
 \end{Bmatrix}
+$$
+
+Quaternion -> Rotation Matrix
+
+$$
+m_{rot}=
+\begin{bmatrix}
+1-2(y^{2}+z^{2}) & 2(xy-zw) & 2(xz+yw) & 0\\
+2(xy+zw) & 1-2(x^{2}+z^{2}) & 2(yz-xw) & 0\\
+2(xz-yw) & 2(yz+xw) & 1-2(x^{2}+y^{2}) & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}
 $$
 

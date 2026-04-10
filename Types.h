@@ -248,7 +248,19 @@ namespace Vi {
 
     class Mat4 {
     public:
+        Mat4();
         double data[4][4];
+        static Mat4 scalar_matrix(const double);
+        static Mat4 translation_matrix(const Vec3d&);
+        static Mat4 rotation_matrix(const Quat&);
+        Mat4 operator * (const Mat4&) const;
+    private:
+        Mat4(
+            double, double, double, double,
+            double, double, double, double,
+            double, double, double, double,
+            double, double, double, double
+        );
     };
 
     class Mat4f {

@@ -144,3 +144,33 @@ m_{\text{rot}}=
 \end{bmatrix}
 $$
 
+Projection Matrix
+
+$$
+m_{\text{proj}}=
+\begin{bmatrix}
+\frac{f}{a} & 0 & 0 & 0\\
+0 & f & 0 & 0\\
+0 & 0 & \frac{f+n}{n-f} & \frac{2fn}{n-f}\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+$$
+
+Where
+
+$$
+f=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}
+$$
+
+$$
+a=\frac{\text{width}}{\text{height}}\longrightarrow\text{aspect ratio}
+$$
+
+$$
+n=\text{near plane}
+$$
+
+$$
+f=\text{far plane}
+$$
+

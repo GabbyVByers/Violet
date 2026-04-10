@@ -24,19 +24,14 @@ namespace Vi {
 
     class Vec2i {
     public:
-        Vec2i(int, int);
         Vec2i() = default;
-        Vec2i(const Vec2i&) = default;
-        Vec2i(Vec2i&&) noexcept = default;
-        Vec2i& operator = (const Vec2i&) = default;
-        Vec2i& operator = (Vec2i&&) noexcept = default;
-        ~Vec2i() = default;
-        int x = 0, y = 0;
-
+        Vec2i(int, int);
         explicit Vec2i(const Vec2f&);
         explicit Vec2i(const Vec2d&);
         Vec2i& operator = (const Vec2f&);
         Vec2i& operator = (const Vec2d&);
+        int x = 0;
+        int y = 0;
         
         static Vec2i xpos();
         static Vec2i xneg();
@@ -60,19 +55,14 @@ namespace Vi {
 
     class Vec2f {
     public:
-        Vec2f(float, float);
         Vec2f() = default;
-        Vec2f(const Vec2f&) = default;
-        Vec2f(Vec2f&&) noexcept = default;
-        Vec2f& operator = (const Vec2f&) = default;
-        Vec2f& operator = (Vec2f&&) noexcept = default;
-        ~Vec2f() = default;
-        float x = 0.0f, y = 0.0f;
-
+        Vec2f(float, float);
         explicit Vec2f(const Vec2i&);
         explicit Vec2f(const Vec2d&);
         Vec2f& operator = (const Vec2i&);
         Vec2f& operator = (const Vec2d&);
+        float x = 0.0f;
+        float y = 0.0f;
 
         static Vec2f xpos();
         static Vec2f xneg();
@@ -96,19 +86,14 @@ namespace Vi {
 
     class Vec2d {
     public:
-        Vec2d(double, double);
         Vec2d() = default;
-        Vec2d(const Vec2d&) = default;
-        Vec2d(Vec2d&&) noexcept = default;
-        Vec2d& operator = (const Vec2d&) = default;
-        Vec2d& operator = (Vec2d&&) noexcept = default;
-        ~Vec2d() = default;
-        double x = 0.0, y = 0.0;
-
+        Vec2d(double, double);
         explicit Vec2d(const Vec2i&);
         explicit Vec2d(const Vec2f&);
         Vec2d& operator = (const Vec2i&);
         Vec2d& operator = (const Vec2f&);
+        double x = 0.0;
+        double y = 0.0;
 
         static Vec2d xpos();
         static Vec2d xneg();
@@ -132,19 +117,15 @@ namespace Vi {
 
     class Vec3i {
     public:
-        Vec3i(int, int, int);
         Vec3i() = default;
-        Vec3i(const Vec3i&) = default;
-        Vec3i(Vec3i&&) noexcept = default;
-        Vec3i& operator = (const Vec3i&) = default;
-        Vec3i& operator = (Vec3i&&) noexcept = default;
-        ~Vec3i() = default;
-        int x = 0, y = 0, z = 0;
-
+        Vec3i(int, int, int);
         explicit Vec3i(const Vec3f&);
         explicit Vec3i(const Vec3d&);
         Vec3i& operator = (const Vec3f&);
         Vec3i& operator = (const Vec3d&);
+        int x = 0;
+        int y = 0;
+        int z = 0;
 
         static Vec3i xpos();
         static Vec3i xneg();
@@ -170,19 +151,15 @@ namespace Vi {
 
     class Vec3f {
     public:
-        Vec3f(float, float, float);
         Vec3f() = default;
-        Vec3f(const Vec3f&) = default;
-        Vec3f(Vec3f&&) noexcept = default;
-        Vec3f& operator = (const Vec3f&) = default;
-        Vec3f& operator = (Vec3f&&) noexcept = default;
-        ~Vec3f() = default;
-        float x = 0.0f, y = 0.0f, z = 0.0f;
-
+        Vec3f(float, float, float);
         explicit Vec3f(const Vec3i&);
         explicit Vec3f(const Vec3d&);
         Vec3f& operator = (const Vec3i&);
         Vec3f& operator = (const Vec3d&);
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
 
         static Vec3f xpos();
         static Vec3f xneg();
@@ -208,19 +185,15 @@ namespace Vi {
 
     class Vec3d {
     public:
-        Vec3d(double, double, double);
         Vec3d() = default;
-        Vec3d(const Vec3d&) = default;
-        Vec3d(Vec3d&&) noexcept = default;
-        Vec3d& operator = (const Vec3d&) = default;
-        Vec3d& operator = (Vec3d&&) noexcept = default;
-        ~Vec3d() = default;
-        double x = 0.0, y = 0.0, z = 0.0;
-
+        Vec3d(double, double, double);
         explicit Vec3d(const Vec3i&);
         explicit Vec3d(const Vec3f&);
         Vec3d& operator = (const Vec3i&);
         Vec3d& operator = (const Vec3f&);
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
 
         static Vec3d xpos();
         static Vec3d xneg();

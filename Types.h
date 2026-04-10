@@ -24,22 +24,27 @@ namespace Vi {
 
     class Vec2i {
     public:
-        int x, y;
-        Vec2i(int = 0, int = 0);
+        Vec2i(int, int);
+        Vec2i() = default;
         Vec2i(const Vec2i&) = default;
         Vec2i(Vec2i&&) noexcept = default;
         Vec2i& operator = (const Vec2i&) = default;
         Vec2i& operator = (Vec2i&&) noexcept = default;
         ~Vec2i() = default;
-        
-        static double hypot(const Vec2i&);
-        static int    cross(const Vec2i&, const Vec2i&);
-        static int    dot(const Vec2i&, const Vec2i&);
-        
+        int x = 0, y = 0;
+
         explicit Vec2i(const Vec2f&);
         explicit Vec2i(const Vec2d&);
         Vec2i& operator = (const Vec2f&);
         Vec2i& operator = (const Vec2d&);
+        
+        static Vec2i xpos();
+        static Vec2i xneg();
+        static Vec2i ypos();
+        static Vec2i yneg();
+        double hypot() const;
+        static int dot(const Vec2i&, const Vec2i&);
+        static int cross(const Vec2i&, const Vec2i&);
         
         Vec2i  operator +  (const Vec2i&) const;
         Vec2i  operator -  (const Vec2i&) const;
@@ -55,22 +60,27 @@ namespace Vi {
 
     class Vec2f {
     public:
-        float x, y;
-        Vec2f(float = 0.0f, float = 0.0f);
+        Vec2f(float, float);
+        Vec2f() = default;
         Vec2f(const Vec2f&) = default;
         Vec2f(Vec2f&&) noexcept = default;
         Vec2f& operator = (const Vec2f&) = default;
         Vec2f& operator = (Vec2f&&) noexcept = default;
         ~Vec2f() = default;
-
-        static float hypot(const Vec2f&);
-        static float cross(const Vec2f&, const Vec2f&);
-        static float dot(const Vec2f&, const Vec2f&);
+        float x = 0.0f, y = 0.0f;
 
         explicit Vec2f(const Vec2i&);
         explicit Vec2f(const Vec2d&);
         Vec2f& operator = (const Vec2i&);
         Vec2f& operator = (const Vec2d&);
+
+        static Vec2f xpos();
+        static Vec2f xneg();
+        static Vec2f ypos();
+        static Vec2f yneg();
+        float hypot() const;
+        static float dot(const Vec2f&, const Vec2f&);
+        static float cross(const Vec2f&, const Vec2f&);
 
         Vec2f  operator +  (const Vec2f&) const;
         Vec2f  operator -  (const Vec2f&) const;
@@ -86,23 +96,27 @@ namespace Vi {
 
     class Vec2d {
     public:
-        double x, y;
-        Vec2d(double = 0.0, double = 0.0);
+        Vec2d(double, double);
+        Vec2d() = default;
         Vec2d(const Vec2d&) = default;
         Vec2d(Vec2d&&) noexcept = default;
         Vec2d& operator = (const Vec2d&) = default;
         Vec2d& operator = (Vec2d&&) noexcept = default;
         ~Vec2d() = default;
-
-        /* todo xpos() */
-        static double hypot(const Vec2d&);
-        static double cross(const Vec2d&, const Vec2d&);
-        static double dot(const Vec2d&, const Vec2d&);
+        double x = 0.0, y = 0.0;
 
         explicit Vec2d(const Vec2i&);
         explicit Vec2d(const Vec2f&);
         Vec2d& operator = (const Vec2i&);
         Vec2d& operator = (const Vec2f&);
+
+        static Vec2d xpos();
+        static Vec2d xneg();
+        static Vec2d ypos();
+        static Vec2d yneg();
+        double hypot() const;
+        static double dot(const Vec2d&, const Vec2d&);
+        static double cross(const Vec2d&, const Vec2d&);
 
         Vec2d  operator +  (const Vec2d&) const;
         Vec2d  operator -  (const Vec2d&) const;
@@ -118,13 +132,19 @@ namespace Vi {
 
     class Vec3i {
     public:
-        int x, y, z;
-        Vec3i(int = 0, int = 0, int = 0);
+        Vec3i(int, int, int);
+        Vec3i() = default;
         Vec3i(const Vec3i&) = default;
         Vec3i(Vec3i&&) noexcept = default;
         Vec3i& operator = (const Vec3i&) = default;
         Vec3i& operator = (Vec3i&&) noexcept = default;
         ~Vec3i() = default;
+        int x = 0, y = 0, z = 0;
+
+        explicit Vec3i(const Vec3f&);
+        explicit Vec3i(const Vec3d&);
+        Vec3i& operator = (const Vec3f&);
+        Vec3i& operator = (const Vec3d&);
 
         static Vec3i xpos();
         static Vec3i xneg();
@@ -132,14 +152,9 @@ namespace Vi {
         static Vec3i yneg();
         static Vec3i zpos();
         static Vec3i zneg();
-        static double hypot(const Vec3i&);
-        static Vec3i  cross(const Vec3i&, const Vec3i&);
-        static double dot(const Vec3i&, const Vec3i&);
-
-        explicit Vec3i(const Vec3f&);
-        explicit Vec3i(const Vec3d&);
-        Vec3i& operator = (const Vec3f&);
-        Vec3i& operator = (const Vec3d&);
+        double hypot() const;
+        static int dot(const Vec3i&, const Vec3i&);
+        static Vec3i cross(const Vec3i&, const Vec3i&);
 
         Vec3i  operator +  (const Vec3i&) const;
         Vec3i  operator -  (const Vec3i&) const;
@@ -155,35 +170,107 @@ namespace Vi {
 
     class Vec3f {
     public:
-        float x, y, z;
+        Vec3f(float, float, float);
+        Vec3f() = default;
+        Vec3f(const Vec3f&) = default;
+        Vec3f(Vec3f&&) noexcept = default;
+        Vec3f& operator = (const Vec3f&) = default;
+        Vec3f& operator = (Vec3f&&) noexcept = default;
+        ~Vec3f() = default;
+        float x = 0.0f, y = 0.0f, z = 0.0f;
+
+        explicit Vec3f(const Vec3i&);
+        explicit Vec3f(const Vec3d&);
+        Vec3f& operator = (const Vec3i&);
+        Vec3f& operator = (const Vec3d&);
+
+        static Vec3f xpos();
+        static Vec3f xneg();
+        static Vec3f ypos();
+        static Vec3f yneg();
+        static Vec3f zpos();
+        static Vec3f zneg();
+        float hypot() const;
+        static float dot(const Vec3f&, const Vec3f&);
+        static Vec3f cross(const Vec3f&, const Vec3f&);
+
+        Vec3f  operator +  (const Vec3f&) const;
+        Vec3f  operator -  (const Vec3f&) const;
+        Vec3f  operator *  (const float) const;
+        Vec3f  operator /  (const float) const;
+        Vec3f& operator += (const Vec3f&);
+        Vec3f& operator -= (const Vec3f&);
+        Vec3f& operator *= (const float);
+        Vec3f& operator /= (const float);
     };
 
     /* Vec3d */
 
     class Vec3d {
     public:
-        double x, y, z;
+        Vec3d(double, double, double);
+        Vec3d() = default;
+        Vec3d(const Vec3d&) = default;
+        Vec3d(Vec3d&&) noexcept = default;
+        Vec3d& operator = (const Vec3d&) = default;
+        Vec3d& operator = (Vec3d&&) noexcept = default;
+        ~Vec3d() = default;
+        double x = 0.0, y = 0.0, z = 0.0;
+
+        explicit Vec3d(const Vec3i&);
+        explicit Vec3d(const Vec3f&);
+        Vec3d& operator = (const Vec3i&);
+        Vec3d& operator = (const Vec3f&);
+
+        static Vec3d xpos();
+        static Vec3d xneg();
+        static Vec3d ypos();
+        static Vec3d yneg();
+        static Vec3d zpos();
+        static Vec3d zneg();
+        double hypot() const;
+        static double dot(const Vec3d&, const Vec3d&);
+        static Vec3d cross(const Vec3d&, const Vec3d&);
+
+        Vec3d  operator +  (const Vec3d&) const;
+        Vec3d  operator -  (const Vec3d&) const;
+        Vec3d  operator *  (const double) const;
+        Vec3d  operator /  (const double) const;
+        Vec3d& operator += (const Vec3d&);
+        Vec3d& operator -= (const Vec3d&);
+        Vec3d& operator *= (const double);
+        Vec3d& operator /= (const double);
     };
 
     /* Color, Quat, Mat, Mat4 */
 
     class Color {
     public:
-        float r, g, b, a;
-
-        static Color white()  { return Color(1.0f, 1.0f, 1.0f, 1.0f); }
-        static Color black()  { return Color(0.0f, 0.0f, 0.0f, 1.0f); }
-        static Color red()    { return Color(1.0f, 0.0f, 0.0f, 1.0f); }
-        static Color green()  { return Color(0.0f, 1.0f, 0.0f, 1.0f); }
-        static Color blue()   { return Color(0.0f, 0.0f, 1.0f, 1.0f); }
-        static Color cyan()   { return Color(0.0f, 1.0f, 1.0f, 1.0f); }
-        static Color purple() { return Color(1.0f, 0.0f, 1.0f, 1.0f); }
-        static Color yellow() { return Color(1.0f, 1.0f, 0.0f, 1.0f); }
+        Color() = default;
+        Color(float, float, float, float = 1.0f);
+        float r = 0.0f;
+        float g = 0.0f;
+        float b = 0.0f;
+        float a = 0.0f;
+        static Color random();
+        static Color white();
+        static Color black();
+        static Color red();
+        static Color green();
+        static Color blue();
+        static Color cyan();
+        static Color purple();
+        static Color yellow();
     };
 
     class Quat {
     public:
-        double w, x, y, z;
+        Quat() = default;
+        Quat(double, double, double, double);
+        double w = 1.0, x = 0.0, y = 0.0, z = 0.0;
+        Quat normalized() const;
+        Quat complex_conjugate() const;
+        Quat operator * (const Quat&) const;
     };
 
     class Mat4 {

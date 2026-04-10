@@ -104,3 +104,15 @@ c_{z}=a_{x}b_{y}-a_{y}b_{x}
 \end{Bmatrix}
 $$
 
+Quaternion Multiplication
+
+$$
+a\times b=
+\begin{Bmatrix}
+c_{w}=a_{w}b_{w}-a_{x}b_{x}-a_{y}b_{y}-a_{z}b_{z}\\
+c_{x}=a_{w}b_{x}+a_{x}b_{w}+a_{y}b_{z}-a_{z}b_{y}\\
+c_{y}=a_{w}b_{y}-a_{x}b_{z}+a_{y}b_{w}+a_{z}b_{x}\\
+c_{z}=a_{w}b_{z}+a_{x}b_{y}-a_{y}b_{x}+a_{z}b_{w}
+\end{Bmatrix}
+$$
+

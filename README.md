@@ -108,10 +108,34 @@ c_{z}=a_{w}b_{z}+a_{x}b_{y}-a_{y}b_{x}+a_{z}b_{w}
 \end{Bmatrix}
 $$
 
-Quaternion -> Rotation Matrix
+Scalar Matrix
 
 $$
-m_{rot}=
+m_{\text{scalar}}=
+\begin{bmatrix}
+s & 0 & 0 & 0\\
+0 & s & 0 & 0\\
+0 & 0 & s & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+Translation Matrix
+
+$$
+m_{\text{trans}}=
+\begin{bmatrix}
+0 & 0 & 0 & x\\
+0 & 0 & 0 & y\\
+0 & 0 & 0 & z\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+Rotation Matrix (from Quaternion)
+
+$$
+m_{\text{rot}}=
 \begin{bmatrix}
 1-2(y^{2}+z^{2}) & 2(xy-zw) & 2(xz+yw) & 0\\
 2(xy+zw) & 1-2(x^{2}+z^{2}) & 2(yz-xw) & 0\\

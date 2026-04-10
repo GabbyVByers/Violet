@@ -31,7 +31,26 @@ namespace Vi {
     class Mouse;
     class Window;
 
-    /* Vertex, Transform, Camera */
+    /* Color, Vertex, Transform, Camera */
+
+    class Color {
+    public:
+        Color() = default;
+        Color(float, float, float, float = 1.0f);
+        float r = 0.0f;
+        float g = 0.0f;
+        float b = 0.0f;
+        float a = 0.0f;
+        static Color random();
+        static Color white();
+        static Color black();
+        static Color red();
+        static Color green();
+        static Color blue();
+        static Color cyan();
+        static Color purple();
+        static Color yellow();
+    };
 
     class Vertex {
     public:

@@ -215,26 +215,7 @@ namespace Vi {
         Vec3d& operator /= (const double);
     };
 
-    /* Color, Quat, Mat, Mat4 */
-
-    class Color {
-    public:
-        Color() = default;
-        Color(float, float, float, float = 1.0f);
-        float r = 0.0f;
-        float g = 0.0f;
-        float b = 0.0f;
-        float a = 0.0f;
-        static Color random();
-        static Color white();
-        static Color black();
-        static Color red();
-        static Color green();
-        static Color blue();
-        static Color cyan();
-        static Color purple();
-        static Color yellow();
-    };
+    /* Quaternion, Matrix */
 
     class Quat {
     public:
@@ -249,22 +230,32 @@ namespace Vi {
     class Mat4 {
     public:
         Mat4();
-        double data[4][4];
         static Mat4 scalar_matrix(const double);
         static Mat4 translation_matrix(const Vec3d&);
         static Mat4 rotation_matrix(const Quat&);
         Mat4 operator * (const Mat4&) const;
     private:
+        friend Mat4f;
         Mat4(
             double, double, double, double,
             double, double, double, double,
             double, double, double, double,
             double, double, double, double
         );
+        double data[4][4];
     };
 
     class Mat4f {
     public:
+        ~Mat4f() = default;
+        explicit Mat4f(const Mat4&);
+        float* ptr() const;
+    private:
+        Mat4f() = default;
+        Mat4f(const Mat4f&) = default;
+        Mat4f(Mat4f&&) noexcept = default;
+        Mat4f& operator = (const Mat4f&) = default;
+        Mat4f& operator = (Mat4f&&) noexcept = default;
         float data[4][4];
     };
 }

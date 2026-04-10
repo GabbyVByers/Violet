@@ -58,6 +58,9 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">

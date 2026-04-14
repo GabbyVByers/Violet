@@ -40,7 +40,7 @@ namespace Vi {
         float r = 0.0f;
         float g = 0.0f;
         float b = 0.0f;
-        float a = 0.0f;
+        float a = 1.0f;
         static Color random();
         static Color white();
         static Color black();
@@ -68,7 +68,7 @@ namespace Vi {
         Quat orientation = Quat();
         Mat4 model_matrix() const;
         Mat4 view_matrix() const;
-        Mat4 projection_matrix() const;
+        Mat4 projection_matrix(const Vec2i) const;
     };
 
     class Camera {
@@ -93,9 +93,9 @@ namespace Vi {
         ~Texture();
     private:
         friend Window;
-        GLuint texture = NULL;
-        Texture(const Texture&) = delete; /* todo: these could be implemented instead */
+        Texture(const Texture&) = delete;
         Texture& operator = (const Texture&) = delete;
+        GLuint texture = NULL;
     };
 
     class Material {
@@ -106,22 +106,17 @@ namespace Vi {
         ~Material();
     private:
         friend Window;
+        Material(const Material&) = delete;
+        Material& operator = (const Material&) = delete;
         GLuint vao = NULL;
         GLuint vbo = NULL;
         GLuint shader = NULL;
         GLuint primitive = NULL;
-        Material(const Material&) = delete; /* todo: these could be implemented instead */
-        Material& operator = (const Material&) = delete;
     };
 
     class Mesh {
     public:
-        Mesh();
-        Mesh(const Mesh&);
-        Mesh(Mesh&&) noexcept;
-        Mesh& operator = (const Mesh&);
-        Mesh& operator = (Mesh&&) noexcept;
-        ~Mesh();
+        Mesh() = default;
         Texture texture = Texture();
         Material material = Material();
         Transform transform = Transform();
@@ -137,8 +132,6 @@ namespace Vi {
         Shapes() = delete;
         Shapes(const Shapes&) = delete;
         Shapes(Shapes&&) noexcept = delete;
-        Shapes& operator = (const Shapes&) = delete;
-        Shapes& operator = (Shapes&&) noexcept = delete;
         ~Shapes() = delete;
     };
 
@@ -153,8 +146,6 @@ namespace Vi {
         Keyboard() = default;
         Keyboard(const Keyboard&) = delete;
         Keyboard(Keyboard&&) noexcept = delete;
-        Keyboard& operator = (const Keyboard&) = delete;
-        Keyboard& operator = (Keyboard&&) noexcept = delete;
         ~Keyboard() = default;
         struct KeyboardEvent { int key; int scancode; int action; int mods; };
         std::vector<KeyboardEvent> keyboard_events = {};
@@ -173,8 +164,6 @@ namespace Vi {
         Mouse() = default;
         Mouse(const Mouse&) = delete;
         Mouse(Mouse&&) noexcept = delete;
-        Mouse& operator = (const Mouse&) = delete;
-        Mouse& operator = (Mouse&&) noexcept = delete;
         ~Mouse() = default;
         struct MouseEvent { int button; int action; int mods; };
         struct ScrollEvent { double xoffset; double yoffset; };
@@ -201,8 +190,6 @@ namespace Vi {
     private:
         Window(const Window&) = delete;
         Window(Window&&) noexcept = delete;
-        Window& operator = (const Window&) = delete;
-        Window& operator = (Window&&) noexcept = delete;
         static void callback_window_resize(GLFWwindow*, int, int);
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);

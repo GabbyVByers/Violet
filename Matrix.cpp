@@ -10,12 +10,12 @@ namespace Vi {
     /* Mat4 */
 
     Mat4::Mat4() {
-        *this = Mat4(
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        );
+        for (size_t i = 0; i < 4; i++) {
+            for (size_t j = 0; j < 4; j++) {
+                data[i][j] = 0.0;
+            }
+            data[i][i] = 1.0;
+        }
     }
 
     Mat4::Mat4(
@@ -77,6 +77,15 @@ namespace Vi {
 
     /* Mat4f */
 
+    Mat4f::Mat4f() {
+        for (size_t i = 0; i < 4; i++) {
+            for (size_t j = 0; j < 4; j++) {
+                data[i][j] = 0.0f;
+            }
+            data[i][i] = 1.0f;
+        }
+    }
+
     Mat4f::Mat4f(const Mat4& matrix) {
         for (size_t i = 0; i < 4; i++) {
             for (size_t j = 0; j < 4; j++) {
@@ -90,3 +99,4 @@ namespace Vi {
     }
 }
 
+ 

@@ -33,6 +33,10 @@ namespace Vi {
 
 		auto load = [](std::string path) -> std::string {
 			std::ifstream file(path);
+			if (!file) {
+				std::cerr << Logger::error_message("Could not load file: " + path + "\n");
+				std::terminate();
+			}
 			std::stringstream buffer;
 			buffer << file.rdbuf();
 			return buffer.str();
@@ -48,8 +52,8 @@ namespace Vi {
 		glCompileShader(vert_program);
 		GLint success;
 		glGetShaderiv(vert_program, GL_COMPILE_STATUS, &success);
-		if (success == NULL) {
-			Logger::error_message("Failed to compile vertex shader");
+		if (success == GL_FALSE) {
+			std::cerr << Logger::error_message("Failed to compile vertex shader");
 			std::terminate();
 		}
 
@@ -57,8 +61,8 @@ namespace Vi {
 		glShaderSource(frag_program, 1, &frag_c_str, nullptr);
 		glCompileShader(frag_program);
 		glGetShaderiv(frag_program, GL_COMPILE_STATUS, &success);
-		if (success == NULL) {
-			Logger::error_message("Failed to compile fragment shader");
+		if (success == GL_FALSE) {
+			std::cerr << Logger::error_message("Failed to compile fragment shader");
 			std::terminate();
 		}
 
@@ -69,8 +73,8 @@ namespace Vi {
 		glDeleteShader(vert_program);
 		glDeleteShader(frag_program);
 		glGetProgramiv(shader, GL_LINK_STATUS, &success);
-		if (success == NULL) {
-			Logger::error_message("Failed to link shader program");
+		if (success == GL_FALSE) {
+			std::cerr << Logger::error_message("Failed to link shader program");
 			std::terminate();
 		}
     }
@@ -114,6 +118,8 @@ namespace Vi {
 		other.vbo = NULL;
 		other.shader = NULL;
 		other.primitive = NULL;
+
+		return *this;
 	}
 
 	Material::~Material() {

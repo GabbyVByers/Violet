@@ -11,10 +11,14 @@ int main() {
     
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
+	Vi::Mesh mesh;
+	Vi::Camera camera;
+
     while (window.is_open()) {
         window.poll_events();
         window.clear(Vi::Color::blue());
-        window.display();
+		window.draw(mesh, camera);
+		window.display();
 		input_test(window);
     }
 

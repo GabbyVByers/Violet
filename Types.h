@@ -26,10 +26,10 @@ namespace Vi {
     public:
         Vec2i() = default;
         Vec2i(int, int);
-        explicit Vec2i(const Vec2f&);
-        explicit Vec2i(const Vec2d&);
-        Vec2i& operator = (const Vec2f&);
-        Vec2i& operator = (const Vec2d&);
+        Vec2i(const Vec2f&);
+        Vec2i(const Vec2d&);
+        Vec2i& operator = (const Vec2f&) = delete;
+        Vec2i& operator = (const Vec2d&) = delete;
         int x = 0;
         int y = 0;
         
@@ -57,10 +57,10 @@ namespace Vi {
     public:
         Vec2f() = default;
         Vec2f(float, float);
-        explicit Vec2f(const Vec2i&);
-        explicit Vec2f(const Vec2d&);
-        Vec2f& operator = (const Vec2i&);
-        Vec2f& operator = (const Vec2d&);
+        Vec2f(const Vec2i&);
+        Vec2f(const Vec2d&);
+        Vec2f& operator = (const Vec2i&) = delete;
+        Vec2f& operator = (const Vec2d&) = delete;
         float x = 0.0f;
         float y = 0.0f;
 
@@ -88,10 +88,10 @@ namespace Vi {
     public:
         Vec2d() = default;
         Vec2d(double, double);
-        explicit Vec2d(const Vec2i&);
-        explicit Vec2d(const Vec2f&);
-        Vec2d& operator = (const Vec2i&);
-        Vec2d& operator = (const Vec2f&);
+        Vec2d(const Vec2i&);
+        Vec2d(const Vec2f&);
+        Vec2d& operator = (const Vec2i&) = delete;
+        Vec2d& operator = (const Vec2f&) = delete;
         double x = 0.0;
         double y = 0.0;
 
@@ -119,10 +119,10 @@ namespace Vi {
     public:
         Vec3i() = default;
         Vec3i(int, int, int);
-        explicit Vec3i(const Vec3f&);
-        explicit Vec3i(const Vec3d&);
-        Vec3i& operator = (const Vec3f&);
-        Vec3i& operator = (const Vec3d&);
+        Vec3i(const Vec3f&);
+        Vec3i(const Vec3d&);
+        Vec3i& operator = (const Vec3f&) = delete;
+        Vec3i& operator = (const Vec3d&) = delete;
         int x = 0;
         int y = 0;
         int z = 0;
@@ -153,10 +153,10 @@ namespace Vi {
     public:
         Vec3f() = default;
         Vec3f(float, float, float);
-        explicit Vec3f(const Vec3i&);
-        explicit Vec3f(const Vec3d&);
-        Vec3f& operator = (const Vec3i&);
-        Vec3f& operator = (const Vec3d&);
+        Vec3f(const Vec3i&);
+        Vec3f(const Vec3d&);
+        Vec3f& operator = (const Vec3i&) = delete;
+        Vec3f& operator = (const Vec3d&) = delete;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
@@ -187,10 +187,10 @@ namespace Vi {
     public:
         Vec3d() = default;
         Vec3d(double, double, double);
-        explicit Vec3d(const Vec3i&);
-        explicit Vec3d(const Vec3f&);
-        Vec3d& operator = (const Vec3i&);
-        Vec3d& operator = (const Vec3f&);
+        Vec3d(const Vec3i&);
+        Vec3d(const Vec3f&);
+        Vec3d& operator = (const Vec3i&) = delete;
+        Vec3d& operator = (const Vec3f&) = delete;
         double x = 0.0;
         double y = 0.0;
         double z = 0.0;
@@ -215,48 +215,48 @@ namespace Vi {
         Vec3d& operator /= (const double);
     };
 
-    /* Quaternion, Matrix */
+    /* Quaternion */
 
     class Quat {
     public:
         Quat() = default;
         Quat(double, double, double, double);
-        double w = 1.0, x = 0.0, y = 0.0, z = 0.0;
+        double w = 1.0;
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
         Quat normalized() const;
         Quat complex_conjugate() const;
         Quat operator * (const Quat&) const;
     };
 
+    /* Matrix */
+
     class Mat4 {
     public:
         Mat4();
-        static Mat4 scalar_matrix(const double);
-        static Mat4 translation_matrix(const Vec3d&);
-        static Mat4 rotation_matrix(const Quat&);
-        Mat4 operator * (const Mat4&) const;
-    private:
-        friend Mat4f;
         Mat4(
             double, double, double, double,
             double, double, double, double,
             double, double, double, double,
             double, double, double, double
         );
-        double data[4][4];
+        static Mat4 scalar_matrix(const double);
+        static Mat4 translation_matrix(const Vec3d&);
+        static Mat4 rotation_matrix(const Quat&);
+        Mat4 operator * (const Mat4&) const;
+    private:
+        friend Mat4f;
+        double data[4][4] = {};
     };
 
     class Mat4f {
     public:
-        ~Mat4f() = default;
-        explicit Mat4f(const Mat4&);
+        Mat4f();
+        Mat4f(const Mat4&);
         float* ptr() const;
     private:
-        Mat4f() = default;
-        Mat4f(const Mat4f&) = default;
-        Mat4f(Mat4f&&) noexcept = default;
-        Mat4f& operator = (const Mat4f&) = default;
-        Mat4f& operator = (Mat4f&&) noexcept = default;
-        float data[4][4];
+        float data[4][4] = {};
     };
 }
 

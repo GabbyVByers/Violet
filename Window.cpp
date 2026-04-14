@@ -103,7 +103,33 @@ namespace Vi {
     }
 
     void Window::draw(const Mesh& mesh, const Camera& camera) {
+        const GLuint vao = mesh.material.vao;
+        const GLuint vbo = mesh.material.vbo;
+        const GLuint shader = mesh.material.shader;
+        const GLuint primitive = mesh.material.primitive;
+        const GLuint texture = mesh.texture.texture;
+        const std::vector<Vertex>& vertices = mesh.vertices;
 
+        if (vertices.size() == 0)
+            return;
+
+        glUseProgram(shader);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glUniform1i(glGetUniformLocation(shader, "ourTexture"), NULL);
+
+        glBindVertexArray(vao);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+        Mat4 model_matrix = mesh.transform.model_matrix();
+        Mat4 view_matrix = camera.transform.view_matrix();
+        Mat4 projection_matrix = camera.transform.projection_matrix(size());
+        Mat4 mvp = projection_matrix * view_matrix * model_matrix;
+        Mat4f mvp_f = mvp;
+        glUniformMatrix4fv(glGetUniformLocation(shader, "uModelViewProject"), 1, GL_TRUE, mvp_f.ptr());
+
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+        glDrawArrays(primitive, NULL, (GLsizei)vertices.size());
     }
 
     void Window::display() {
@@ -124,7 +150,7 @@ namespace Vi {
     /* Private */
 
     void Window::callback_window_resize(GLFWwindow* window, int width, int height) {
-        glViewport(NULL, NULL, width, height);
+        glViewport(0, 0, width, height);
     }
 
     void Window::callback_keyboard(GLFWwindow* window, int key, int scancode, int action, int mods) {

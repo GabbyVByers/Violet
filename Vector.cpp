@@ -23,8 +23,6 @@ namespace Vi {
     Vec2i::Vec2i(int x, int y) { this->x = x; this->y = y; }
     Vec2i::Vec2i(const Vec2f& vec) { x = (int)vec.x; y = (int)vec.y; }
     Vec2i::Vec2i(const Vec2d& vec) { x = (int)vec.x; y = (int)vec.y; }
-    Vec2i& Vec2i::operator = (const Vec2f& vec) { x = (int)vec.x; y = (int)vec.y; return *this; }
-    Vec2i& Vec2i::operator = (const Vec2d& vec) { x = (int)vec.x; y = (int)vec.y; return *this; }
 
     Vec2i Vec2i::xpos() { return Vec2i( 1, 0); }
     Vec2i Vec2i::xneg() { return Vec2i(-1, 0); }
@@ -48,8 +46,6 @@ namespace Vi {
     Vec2f::Vec2f(float x, float y) { this->x = x; this->y = y; }
     Vec2f::Vec2f(const Vec2i& vec) { x = (float)vec.x; y = (float)vec.y; }
     Vec2f::Vec2f(const Vec2d& vec) { x = (float)vec.x; y = (float)vec.y; }
-    Vec2f& Vec2f::operator = (const Vec2i& vec) { x = (float)vec.x; y = (float)vec.y; return *this; }
-    Vec2f& Vec2f::operator = (const Vec2d& vec) { x = (float)vec.x; y = (float)vec.y; return *this; }
 
     Vec2f Vec2f::xpos() { return Vec2f( 1.0f, 0.0f); }
     Vec2f Vec2f::xneg() { return Vec2f(-1.0f, 0.0f); }
@@ -73,8 +69,6 @@ namespace Vi {
     Vec2d::Vec2d(double x, double y) { this->x = x; this->y = y; }
     Vec2d::Vec2d(const Vec2i& vec) { x = (double)vec.x; y = (double)vec.y; }
     Vec2d::Vec2d(const Vec2f& vec) { x = (double)vec.x; y = (double)vec.y; }
-    Vec2d& Vec2d::operator = (const Vec2i& vec) { x = (double)vec.x; y = (double)vec.y; return *this; }
-    Vec2d& Vec2d::operator = (const Vec2f& vec) { x = (double)vec.x; y = (double)vec.y; return *this; }
 
     Vec2d Vec2d::xpos() { return Vec2d( 1.0, 0.0); }
     Vec2d Vec2d::xneg() { return Vec2d(-1.0, 0.0); }
@@ -98,8 +92,6 @@ namespace Vi {
     Vec3i::Vec3i(int x, int y, int z) { this->x = x; this->y = y; this->z = z; }
     Vec3i::Vec3i(const Vec3f& vec) { x = (int)vec.x; y = (int)vec.y; z = (int)vec.z; }
     Vec3i::Vec3i(const Vec3d& vec) { x = (int)vec.x; y = (int)vec.y; z = (int)vec.z; }
-    Vec3i& Vec3i::operator = (const Vec3f& vec) { x = (int)vec.x; y = (int)vec.y; z = (int)vec.z; return *this; }
-    Vec3i& Vec3i::operator = (const Vec3d& vec) { x = (int)vec.x; y = (int)vec.y; z = (int)vec.z; return *this; }
 
     Vec3i Vec3i::xpos() { return Vec3i( 1, 0, 0); }
     Vec3i Vec3i::xneg() { return Vec3i(-1, 0, 0); }
@@ -131,8 +123,6 @@ namespace Vi {
     Vec3f::Vec3f(float x, float y, float z) { this->x = x; this->y = y; this->z = z; }
     Vec3f::Vec3f(const Vec3i& vec) { x = (float)vec.x; y = (float)vec.y; z = (float)vec.z; }
     Vec3f::Vec3f(const Vec3d& vec) { x = (float)vec.x; y = (float)vec.y; z = (float)vec.z; }
-    Vec3f& Vec3f::operator = (const Vec3i& vec) { x = (float)vec.x; y = (float)vec.y; z = (float)vec.z; return *this; }
-    Vec3f& Vec3f::operator = (const Vec3d& vec) { x = (float)vec.x; y = (float)vec.y; z = (float)vec.z; return *this; }
 
     Vec3f Vec3f::xpos() { return Vec3f( 1.0f, 0.0f, 0.0f); }
     Vec3f Vec3f::xneg() { return Vec3f(-1.0f, 0.0f, 0.0f); }
@@ -164,8 +154,6 @@ namespace Vi {
     Vec3d::Vec3d(double x, double y, double z) { this->x = x; this->y = y; this->z = z; }
     Vec3d::Vec3d(const Vec3i& vec) { x = (double)vec.x; y = (double)vec.y; z = (double)vec.z; }
     Vec3d::Vec3d(const Vec3f& vec) { x = (double)vec.x; y = (double)vec.y; z = (double)vec.z; }
-    Vec3d& Vec3d::operator = (const Vec3i& vec) { x = (double)vec.x; y = (double)vec.y; z = (double)vec.z; return *this; }
-    Vec3d& Vec3d::operator = (const Vec3f& vec) { x = (double)vec.x; y = (double)vec.y; z = (double)vec.z; return *this; }
 
     Vec3d Vec3d::xpos() { return Vec3d( 1.0, 0.0, 0.0); }
     Vec3d Vec3d::xneg() { return Vec3d(-1.0, 0.0, 0.0); }

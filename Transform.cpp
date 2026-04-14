@@ -20,8 +20,8 @@ namespace Vi {
         return rotation_matrix_inverse * translation_matrix_inverse;
     }
 
-    Mat4 Transform::projection_matrix() const {
-
+    Mat4 Transform::projection_matrix(const Vec2i screen_size) const {
+        return Mat4();
     }
 }
 

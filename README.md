@@ -149,8 +149,8 @@ Projection Matrix
 $$
 m_{\text{proj}}=
 \begin{bmatrix}
-\frac{f}{a} & 0 & 0 & 0\\
-0 & f & 0 & 0\\
+\frac{q}{a} & 0 & 0 & 0\\
+0 & q & 0 & 0\\
 0 & 0 & \frac{f+n}{n-f} & \frac{2fn}{n-f}\\
 0 & 0 & -1 & 0
 \end{bmatrix}
@@ -159,7 +159,7 @@ $$
 Where
 
 $$
-f=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}
+q=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}
 $$
 
 $$
@@ -179,9 +179,9 @@ $$
 $$
 m_{\text{proj}}=
 \begin{bmatrix}
-A & 0 & 0 & 0\\
-0 & f & 0 & 0\\
-0 & 0 & B & C\\
+\frac{q}{a} & 0 & 0 & 0\\
+0 & q & 0 & 0\\
+0 & 0 & \frac{f+n}{n-f} & \frac{2fn}{n-f}\\
 0 & 0 & -1 & 0
 \end{bmatrix}
 $$
@@ -209,11 +209,11 @@ $$
 $$
 
 $$
-m_{\text{infinite proj}}=
+m_{\text{proj}}=
 \begin{bmatrix}
-A & 0 & 0 & 0\\
-0 & f & 0 & 0\\
-0 & 0 & -1 & -2*near\\
+\frac{q}{a} & 0 & 0 & 0\\
+0 & q & 0 & 0\\
+0 & 0 & -1 & -2n\\
 0 & 0 & -1 & 0
 \end{bmatrix}
 $$

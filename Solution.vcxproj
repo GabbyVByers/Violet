@@ -88,12 +88,12 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="Violet\Source\kernel.cu" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Violet\Source\Camera.cpp" />
+    <ClCompile Include="Violet\Source\Color.cpp" />
+    <ClCompile Include="Violet\Source\Keyboard.cpp" />
     <ClCompile Include="Libraries\imgui\imgui.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_demo.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_draw.cpp" />
@@ -102,13 +102,13 @@
     <ClCompile Include="Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Libraries\opengl\glad.c" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
-    <ClCompile Include="Vector.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Violet\Source\main.cpp" />
+    <ClCompile Include="Violet\Source\Matrix.cpp" />
+    <ClCompile Include="Violet\Source\Mesh.cpp" />
+    <ClCompile Include="Violet\Source\Mouse.cpp" />
+    <ClCompile Include="Violet\Source\Quaternion.cpp" />
+    <ClCompile Include="Violet\Source\Vector.cpp" />
+    <ClCompile Include="Violet\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\image\stb_image.h" />
@@ -121,13 +121,13 @@
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="Types.h" />
-    <ClInclude Include="Violet.h" />
+    <ClInclude Include="Violet\Header\Logger.h" />
+    <ClInclude Include="Violet\Header\Types.h" />
+    <ClInclude Include="Violet\Header\Violet.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default.frag" />
-    <None Include="default.vert" />
+    <None Include="Violet\Shader\default.frag" />
+    <None Include="Violet\Shader\default.vert" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

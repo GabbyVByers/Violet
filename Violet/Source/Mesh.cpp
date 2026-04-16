@@ -3,7 +3,7 @@
     Mesh.cpp
 */
 
-#include "Violet.h"
+#include "../Header/Violet.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -195,8 +195,8 @@ namespace Vi {
             return buffer.str();
             };
 
-        std::string vert_source = load(shader_path + ".vert");
-        std::string frag_source = load(shader_path + ".frag");
+        std::string vert_source = load("Violet/Shader/" + path + ".vert");
+        std::string frag_source = load("Violet/Shader/" + path + ".frag");
         const char* vert_c_str = vert_source.c_str();
         const char* frag_c_str = frag_source.c_str();
 

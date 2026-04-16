@@ -3,8 +3,8 @@
     Vector.cpp
 */
 
-#include "Logger.h"
-#include "Types.h"
+#include "../Header/Logger.h"
+#include "../Header/Types.h"
 #include <iostream>
 #include <cmath>
 
@@ -163,7 +163,7 @@ namespace Vi {
     Vec3d Vec3d::zneg() { return Vec3d( 0.0, 0.0,-1.0); }
     double Vec3d::hypot() const { return std::hypot(x, y, z); }
     double Vec3d::dot(const Vec3d& a, const Vec3d& b) { return (a.x * b.x) + (a.y * b.y) + (a.z * b.z); }
-    Vec3d  Vec3d::cross(const Vec3d& a, const Vec3d& b) {
+    Vec3d Vec3d::cross(const Vec3d& a, const Vec3d& b) {
         return Vec3d(
             (a.y * b.z) - (a.z * b.y),
             (a.z * b.x) - (a.x * b.z),

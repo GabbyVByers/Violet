@@ -10,8 +10,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "Logger.h"
-#include "Types.h"
+#include "../Header/Logger.h"
+#include "../Header/Types.h"
 #include <iostream>
 #include <vector>
 #include <string>

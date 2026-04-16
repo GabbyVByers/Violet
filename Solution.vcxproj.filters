@@ -25,34 +25,34 @@
     <ClCompile Include="Libraries\imgui\imgui_impl_opengl3.cpp">
       <Filter>Additional Libraries\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
+    <ClCompile Include="Violet\Source\Keyboard.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Violet\Source\main.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.cpp">
+    <ClCompile Include="Violet\Source\Mouse.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="Violet\Source\Window.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Violet\Source\Camera.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
+    <ClCompile Include="Violet\Source\Mesh.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
+    <ClCompile Include="Violet\Source\Vector.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Color.cpp">
+    <ClCompile Include="Violet\Source\Color.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
+    <ClCompile Include="Violet\Source\Quaternion.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
+    <ClCompile Include="Violet\Source\Matrix.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,13 +116,13 @@
     <ClInclude Include="Libraries\imgui\imgui_impl_opengl3_loader.h">
       <Filter>Additional Libraries\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
+    <ClInclude Include="Violet\Header\Logger.h">
       <Filter>Violet\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Types.h">
+    <ClInclude Include="Violet\Header\Types.h">
       <Filter>Violet\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Violet.h">
+    <ClInclude Include="Violet\Header\Violet.h">
       <Filter>Violet\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\image\stb_image.h">
@@ -130,7 +130,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu">
+    <CudaCompile Include="Violet\Source\kernel.cu">
       <Filter>CUDA</Filter>
     </CudaCompile>
   </ItemGroup>
@@ -138,10 +138,10 @@
     <None Include="README.md">
       <Filter>Violet\Documentation</Filter>
     </None>
-    <None Include="default.frag">
+    <None Include="Violet\Shader\default.frag">
       <Filter>Violet\Shaders</Filter>
     </None>
-    <None Include="default.vert">
+    <None Include="Violet\Shader\default.vert">
       <Filter>Violet\Shaders</Filter>
     </None>
   </ItemGroup>

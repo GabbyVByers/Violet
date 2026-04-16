@@ -3,7 +3,7 @@
     main.cpp
 */
 
-#include "Violet.h"
+#include "../Header/Violet.h"
 
 static void input_test(Vi::Window& window);
 

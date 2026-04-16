@@ -149,8 +149,8 @@ Projection Matrix
 $$
 m_{\text{proj}}=
 \begin{bmatrix}
-\frac{q}{a} & 0 & 0 & 0\\
-0 & q & 0 & 0\\
+\frac{l}{a} & 0 & 0 & 0\\
+0 & l & 0 & 0\\
 0 & 0 & \frac{f+n}{n-f} & \frac{2fn}{n-f}\\
 0 & 0 & -1 & 0
 \end{bmatrix}
@@ -159,7 +159,7 @@ $$
 Where
 
 $$
-q=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}
+l=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}
 $$
 
 $$
@@ -179,40 +179,46 @@ $$
 $$
 m_{\text{proj}}=
 \begin{bmatrix}
-\frac{q}{a} & 0 & 0 & 0\\
-0 & q & 0 & 0\\
+\frac{l}{a} & 0 & 0 & 0\\
+0 & l & 0 & 0\\
 0 & 0 & \frac{f+n}{n-f} & \frac{2fn}{n-f}\\
 0 & 0 & -1 & 0
 \end{bmatrix}
 $$
 
+Where
+
 $$
-A=f/a
+l=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}
 $$
 
 $$
-B=\frac{far+near}{near-far}
+a=\frac{\text{width}}{\text{height}}\longrightarrow\text{aspect ratio}
 $$
 
 $$
-C=\frac{2*far*near}{near-far}
+n=\text{near plane}
+$$
+
+$$
+f=\text{far plane}
 $$
 
 # Infininte Projection Matrix
 
 $$
-\lim_{far \to \infty } \left( \frac{f+n}{n-f} \right)=-1
+\lim_{f \to \infty } \left( \frac{f+n}{n-f} \right)=-1
 $$
 
 $$
-\lim_{far \to \infty } \left( \frac{2fn}{n-f} \right)=-2n
+\lim_{f \to \infty } \left( \frac{2fn}{n-f} \right)=-2n
 $$
 
 $$
-m_{\text{proj}}=
+m_{\infty\text{ proj}}=
 \begin{bmatrix}
-\frac{q}{a} & 0 & 0 & 0\\
-0 & q & 0 & 0\\
+\frac{l}{a} & 0 & 0 & 0\\
+0 & l & 0 & 0\\
 0 & 0 & -1 & -2n\\
 0 & 0 & -1 & 0
 \end{bmatrix}

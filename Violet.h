@@ -63,9 +63,10 @@ namespace Vi {
     class Camera {
     public:
         Camera() = default;
+        bool is_inf = false;
         double far = 100.0f;
         double near = 0.1f;
-        double fov = 70.0f;
+        double fov_deg = 70.0f;
         Vec3d position = Vec3d();
         Quat orientation = Quat();
         Vec3d forward() const;

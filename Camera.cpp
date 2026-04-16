@@ -27,33 +27,33 @@ namespace Vi {
     }
 
     Mat4 Camera::projection_matrix(const Vec2i screen_size) const {
-        double fov_rad = (fov_deg / 180.0) * std::numbers::pi;
-        double f = 1.0 / tan(fov_rad * 0.5);
-        double a = (double)screen_size.x / (double)screen_size.y;
-        double A = f / a;
-        double B = (far + near) / (near - far);
-        double C = (2.0 * far * near) / (near - far);
-        return Mat4(
-            A, 0, 0, 0,
-            0, f, 0, 0,
-            0, 0, B, C,
-            0, 0,-1, 0
-        );
-    }
-
-    Mat4 projection_matrix_infinite(const Vec2i screen_size) {
-        double fov_rad = (fov_deg / 180.0) * std::numbers::pi;
-        double f = 1.0 / tan(fov_rad * 0.5);
-        double a = (double)screen_size.x / (double)screen_size.y;
-        double A = f / a;
-        double B = (far + near) / (near - far);
-        double C = (2.0 * far * near) / (near - far);
-        return Mat4(
-            A, 0, 0, 0,
-            0, f, 0, 0,
-            0, 0, B, C,
-            0, 0, -1, 0
-        );
+        if (is_inf) {
+            double fov_rad = (fov_deg / 180.0) * std::numbers::pi;
+            double f = 1.0 / tan(fov_rad * 0.5);
+            double a = (double)screen_size.x / (double)screen_size.y;
+            double A = f / a;
+            double D = -2.0 * near;
+            return Mat4(
+                A, 0, 0, 0,
+                0, f, 0, 0,
+                0, 0,-1, D,
+                0, 0,-1, 0
+            );
+        }
+        else {
+            double fov_rad = (fov_deg / 180.0) * std::numbers::pi;
+            double f = 1.0 / tan(fov_rad * 0.5);
+            double a = (double)screen_size.x / (double)screen_size.y;
+            double A = f / a;
+            double B = (far + near) / (near - far);
+            double C = (2.0 * far * near) / (near - far);
+            return Mat4(
+                A, 0, 0, 0,
+                0, f, 0, 0,
+                0, 0, B, C,
+                0, 0,-1, 0
+            );
+        }
     }
 }
 

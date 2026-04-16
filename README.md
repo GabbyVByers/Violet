@@ -7,7 +7,7 @@
 
 /* Class Layout Standard */
 
-class Baz {
+class Foo {
 public:
     /* Special Member Functions */
     /* Variables */
@@ -21,9 +21,9 @@ private:
     /* Functions */
 };
 
-/* Constructor(s) Only */
+/* Constructor(s) Only (Example) */
 
-class Foo {
+class Baz {
 public:
     Foo() = default;
     Foo(int, int, int = 1)
@@ -32,7 +32,7 @@ public:
     float z = 0.0f;
 };
 
-/* All Special Members Present */
+/* All Special Members (Example) */
 
 class Bar {
 public:
@@ -129,8 +129,6 @@ m_{\text{proj}}=
 0 & 0 & -1 & 0
 \end{bmatrix}
 $$
-
-Where
 
 $$
 l=\frac{1}{\text{tan(}\frac{\text{fov}}{2}\text{)}}

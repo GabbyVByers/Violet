@@ -215,7 +215,7 @@ $$
 $$
 
 $$
-m_{\infty\text{ proj}}=
+m_{\infty}=
 \begin{bmatrix}
 \frac{l}{a} & 0 & 0 & 0\\
 0 & l & 0 & 0\\
@@ -224,7 +224,7 @@ m_{\infty\text{ proj}}=
 \end{bmatrix}
 $$
 
-## Single Curley Brace Example
+Single Curley Brace Example
 
 $$
 \begin{cases}

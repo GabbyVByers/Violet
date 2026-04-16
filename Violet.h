@@ -31,7 +31,7 @@ namespace Vi {
     class Mouse;
     class Window;
 
-    /* Color, Vertex, Transform, Camera */
+    /* Color, Vertex, Camera, Mesh */
 
     class Color {
     public:
@@ -60,68 +60,51 @@ namespace Vi {
         Vec2f tex_coord = Vec2f();
     };
 
-    class Transform {
-    public:
-        Transform() = default;
-        double scale = 1.0;
-        Vec3d position = Vec3d();
-        Quat orientation = Quat();
-        Mat4 model_matrix() const;
-        Mat4 view_matrix() const;
-        Mat4 projection_matrix(const Vec2i) const;
-    };
-
     class Camera {
     public:
         Camera() = default;
         double far = 100.0f;
         double near = 0.1f;
         double fov = 70.0f;
-        Transform transform = Transform();
+        Vec3d position = Vec3d();
+        Quat orientation = Quat();
         Vec3d forward() const;
         Vec3d up() const;
         Vec3d right() const;
-    };
-
-    /* Texture, Material, Mesh */
-
-    class Texture {
-    public:
-        Texture(const std::string& = "");
-        Texture(Texture&&) noexcept;
-        Texture& operator = (Texture&&) noexcept;
-        ~Texture();
-    private:
-        friend Window;
-        Texture(const Texture&) = delete;
-        Texture& operator = (const Texture&) = delete;
-        GLuint texture = NULL;
-    };
-
-    class Material {
-    public:
-        Material(const std::string& = "default", GLenum = GL_TRIANGLES);
-        Material(Material&&) noexcept;
-        Material& operator = (Material&&) noexcept;
-        ~Material();
-    private:
-        friend Window;
-        Material(const Material&) = delete;
-        Material& operator = (const Material&) = delete;
-        GLuint vao = NULL;
-        GLuint vbo = NULL;
-        GLuint shader = NULL;
-        GLuint primitive = NULL;
+        Mat4 view_matrix() const;
+        Mat4 projection_matrix(const Vec2i) const;
     };
 
     class Mesh {
     public:
-        Mesh() = default;
-        Texture texture = Texture();
-        Material material = Material();
-        Transform transform = Transform();
+        Mesh();
+        Mesh(const Mesh&);
+        Mesh(Mesh&&) noexcept;
+        Mesh& operator = (const Mesh&);
+        Mesh& operator = (Mesh&&) noexcept;
+        ~Mesh();
+        
+        double scale = 1.0;
+        Vec3d position = Vec3d();
+        Quat orientation = Quat();
         std::vector<Vertex> vertices = {};
+
         void paint(const Color&);
+        void texture(const std::string& = "");
+        void material(const std::string& = "default", const GLenum = GL_TRIANGLES);
+        Mat4 model_matrix() const;
+    
+    private:
+        friend Window;
+        std::string texture_path = "";
+        GLuint texture_id = NULL;
+        std::string shader_path = "default";
+        GLuint primitive = NULL;
+        GLuint vao = NULL;
+        GLuint vbo = NULL;
+        GLuint shader = NULL;
+        void destroy_texture();
+        void destroy_material();
     };
 
     /* Shapes */
@@ -132,7 +115,6 @@ namespace Vi {
         Shapes() = delete;
         Shapes(const Shapes&) = delete;
         Shapes(Shapes&&) noexcept = delete;
-        ~Shapes() = delete;
     };
 
     /* Keyboard, Mouse, Window */

@@ -40,12 +40,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Violet\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Violet\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
@@ -59,9 +53,6 @@
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>Violet\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

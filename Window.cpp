@@ -103,11 +103,11 @@ namespace Vi {
     }
 
     void Window::draw(const Mesh& mesh, const Camera& camera) {
-        const GLuint vao = mesh.material.vao;
-        const GLuint vbo = mesh.material.vbo;
-        const GLuint shader = mesh.material.shader;
-        const GLuint primitive = mesh.material.primitive;
-        const GLuint texture = mesh.texture.texture;
+        const GLuint vao = mesh.vao;
+        const GLuint vbo = mesh.vbo;
+        const GLuint shader = mesh.shader;
+        const GLuint primitive = mesh.primitive;
+        const GLuint texture = mesh.texture_id;
         const std::vector<Vertex>& vertices = mesh.vertices;
 
         if (vertices.size() == 0)
@@ -121,9 +121,9 @@ namespace Vi {
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-        Mat4 model_matrix = mesh.transform.model_matrix();
-        Mat4 view_matrix = camera.transform.view_matrix();
-        Mat4 projection_matrix = camera.transform.projection_matrix(size());
+        Mat4 model_matrix = mesh.model_matrix();
+        Mat4 view_matrix = camera.view_matrix();
+        Mat4 projection_matrix = camera.projection_matrix(size());
         Mat4 mvp = projection_matrix * view_matrix * model_matrix;
         Mat4f mvp_f = mvp;
         glUniformMatrix4fv(glGetUniformLocation(shader, "uModelViewProject"), 1, GL_TRUE, mvp_f.ptr());

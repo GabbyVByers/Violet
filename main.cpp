@@ -16,7 +16,7 @@ int main() {
 
     while (window.is_open()) {
         window.poll_events();
-        window.clear(Vi::Color::blue());
+		window.clear(Vi::Color(0.1, 0.1, 0.2));
 		window.draw(mesh, camera);
 		window.display();
 		input_test(window);

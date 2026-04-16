@@ -11,7 +11,7 @@
 namespace Vi {
 
     static void zero_error() {
-        std::cerr << Vi::Logger::error_message("Division by zero");
+        std::cerr << Log::error_message("Division by zero");
         std::terminate();
     }
     static void zero(int x)    { if (x == 0)    { zero_error(); } }

@@ -17,7 +17,7 @@ namespace Vi {
     Mesh::Mesh() {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Logger::error_message("Cannot create Mesh object, GLFW context does not exist");
+            std::cerr << Log::error_message("Cannot create Mesh object, GLFW context does not exist");
             std::terminate();
         }
         texture();
@@ -130,7 +130,7 @@ namespace Vi {
         stbi_set_flip_vertically_on_load(true);
         unsigned char* data = stbi_load(path.c_str(), &width, &height, &num_color_channels, NULL);
         if (data == NULL) {
-            std::cerr << Logger::error_message("Failed to load image: " + path);
+            std::cerr << Log::error_message("Failed to load image: " + path);
             std::terminate();
         }
 
@@ -139,7 +139,7 @@ namespace Vi {
         if (num_color_channels == 3) format = GL_RGB;
         if (num_color_channels == 4) format = GL_RGBA;
         if (format == NULL) {
-            std::cerr << Logger::error_message("Could not parse image format");
+            std::cerr << Log::error_message("Could not parse image format");
             std::terminate();
         }
 
@@ -187,7 +187,7 @@ namespace Vi {
         auto load = [](std::string path) -> std::string {
             std::ifstream file(path);
             if (!file) {
-                std::cerr << Logger::error_message("Could not load file: " + path + "\n");
+                std::cerr << Log::error_message("Could not load file: " + path + "\n");
                 std::terminate();
             }
             std::stringstream buffer;
@@ -206,7 +206,7 @@ namespace Vi {
         GLint success;
         glGetShaderiv(vert_program, GL_COMPILE_STATUS, &success);
         if (success == GL_FALSE) {
-            std::cerr << Logger::error_message("Failed to compile vertex shader");
+            std::cerr << Log::error_message("Failed to compile vertex shader");
             std::terminate();
         }
 
@@ -215,7 +215,7 @@ namespace Vi {
         glCompileShader(frag_program);
         glGetShaderiv(frag_program, GL_COMPILE_STATUS, &success);
         if (success == GL_FALSE) {
-            std::cerr << Logger::error_message("Failed to compile fragment shader");
+            std::cerr << Log::error_message("Failed to compile fragment shader");
             std::terminate();
         }
 
@@ -227,7 +227,7 @@ namespace Vi {
         glDeleteShader(frag_program);
         glGetProgramiv(shader, GL_LINK_STATUS, &success);
         if (success == GL_FALSE) {
-            std::cerr << Logger::error_message("Failed to link shader program");
+            std::cerr << Log::error_message("Failed to link shader program");
             std::terminate();
         }
     }

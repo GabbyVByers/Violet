@@ -23,7 +23,7 @@ namespace Vi {
     bool Keyboard::pressing(int key) const {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Logger::error_message("GLFW context does not exist");
+            std::cerr << Log::error_message("GLFW context does not exist");
             std::terminate();
         }
         return glfwGetKey(window, key) == GLFW_PRESS;

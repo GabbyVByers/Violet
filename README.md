@@ -174,3 +174,56 @@ $$
 f=\text{far plane}
 $$
 
+# Projection Matrix
+
+$$
+m_{\text{proj}}=
+\begin{bmatrix}
+A & 0 & 0 & 0\\
+0 & f & 0 & 0\\
+0 & 0 & B & C\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+$$
+
+$$
+A=f/a
+$$
+
+$$
+B=\frac{far+near}{near-far}
+$$
+
+$$
+C=\frac{2*far*near}{near-far}
+$$
+
+# Infininte Projection Matrix
+
+$$
+\lim_{far \to \infty } \left( \frac{f+n}{n-f} \right)=-1
+$$
+
+$$
+\lim_{far \to \infty } \left( \frac{2fn}{n-f} \right)=-2n
+$$
+
+$$
+m_{\text{infinite proj}}=
+\begin{bmatrix}
+A & 0 & 0 & 0\\
+0 & f & 0 & 0\\
+0 & 0 & -1 & -2*near\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+$$
+
+## Single Curley Brace Example
+
+$$
+\begin{cases}
+ThingOne\\
+ThingTwo
+\end{cases}
+$$
+

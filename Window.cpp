@@ -12,13 +12,13 @@ namespace Vi {
     Window::Window(std::string title, int width, int height) {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window != nullptr) {
-            std::cerr << Logger::error_message("GLFW context already exists");
+            std::cerr << Log::error_message("Cannot create Window object, GLFW context already exists");
             std::terminate();
         }
 
         GLuint status = glfwInit();
         if (status == NULL) {
-            std::cerr << Logger::error_message("Failed to initialize GLFW");
+            std::cerr << Log::error_message("Failed to initialize GLFW");
             std::terminate();
         }
 
@@ -28,20 +28,20 @@ namespace Vi {
 
         window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
         if (window == nullptr) {
-            std::cerr << Logger::error_message("Failed to create GLFW window");
+            std::cerr << Log::error_message("Failed to create GLFW window");
             std::terminate();
         }
 
         glfwMakeContextCurrent(window);
         window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Logger::error_message("Failed to make GLFW current context");
+            std::cerr << Log::error_message("Failed to make GLFW current context");
             std::terminate();
         }
 
         status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         if (status == NULL) {
-            std::cerr << Logger::error_message("Failed to load GLAD");
+            std::cerr << Log::error_message("Failed to load GLAD");
             std::terminate();
         }
 

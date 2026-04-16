@@ -20,7 +20,7 @@ namespace Vi {
     bool Mouse::pressing(int button) const {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Logger::error_message("GLFW context does not exist");
+            std::cerr << Log::error_message("GLFW context does not exist");
             std::terminate();
         }
         return glfwGetMouseButton(window, button) == GLFW_PRESS;
@@ -50,7 +50,7 @@ namespace Vi {
     void Mouse::reset() {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Logger::error_message("GLFW context does not exist");
+            std::cerr << Log::error_message("GLFW context does not exist");
             std::terminate();
         }
         double x, y; glfwGetCursorPos(window, &x, &y);

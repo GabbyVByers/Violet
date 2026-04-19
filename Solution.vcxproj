@@ -91,6 +91,7 @@
     <CudaCompile Include="Violet\Source\kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Violet\Source\Shapes.cpp" />
     <ClCompile Include="Violet\Source\Camera.cpp" />
     <ClCompile Include="Violet\Source\Color.cpp" />
     <ClCompile Include="Violet\Source\Keyboard.cpp" />

@@ -9,15 +9,18 @@
 namespace Vi {
 
     Vec3d Camera::forward() const {
-        return Vec3d();
+        Vec3d forward = Vec3d::zneg();
+        return Vec3d::rotate(forward, orientation);
     }
 
     Vec3d Camera::up() const {
-        return Vec3d();
+        Vec3d up = Vec3d::ypos();
+        return Vec3d::rotate(up, orientation);
     }
 
     Vec3d Camera::right() const {
-        return Vec3d();
+        Vec3d right = Vec3d::xpos();
+        return Vec3d::rotate(right, orientation);
     }
 
     Mat4 Camera::view_matrix() const {

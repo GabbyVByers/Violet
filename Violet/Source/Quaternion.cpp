@@ -22,12 +22,34 @@ namespace Vi {
             w / len,
             x / len,
             y / len,
-            w / len
+            z / len
         );
     }
 
     Quat Quat::complex_conjugate() const {
         return Quat(w, -x, -y, -z);
+    }
+
+    Quat Quat::rotation(const Vec3f& vec, const double theta) {
+        double half = theta * 0.5;
+        double s = std::sin(half);
+        return Quat(
+            std::cos(half),
+            s * (double)vec.x,
+            s * (double)vec.y,
+            s * (double)vec.z
+        );
+    }
+
+    Quat Quat::rotation(const Vec3d& vec, const double theta) {
+        double half = theta * 0.5;
+        double s = std::sin(half);
+        return Quat(
+            std::cos(half),
+            s * vec.x,
+            s * vec.y,
+            s * vec.z
+        );
     }
 
     Quat Quat::operator * (const Quat& other) const {

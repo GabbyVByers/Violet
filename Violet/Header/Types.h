@@ -71,6 +71,7 @@ namespace Vi {
         float hypot() const;
         static float dot(const Vec2f&, const Vec2f&);
         static float cross(const Vec2f&, const Vec2f&);
+        static Vec2f normalize(const Vec2f&);
 
         Vec2f  operator +  (const Vec2f&) const;
         Vec2f  operator -  (const Vec2f&) const;
@@ -102,6 +103,7 @@ namespace Vi {
         double hypot() const;
         static double dot(const Vec2d&, const Vec2d&);
         static double cross(const Vec2d&, const Vec2d&);
+        static Vec2d normalize(const Vec2d&);
 
         Vec2d  operator +  (const Vec2d&) const;
         Vec2d  operator -  (const Vec2d&) const;
@@ -170,6 +172,9 @@ namespace Vi {
         float hypot() const;
         static float dot(const Vec3f&, const Vec3f&);
         static Vec3f cross(const Vec3f&, const Vec3f&);
+        static Vec3f normalize(const Vec3f&);
+        static Vec3f rotate(const Vec3f&, const Vec3f&, double);
+        static Vec3f rotate(const Vec3f&, const Quat&);
 
         Vec3f  operator +  (const Vec3f&) const;
         Vec3f  operator -  (const Vec3f&) const;
@@ -204,6 +209,9 @@ namespace Vi {
         double hypot() const;
         static double dot(const Vec3d&, const Vec3d&);
         static Vec3d cross(const Vec3d&, const Vec3d&);
+        static Vec3d normalize(const Vec3d&);
+        static Vec3d rotate(const Vec3d&, const Vec3d&, double);
+        static Vec3d rotate(const Vec3d&, const Quat&);
 
         Vec3d  operator +  (const Vec3d&) const;
         Vec3d  operator -  (const Vec3d&) const;
@@ -227,6 +235,8 @@ namespace Vi {
         double z = 0.0;
         Quat normalized() const;
         Quat complex_conjugate() const;
+        static Quat rotation(const Vec3f&, const double);
+        static Quat rotation(const Vec3d&, const double);
         Quat operator * (const Quat&) const;
     };
 

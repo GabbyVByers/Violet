@@ -55,7 +55,10 @@ namespace Vi {
     class Vertex {
     public:
         Vertex() = default;
-        Vec3d position = Vec3d();
+        Vertex(const Vec3f& p, const Color& c, const Vec2f& t) {
+            position = p; color = c; tex_coord = t;
+        }
+        Vec3f position = Vec3f();
         Color color = Color::white();
         Vec2f tex_coord = Vec2f();
     };
@@ -112,6 +115,9 @@ namespace Vi {
 
     class Shapes {
     public:
+        static Mesh sphere(unsigned int);
+        static Mesh cube(unsigned int);
+
     private:
         Shapes() = delete;
         Shapes(const Shapes&) = delete;

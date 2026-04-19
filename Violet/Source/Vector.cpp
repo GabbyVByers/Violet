@@ -54,6 +54,10 @@ namespace Vi {
     float Vec2f::hypot() const { return std::hypot(x, y); }
     float Vec2f::dot(const Vec2f& a, const Vec2f& b) { return (a.x * b.x) + (a.y * b.y); }
     float Vec2f::cross(const Vec2f& a, const Vec2f& b) { return (a.x * b.y) - (a.y * b.x); }
+    Vec2f Vec2f::normalize(const Vec2f& vec) {
+        float len = vec.hypot();
+        return Vec2f(vec.x / len, vec.y / len);
+    }
 
     Vec2f  Vec2f::operator +  (const Vec2f& vec)   const { return Vec2f(x + vec.x, y + vec.y); }
     Vec2f  Vec2f::operator -  (const Vec2f& vec)   const { return Vec2f(x - vec.x, y - vec.y); }
@@ -77,6 +81,10 @@ namespace Vi {
     double Vec2d::hypot() const { return std::hypot(x, y); }
     double Vec2d::dot(const Vec2d& a, const Vec2d& b) { return (a.x * b.x) + (a.y * b.y); }
     double Vec2d::cross(const Vec2d& a, const Vec2d& b) { return (a.x * b.y) - (a.y * b.x); }
+    Vec2d Vec2d::normalize(const Vec2d& vec) {
+        double len = vec.hypot();
+        return Vec2d(vec.x / len, vec.y / len);
+    }
 
     Vec2d  Vec2d::operator +  (const Vec2d& vec)   const { return Vec2d(x + vec.x, y + vec.y); }
     Vec2d  Vec2d::operator -  (const Vec2d& vec)   const { return Vec2d(x - vec.x, y - vec.y); }
@@ -139,6 +147,24 @@ namespace Vi {
             (a.x * b.y) - (a.y * b.x)
         );
     }
+    Vec3f Vec3f::normalize(const Vec3f& vec) {
+        float len = vec.hypot();
+        return Vec3f(vec.x / len, vec.y / len, vec.z / len);
+    }
+    Vec3f Vec3f::rotate(const Vec3f& vec, const Vec3f& axis, const double theta) {
+        Quat q_rot = Quat::rotation(axis, theta);
+        return rotate(vec, q_rot);
+    }
+    Vec3f Vec3f::rotate(const Vec3f& vec, const Quat& q_rot) {
+        Quat q_inv = q_rot.complex_conjugate();
+        Quat p = Quat(0.0, (double)vec.x, (double)vec.y, (double)vec.z);
+        Quat result = q_rot * p * q_inv;
+        return Vec3f(
+            (float)result.x,
+            (float)result.y,
+            (float)result.z
+        );
+    }
 
     Vec3f  Vec3f::operator +  (const Vec3f& vec)  const { return Vec3f(x + vec.x, y + vec.y, z + vec.z); }
     Vec3f  Vec3f::operator -  (const Vec3f& vec)  const { return Vec3f(x - vec.x, y - vec.y, z - vec.z); }
@@ -168,6 +194,24 @@ namespace Vi {
             (a.y * b.z) - (a.z * b.y),
             (a.z * b.x) - (a.x * b.z),
             (a.x * b.y) - (a.y * b.x)
+        );
+    }
+    Vec3d Vec3d::normalize(const Vec3d& vec) {
+        double len = vec.hypot();
+        return Vec3d(vec.x / len, vec.y / len, vec.z / len);
+    }
+    Vec3d Vec3d::rotate(const Vec3d& vec, const Vec3d& axis, const double theta) {
+        Quat q_rot = Quat::rotation(axis, theta);
+        return rotate(vec, q_rot);
+    }
+    Vec3d Vec3d::rotate(const Vec3d& vec, const Quat& q_rot) {
+        Quat q_inv = q_rot.complex_conjugate();
+        Quat p = Quat(0.0, vec.x, vec.y, vec.z);
+        Quat result = q_rot * p * q_inv;
+        return Vec3d(
+            result.x,
+            result.y,
+            result.z
         );
     }
 

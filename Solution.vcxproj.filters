@@ -55,6 +55,9 @@
     <ClCompile Include="Violet\Source\Matrix.cpp">
       <Filter>Violet\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Violet\Source\Shapes.cpp">
+      <Filter>Violet\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">

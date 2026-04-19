@@ -5,21 +5,26 @@
 
 #include "../Header/Violet.h"
 
-static void input_test(Vi::Window& window);
+void control_camera(Vi::Camera&);
+static void input_test(Vi::Window&);
 
 int main() {
     
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
-	Vi::Mesh mesh;
+	Vi::Mesh mesh = Vi::Shapes::sphere(10);
 	Vi::Camera camera;
+	camera.position = Vi::Vec3d(0, 0, 5);
 
     while (window.is_open()) {
         window.poll_events();
 		window.clear(Vi::Color(0.1, 0.1, 0.2));
+
+		input_test(window);
+		control_camera(camera);
+		
 		window.draw(mesh, camera);
 		window.display();
-		input_test(window);
     }
 
     return 0;
@@ -68,5 +73,27 @@ void input_test(Vi::Window& window) {
 		Vi::Vec2i size = window.size();
 		std::cout << "Window Size: " << size.x << " " << size.y << "\n";
 	}
+}
+
+void control_camera(Vi::Camera& camera) {
+	const double speed = 0.001;
+	static double distance = 2.5;
+	Vi::Mouse& mouse = Vi::Window::mouse();
+
+	if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {
+		Vi::Vec3d up = Vi::Vec3d::ypos();
+		Vi::Quat rot_up = Vi::Quat::rotation(up, (double)mouse.velocity().x * -speed);
+		camera.orientation = rot_up * camera.orientation;
+		Vi::Vec3d right = camera.right();
+		Vi::Quat rot_right = Vi::Quat::rotation(right, (double)mouse.velocity().y * -speed);
+		camera.orientation = rot_right * camera.orientation;
+		camera.orientation = camera.orientation.normalized();
+	}
+	double scroll = mouse.scroll();
+	if (scroll != 0) {
+		distance *= (45.0 - scroll) / 45.0;
+	}
+
+	camera.position = camera.forward() * (-distance);
 }
 

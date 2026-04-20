@@ -26,37 +26,40 @@
       <Filter>Additional Libraries\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Keyboard.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Violet\Source\main.cpp">
-      <Filter>Violet\Source Files</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Mouse.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Window.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Camera.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Mesh.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Vector.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Color.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Quaternion.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Matrix.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Shapes.cpp">
-      <Filter>Violet\Source Files</Filter>
+      <Filter>Violet\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Violet\Source\Vertex.cpp">
+      <Filter>Violet\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,23 +75,20 @@
     <Filter Include="Violet">
       <UniqueIdentifier>{706b53a0-559c-4b11-8c84-b16a47e2bf6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Violet\Source Files">
-      <UniqueIdentifier>{0d4f22ee-05d5-4668-bbd0-c835bfc6aab5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Violet\Header Files">
-      <UniqueIdentifier>{c76207a2-7d28-409f-88fa-d12fc8ac3ab6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CUDA">
       <UniqueIdentifier>{9eabd3c1-88ad-4ff0-b8bc-f18616c34449}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Violet\Documentation">
-      <UniqueIdentifier>{2d41c1b3-1df3-4394-bef9-30316e08bfb8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Additional Libraries\image">
       <UniqueIdentifier>{e5c369e4-8243-40d2-b71d-ec31a8484888}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Violet\Shaders">
+    <Filter Include="Violet\Shader">
       <UniqueIdentifier>{28b3277c-a153-49ec-b776-d04286a176fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Violet\Source">
+      <UniqueIdentifier>{0d4f22ee-05d5-4668-bbd0-c835bfc6aab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Violet\Source\CUDA">
+      <UniqueIdentifier>{d49df3e7-1b47-48ea-b663-ec0e0898531f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -119,33 +119,33 @@
     <ClInclude Include="Libraries\imgui\imgui_impl_opengl3_loader.h">
       <Filter>Additional Libraries\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Violet\Header\Logger.h">
-      <Filter>Violet\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Violet\Header\Types.h">
-      <Filter>Violet\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Violet\Header\Violet.h">
-      <Filter>Violet\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\image\stb_image.h">
       <Filter>Additional Libraries\image</Filter>
     </ClInclude>
+    <ClInclude Include="Violet\Violet.h">
+      <Filter>Violet</Filter>
+    </ClInclude>
+    <ClInclude Include="Violet\Types.h">
+      <Filter>Violet</Filter>
+    </ClInclude>
+    <ClInclude Include="Violet\Log.h">
+      <Filter>Violet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="Violet\Source\kernel.cu">
-      <Filter>CUDA</Filter>
-    </CudaCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md">
-      <Filter>Violet\Documentation</Filter>
-    </None>
     <None Include="Violet\Shader\default.frag">
-      <Filter>Violet\Shaders</Filter>
+      <Filter>Violet\Shader</Filter>
     </None>
     <None Include="Violet\Shader\default.vert">
-      <Filter>Violet\Shaders</Filter>
+      <Filter>Violet\Shader</Filter>
     </None>
+    <None Include="README.md">
+      <Filter>Violet</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="Violet\Source\CUDA\kernel.cu">
+      <Filter>Violet\Source\CUDA</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

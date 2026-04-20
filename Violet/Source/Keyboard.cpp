@@ -3,7 +3,7 @@
     Keyboard.cpp
 */
 
-#include "../Header/Violet.h"
+#include "../Violet.h"
 
 namespace Vi {
     
@@ -23,7 +23,7 @@ namespace Vi {
     bool Keyboard::pressing(int key) const {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Log::error_message("GLFW context does not exist");
+            Log::error("GLFW context does not exist");
             std::terminate();
         }
         return glfwGetKey(window, key) == GLFW_PRESS;

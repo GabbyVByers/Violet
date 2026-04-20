@@ -3,7 +3,7 @@
     Mesh.cpp
 */
 
-#include "../Header/Violet.h"
+#include "../Violet.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -17,7 +17,7 @@ namespace Vi {
     Mesh::Mesh() {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Log::error_message("Cannot create Mesh object, GLFW context does not exist");
+            Log::error("Cannot create Mesh object, GLFW context does not exist");
             std::terminate();
         }
         texture();
@@ -27,10 +27,10 @@ namespace Vi {
     Mesh::Mesh(const Mesh& other) {
         texture(other.texture_path);
         material(other.shader_path, other.primitive);
-        vertices = other.vertices;
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
+        vertices = other.vertices;
     }
 
     Mesh::Mesh(Mesh&& other) noexcept {
@@ -41,10 +41,10 @@ namespace Vi {
         vao = other.vao;
         vbo = other.vbo;
         shader = other.shader;
-        vertices = other.vertices;
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
+        vertices = other.vertices;
 
         other.texture_id = NULL;
         other.primitive = NULL;
@@ -57,15 +57,12 @@ namespace Vi {
         if (this == &other)
             return *this;
 
-        destroy_texture();
-        destroy_material();
-
         texture(other.texture_path);
         material(other.shader_path, other.primitive);
-        vertices = other.vertices;
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
+        vertices = other.vertices;
 
         return *this;
     }
@@ -76,7 +73,6 @@ namespace Vi {
 
         destroy_texture();
         destroy_material();
-
         texture_path = other.texture_path;
         texture_id = other.texture_id;
         shader_path = other.shader_path;
@@ -84,10 +80,10 @@ namespace Vi {
         vao = other.vao;
         vbo = other.vbo;
         shader = other.shader;
-        vertices = other.vertices;
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
+        vertices = other.vertices;
 
         other.texture_id = NULL;
         other.primitive = NULL;
@@ -130,7 +126,7 @@ namespace Vi {
         stbi_set_flip_vertically_on_load(true);
         unsigned char* data = stbi_load(path.c_str(), &width, &height, &num_color_channels, NULL);
         if (data == NULL) {
-            std::cerr << Log::error_message("Failed to load image: " + path);
+            Log::error("Failed to load image: " + path);
             std::terminate();
         }
 
@@ -139,7 +135,7 @@ namespace Vi {
         if (num_color_channels == 3) format = GL_RGB;
         if (num_color_channels == 4) format = GL_RGBA;
         if (format == NULL) {
-            std::cerr << Log::error_message("Could not parse image format");
+            Log::error("Could not parse image format");
             std::terminate();
         }
 
@@ -187,7 +183,7 @@ namespace Vi {
         auto load = [](std::string path) -> std::string {
             std::ifstream file(path);
             if (!file) {
-                std::cerr << Log::error_message("Could not load file: " + path + "\n");
+                Log::error("Could not load file: " + path);
                 std::terminate();
             }
             std::stringstream buffer;
@@ -206,7 +202,7 @@ namespace Vi {
         GLint success;
         glGetShaderiv(vert_program, GL_COMPILE_STATUS, &success);
         if (success == GL_FALSE) {
-            std::cerr << Log::error_message("Failed to compile vertex shader");
+            Log::error("Failed to compile vertex shader");
             std::terminate();
         }
 
@@ -215,7 +211,7 @@ namespace Vi {
         glCompileShader(frag_program);
         glGetShaderiv(frag_program, GL_COMPILE_STATUS, &success);
         if (success == GL_FALSE) {
-            std::cerr << Log::error_message("Failed to compile fragment shader");
+            Log::error("Failed to compile fragment shader");
             std::terminate();
         }
 
@@ -227,7 +223,7 @@ namespace Vi {
         glDeleteShader(frag_program);
         glGetProgramiv(shader, GL_LINK_STATUS, &success);
         if (success == GL_FALSE) {
-            std::cerr << Log::error_message("Failed to link shader program");
+            Log::error("Failed to link shader program");
             std::terminate();
         }
     }

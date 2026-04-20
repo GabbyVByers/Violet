@@ -3,7 +3,7 @@
     Window.cpp
 */
 
-#include "../Header/Violet.h"
+#include "../Violet.h"
 
 namespace Vi {
 
@@ -12,13 +12,13 @@ namespace Vi {
     Window::Window(std::string title, int width, int height) {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window != nullptr) {
-            std::cerr << Log::error_message("Cannot create Window object, GLFW context already exists");
+            Log::error("Cannot create Window object, GLFW context already exists");
             std::terminate();
         }
 
         GLuint status = glfwInit();
         if (status == NULL) {
-            std::cerr << Log::error_message("Failed to initialize GLFW");
+            Log::error("Failed to initialize GLFW");
             std::terminate();
         }
 
@@ -28,20 +28,20 @@ namespace Vi {
 
         window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
         if (window == nullptr) {
-            std::cerr << Log::error_message("Failed to create GLFW window");
+            Log::error("Failed to create GLFW window");
             std::terminate();
         }
 
         glfwMakeContextCurrent(window);
         window = glfwGetCurrentContext();
         if (window == nullptr) {
-            std::cerr << Log::error_message("Failed to make GLFW current context");
+            Log::error("Failed to make GLFW current context");
             std::terminate();
         }
 
         status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         if (status == NULL) {
-            std::cerr << Log::error_message("Failed to load GLAD");
+            Log::error("Failed to load GLAD");
             std::terminate();
         }
 

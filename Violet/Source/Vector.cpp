@@ -3,15 +3,15 @@
     Vector.cpp
 */
 
-#include "../Header/Logger.h"
-#include "../Header/Types.h"
+#include "../Log.h"
+#include "../Types.h"
 #include <iostream>
 #include <cmath>
 
 namespace Vi {
 
     static void zero_error() {
-        std::cerr << Log::error_message("Division by zero");
+        Log::error("Division by zero");
         std::terminate();
     }
     static void zero(int x)    { if (x == 0)    { zero_error(); } }

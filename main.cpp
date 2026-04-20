@@ -3,7 +3,7 @@
     main.cpp
 */
 
-#include "../Header/Violet.h"
+#include "Violet/Violet.h"
 
 void control_camera(Vi::Camera&);
 static void input_test(Vi::Window&);

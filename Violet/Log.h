@@ -12,8 +12,9 @@ namespace Vi {
 
     class Log {
     public:
-        static std::string error_message(std::string message = "") {
-            return "\033[31mCatastrophic Error\033[0m: " + message + "\n";
+        static void error(std::string message = "") {
+            std::cerr << "\033[31mError\033[0m: ";
+            std::cerr << message << "\n";
         }
     };
 }

@@ -10,8 +10,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "../Header/Logger.h"
-#include "../Header/Types.h"
+#include "Log.h"
+#include "Types.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -19,13 +19,11 @@
 #define Vi Vi
 namespace Vi {
 
+    class Color;
     class Vertex;
-    class Transform;
     class Camera;
-
-    class Texture;
-    class Material;
     class Mesh;
+    class Shapes;
 
     class Keyboard;
     class Mouse;
@@ -55,9 +53,7 @@ namespace Vi {
     class Vertex {
     public:
         Vertex() = default;
-        Vertex(const Vec3f& p, const Color& c, const Vec2f& t) {
-            position = p; color = c; tex_coord = t;
-        }
+        Vertex(const Vec3f&, const Color&, const Vec2f&);
         Vec3f position = Vec3f();
         Color color = Color::white();
         Vec2f tex_coord = Vec2f();
@@ -87,17 +83,14 @@ namespace Vi {
         Mesh& operator = (const Mesh&);
         Mesh& operator = (Mesh&&) noexcept;
         ~Mesh();
-        
         double scale = 1.0;
         Vec3d position = Vec3d();
         Quat orientation = Quat();
         std::vector<Vertex> vertices = {};
-
         void paint(const Color&);
         void texture(const std::string& = "");
         void material(const std::string& = "default", const GLenum = GL_TRIANGLES);
         Mat4 model_matrix() const;
-    
     private:
         friend Window;
         std::string texture_path = "";
@@ -117,7 +110,6 @@ namespace Vi {
     public:
         static Mesh sphere(unsigned int);
         static Mesh cube(unsigned int);
-
     private:
         Shapes() = delete;
         Shapes(const Shapes&) = delete;

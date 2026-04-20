@@ -3,7 +3,7 @@
     Color.cpp
 */
 
-#include "../Header/Violet.h"
+#include "../Violet.h"
 #include <cstdlib>
 
 namespace Vi {

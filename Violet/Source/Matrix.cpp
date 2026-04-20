@@ -3,7 +3,7 @@
     Matrix.cpp
 */
 
-#include "../Header/Types.h"
+#include "../Types.h"
 
 namespace Vi {
     

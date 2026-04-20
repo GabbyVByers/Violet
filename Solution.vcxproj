@@ -109,7 +109,6 @@
     <ClCompile Include="Violet\Source\Mouse.cpp" />
     <ClCompile Include="Violet\Source\Quaternion.cpp" />
     <ClCompile Include="Violet\Source\Vector.cpp" />
-    <ClCompile Include="Violet\Source\Vertex.cpp" />
     <ClCompile Include="Violet\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +122,7 @@
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="Violet\Siv.h" />
     <ClInclude Include="Violet\Log.h" />
     <ClInclude Include="Violet\Types.h" />
     <ClInclude Include="Violet\Violet.h" />

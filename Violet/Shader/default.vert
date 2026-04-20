@@ -15,3 +15,4 @@ void main() {
 	vertColor = aColor;
 	texCoord = aTexCoord;
 }
+

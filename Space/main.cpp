@@ -3,7 +3,44 @@
     main.cpp
 */
 
-#include "Violet/Violet.h"
+#include "../Violet/Violet.h"
+#include "../Violet/Siv.h"
+
+#include <string>
+#include <fstream>
+#include <sstream>
+
+class Planet {
+public:
+	std::string name = "Unnamed Planet";
+	Vi::Vec3d position = Vi::Vec3d();
+	Vi::Vec3d velocity = Vi::Vec3d();
+};
+
+class Map {
+public:
+
+	Map() {
+		const std::string path = "orbital_parameters.txt";
+		std::ifstream file(path);
+		if (!file) {
+			Vi::Log::error("Could not open " + path);
+			std::terminate();
+		}
+
+		std::stringstream sstream;
+		sstream << file.rdbuf();
+		file.close();
+
+		std::string token;
+		while (sstream >> token) {
+			
+		}
+	}
+
+	std::vector<Planet> planets;
+
+};
 
 void control_camera(Vi::Camera&);
 static void input_test(Vi::Window&);

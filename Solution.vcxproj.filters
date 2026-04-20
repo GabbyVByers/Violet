@@ -58,9 +58,6 @@
     <ClCompile Include="Violet\Source\Shapes.cpp">
       <Filter>Violet\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Violet\Source\Vertex.cpp">
-      <Filter>Violet\Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">
@@ -129,6 +126,9 @@
       <Filter>Violet</Filter>
     </ClInclude>
     <ClInclude Include="Violet\Log.h">
+      <Filter>Violet</Filter>
+    </ClInclude>
+    <ClInclude Include="Violet\Siv.h">
       <Filter>Violet</Filter>
     </ClInclude>
   </ItemGroup>

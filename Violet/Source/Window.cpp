@@ -138,11 +138,19 @@ namespace Vi {
     }
 
     Mouse& Window::mouse() {
+        GLFWwindow* window = glfwGetCurrentContext();
+        if (window == nullptr) {
+            Log::error("Cannot invoke Mouse without an existing GLFW context.");
+        }
         static Mouse mouse;
         return mouse;
     }
 
     Keyboard& Window::keyboard() {
+        GLFWwindow* window = glfwGetCurrentContext();
+        if (window == nullptr) {
+            Log::error("Cannot invoke Keyboard without an existing GLFW context.");
+        }
         static Keyboard keyboard;
         return keyboard;
     }

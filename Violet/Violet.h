@@ -29,12 +29,10 @@ namespace Vi {
     class Mouse;
     class Window;
 
-    /* Color, Vertex, Camera, Mesh */
+    /* Color, Vertex, Camera, Mesh, Shapes */
 
     class Color {
     public:
-        Color() = default;
-        Color(float, float, float, float = 1.0f);
         float r = 0.0f;
         float g = 0.0f;
         float b = 0.0f;
@@ -52,8 +50,6 @@ namespace Vi {
 
     class Vertex {
     public:
-        Vertex() = default;
-        Vertex(const Vec3f&, const Color&, const Vec2f&);
         Vec3f position = Vec3f();
         Color color = Color::white();
         Vec2f tex_coord = Vec2f();
@@ -61,7 +57,6 @@ namespace Vi {
 
     class Camera {
     public:
-        Camera() = default;
         bool is_inf = false;
         double far = 100.0f;
         double near = 0.1f;
@@ -95,7 +90,7 @@ namespace Vi {
         friend Window;
         std::string texture_path = "";
         GLuint texture_id = NULL;
-        std::string shader_path = "default";
+        std::string shader_path = "";
         GLuint primitive = NULL;
         GLuint vao = NULL;
         GLuint vbo = NULL;
@@ -103,8 +98,6 @@ namespace Vi {
         void destroy_texture();
         void destroy_material();
     };
-
-    /* Shapes */
 
     class Shapes {
     public:

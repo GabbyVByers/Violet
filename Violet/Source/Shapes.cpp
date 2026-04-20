@@ -36,11 +36,11 @@ namespace Vi {
 					| std::views::transform([&](Vec3d p) { return Vec3d::normalize(p); })
 					| std::views::transform([&](Vec3d p) { return Vec3d::rotate(p, up, i * theta); });
 				for (const Vec3d& point : face) {
-					sphere_mesh.vertices.push_back(Vertex(
-						point,
-						Color::random(),
-						Vec2f()
-					));
+					sphere_mesh.vertices.push_back({
+						.position = point,
+						.color = Color::random(),
+						.tex_coord = Vec2f()
+					});
 				}
 			}
 			else {
@@ -51,11 +51,11 @@ namespace Vi {
 					| std::views::transform([&](Vec3d p) { return Vec3d::normalize(p); })
 					| std::views::transform([&](Vec3d p) { return Vec3d::rotate(p, right, theta); });
 				for (const Vec3d& point : face) {
-					sphere_mesh.vertices.push_back(Vertex(
-						point,
-						Color::random(),
-						Vec2f()
-					));
+					sphere_mesh.vertices.push_back({
+						.position = point,
+						.color = Color::random(),
+						.tex_coord = Vec2f()
+					});
 				}
 			}
 		}

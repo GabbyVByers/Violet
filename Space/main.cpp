@@ -36,9 +36,8 @@ public:
 		while (sstream >> token) {
 			if (token == "Begin_Planets") {
 				while (sstream >> token) {
-					if (token == "End_Planets") {
+					if (token == "End_Planets")
 						break;
-					}
 					Planet planet;
 					planet.name = token;
 					sstream >> token; if (token != "X") { Vi::Log::warning("Expected 'X' (" + token + ")"); }
@@ -58,6 +57,12 @@ public:
 			}
 			if (token == "End_Moons") {
 				break;
+			}
+			sstream >> token;
+			if (token != "Begin_Moons") { Vi::Log::warning("Expected 'Begin_Moons' (" + token + ")"); }
+			while (sstream >> token) {
+				if (token == "End_Moons")
+					break;
 			}
 		}
 	}
@@ -80,7 +85,7 @@ int main() {
 
     while (window.is_open()) {
         window.poll_events();
-		window.clear(Vi::Color(0.1, 0.1, 0.2));
+		window.clear(Vi::Color(0.1f, 0.1f, 0.2f));
 
 		input_test(window);
 		control_camera(camera);

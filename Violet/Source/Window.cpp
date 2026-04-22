@@ -125,7 +125,7 @@ namespace Vi {
         Mat4 view_matrix = camera.view_matrix();
         Mat4 projection_matrix = camera.projection_matrix(size());
         Mat4 mvp = projection_matrix * view_matrix * model_matrix;
-        Mat4f mvp_f = mvp;
+        Mat4f mvp_f = static_cast<Mat4f>(mvp);
         glUniformMatrix4fv(glGetUniformLocation(shader, "uModelViewProject"), 1, GL_TRUE, mvp_f.ptr());
 
         glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);

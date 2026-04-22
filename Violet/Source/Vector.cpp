@@ -20,18 +20,13 @@ namespace Vi {
     
     /* Vec2i */
 
-    Vec2i::Vec2i(int x, int y) { this->x = x; this->y = y; }
-    Vec2i::Vec2i(const Vec2f& vec) { x = (int)vec.x; y = (int)vec.y; }
-    Vec2i::Vec2i(const Vec2d& vec) { x = (int)vec.x; y = (int)vec.y; }
-
+    double Vec2i::hypot() const { return std::hypot(x, y); }
     Vec2i Vec2i::xpos() { return Vec2i( 1, 0); }
     Vec2i Vec2i::xneg() { return Vec2i(-1, 0); }
     Vec2i Vec2i::ypos() { return Vec2i( 0, 1); }
     Vec2i Vec2i::yneg() { return Vec2i( 0,-1); }
-    double Vec2i::hypot() const { return std::hypot(x, y); }
     int Vec2i::dot(const Vec2i& a, const Vec2i& b) { return (a.x * b.x) + (a.y * b.y); }
     int Vec2i::cross(const Vec2i& a, const Vec2i& b) { return (a.x * b.y) - (a.y * b.x); }
-
     Vec2i  Vec2i::operator +  (const Vec2i& vec) const { return Vec2i(x + vec.x, y + vec.y); }
     Vec2i  Vec2i::operator -  (const Vec2i& vec) const { return Vec2i(x - vec.x, y - vec.y); }
     Vec2i  Vec2i::operator *  (const int scale)  const { return Vec2i(x * scale, y * scale); }
@@ -40,25 +35,22 @@ namespace Vi {
     Vec2i& Vec2i::operator -= (const Vec2i& vec) { x -= vec.x; y -= vec.y; return *this; }
     Vec2i& Vec2i::operator *= (const int scale)  { x *= scale; y *= scale; return *this; }
     Vec2i& Vec2i::operator /= (const int scale)  { zero(scale); x /= scale; y /= scale; return *this; }
+    Vec2i::operator Vec2f() const { return Vec2f((float)x, (float)y); }
+    Vec2i::operator Vec2d() const { return Vec2d((double)x, (double)y); }
 
     /* Vec2f */
     
-    Vec2f::Vec2f(float x, float y) { this->x = x; this->y = y; }
-    Vec2f::Vec2f(const Vec2i& vec) { x = (float)vec.x; y = (float)vec.y; }
-    Vec2f::Vec2f(const Vec2d& vec) { x = (float)vec.x; y = (float)vec.y; }
-
+    float Vec2f::hypot() const { return std::hypot(x, y); }
     Vec2f Vec2f::xpos() { return Vec2f( 1.0f, 0.0f); }
     Vec2f Vec2f::xneg() { return Vec2f(-1.0f, 0.0f); }
     Vec2f Vec2f::ypos() { return Vec2f( 0.0f, 1.0f); }
     Vec2f Vec2f::yneg() { return Vec2f( 0.0f,-1.0f); }
-    float Vec2f::hypot() const { return std::hypot(x, y); }
     float Vec2f::dot(const Vec2f& a, const Vec2f& b) { return (a.x * b.x) + (a.y * b.y); }
     float Vec2f::cross(const Vec2f& a, const Vec2f& b) { return (a.x * b.y) - (a.y * b.x); }
     Vec2f Vec2f::normalize(const Vec2f& vec) {
         float len = vec.hypot();
         return Vec2f(vec.x / len, vec.y / len);
     }
-
     Vec2f  Vec2f::operator +  (const Vec2f& vec)   const { return Vec2f(x + vec.x, y + vec.y); }
     Vec2f  Vec2f::operator -  (const Vec2f& vec)   const { return Vec2f(x - vec.x, y - vec.y); }
     Vec2f  Vec2f::operator *  (const float scale)  const { return Vec2f(x * scale, y * scale); }
@@ -67,25 +59,22 @@ namespace Vi {
     Vec2f& Vec2f::operator -= (const Vec2f& vec)  { x -= vec.x; y -= vec.y; return *this; }
     Vec2f& Vec2f::operator *= (const float scale) { x *= scale; y *= scale; return *this; }
     Vec2f& Vec2f::operator /= (const float scale) { zero(scale); x /= scale; y /= scale; return *this; }
+    Vec2f::operator Vec2i() const { return Vec2i((int)x, (int)y); }
+    Vec2f::operator Vec2d() const { return Vec2d((double)x, (double)y); }
 
     /* Vec2d */
 
-    Vec2d::Vec2d(double x, double y) { this->x = x; this->y = y; }
-    Vec2d::Vec2d(const Vec2i& vec) { x = (double)vec.x; y = (double)vec.y; }
-    Vec2d::Vec2d(const Vec2f& vec) { x = (double)vec.x; y = (double)vec.y; }
-
+    double Vec2d::hypot() const { return std::hypot(x, y); }
     Vec2d Vec2d::xpos() { return Vec2d( 1.0, 0.0); }
     Vec2d Vec2d::xneg() { return Vec2d(-1.0, 0.0); }
     Vec2d Vec2d::ypos() { return Vec2d( 0.0, 1.0); }
     Vec2d Vec2d::yneg() { return Vec2d( 0.0,-1.0); }
-    double Vec2d::hypot() const { return std::hypot(x, y); }
     double Vec2d::dot(const Vec2d& a, const Vec2d& b) { return (a.x * b.x) + (a.y * b.y); }
     double Vec2d::cross(const Vec2d& a, const Vec2d& b) { return (a.x * b.y) - (a.y * b.x); }
     Vec2d Vec2d::normalize(const Vec2d& vec) {
         double len = vec.hypot();
         return Vec2d(vec.x / len, vec.y / len);
     }
-
     Vec2d  Vec2d::operator +  (const Vec2d& vec)   const { return Vec2d(x + vec.x, y + vec.y); }
     Vec2d  Vec2d::operator -  (const Vec2d& vec)   const { return Vec2d(x - vec.x, y - vec.y); }
     Vec2d  Vec2d::operator *  (const double scale) const { return Vec2d(x * scale, y * scale); }
@@ -94,12 +83,10 @@ namespace Vi {
     Vec2d& Vec2d::operator -= (const Vec2d& vec)   { x -= vec.x; y -= vec.y; return *this; }
     Vec2d& Vec2d::operator *= (const double scale) { x *= scale; y *= scale; return *this; }
     Vec2d& Vec2d::operator /= (const double scale) { zero(scale); x /= scale; y /= scale; return *this; }
+    Vec2d::operator Vec2i() const { return Vec2i((int)x, (int)y); }
+    Vec2d::operator Vec2f() const { return Vec2f((float)x, (float)y); }
 
     /* Vec3i */
-
-    Vec3i::Vec3i(int x, int y, int z) { this->x = x; this->y = y; this->z = z; }
-    Vec3i::Vec3i(const Vec3f& vec) { x = (int)vec.x; y = (int)vec.y; z = (int)vec.z; }
-    Vec3i::Vec3i(const Vec3d& vec) { x = (int)vec.x; y = (int)vec.y; z = (int)vec.z; }
 
     Vec3i Vec3i::xpos() { return Vec3i( 1, 0, 0); }
     Vec3i Vec3i::xneg() { return Vec3i(-1, 0, 0); }
@@ -116,7 +103,6 @@ namespace Vi {
             (a.x * b.y) - (a.y * b.x)
         );
     }
-
     Vec3i  Vec3i::operator +  (const Vec3i& vec) const { return Vec3i(x + vec.x, y + vec.y, z + vec.z); }
     Vec3i  Vec3i::operator -  (const Vec3i& vec) const { return Vec3i(x - vec.x, y - vec.y, z - vec.z); }
     Vec3i  Vec3i::operator *  (const int scale)  const { return Vec3i(x * scale, y * scale, z * scale); }
@@ -125,13 +111,11 @@ namespace Vi {
     Vec3i& Vec3i::operator -= (const Vec3i& vec) { x -= vec.x; y -= vec.y; z -= vec.z; return *this; }
     Vec3i& Vec3i::operator *= (const int scale)  { x *= scale; y *= scale; z *= scale; return *this; }
     Vec3i& Vec3i::operator /= (const int scale)  { zero(scale); x /= scale; y /= scale; z /= scale; return *this; }
+    Vec3i::operator Vec3f() const { return Vec3f((float)x, (float)y, (float)z); }
+    Vec3i::operator Vec3d() const { return Vec3d((double)x, (double)y, (double)z); }
 
     /* Vec3f */
     
-    Vec3f::Vec3f(float x, float y, float z) { this->x = x; this->y = y; this->z = z; }
-    Vec3f::Vec3f(const Vec3i& vec) { x = (float)vec.x; y = (float)vec.y; z = (float)vec.z; }
-    Vec3f::Vec3f(const Vec3d& vec) { x = (float)vec.x; y = (float)vec.y; z = (float)vec.z; }
-
     Vec3f Vec3f::xpos() { return Vec3f( 1.0f, 0.0f, 0.0f); }
     Vec3f Vec3f::xneg() { return Vec3f(-1.0f, 0.0f, 0.0f); }
     Vec3f Vec3f::ypos() { return Vec3f( 0.0f, 1.0f, 0.0f); }
@@ -165,7 +149,6 @@ namespace Vi {
             (float)result.z
         );
     }
-
     Vec3f  Vec3f::operator +  (const Vec3f& vec)  const { return Vec3f(x + vec.x, y + vec.y, z + vec.z); }
     Vec3f  Vec3f::operator -  (const Vec3f& vec)  const { return Vec3f(x - vec.x, y - vec.y, z - vec.z); }
     Vec3f  Vec3f::operator *  (const float scale) const { return Vec3f(x * scale, y * scale, z * scale); }
@@ -174,12 +157,10 @@ namespace Vi {
     Vec3f& Vec3f::operator -= (const Vec3f& vec)  { x -= vec.x; y -= vec.y; z -= vec.z; return *this; }
     Vec3f& Vec3f::operator *= (const float scale) { x *= scale; y *= scale; z *= scale; return *this; }
     Vec3f& Vec3f::operator /= (const float scale) { zero(scale); x /= scale; y /= scale; z /= scale; return *this; }
+    Vec3f::operator Vec3i() const { return Vec3i((int)x, (int)y, (int)z); }
+    Vec3f::operator Vec3d() const { return Vec3d((double)x, (double)y, (double)z); }
     
     /* Vec3d */
-
-    Vec3d::Vec3d(double x, double y, double z) { this->x = x; this->y = y; this->z = z; }
-    Vec3d::Vec3d(const Vec3i& vec) { x = (double)vec.x; y = (double)vec.y; z = (double)vec.z; }
-    Vec3d::Vec3d(const Vec3f& vec) { x = (double)vec.x; y = (double)vec.y; z = (double)vec.z; }
 
     Vec3d Vec3d::xpos() { return Vec3d( 1.0, 0.0, 0.0); }
     Vec3d Vec3d::xneg() { return Vec3d(-1.0, 0.0, 0.0); }
@@ -214,7 +195,6 @@ namespace Vi {
             result.z
         );
     }
-
     Vec3d  Vec3d::operator +  (const Vec3d& vec)   const { return Vec3d(x + vec.x, y + vec.y, z + vec.z); }
     Vec3d  Vec3d::operator -  (const Vec3d& vec)   const { return Vec3d(x - vec.x, y - vec.y, z - vec.z); }
     Vec3d  Vec3d::operator *  (const double scale) const { return Vec3d(x * scale, y * scale, z * scale); }
@@ -223,5 +203,7 @@ namespace Vi {
     Vec3d& Vec3d::operator -= (const Vec3d& vec)   { x -= vec.x; y -= vec.y; z -= vec.z; return *this; }
     Vec3d& Vec3d::operator *= (const double scale) { x *= scale; y *= scale; z *= scale; return *this; }
     Vec3d& Vec3d::operator /= (const double scale) { zero(scale); x /= scale; y /= scale; z /= scale; return *this; }
+    Vec3d::operator Vec3i() const { return Vec3i((int)x, (int)y, (int)z); }
+    Vec3d::operator Vec3f() const { return Vec3f((float)x, (float)y, (float)z); }
 }
 

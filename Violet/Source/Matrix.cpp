@@ -75,6 +75,16 @@ namespace Vi {
         return result;
     }
 
+    Mat4::operator Mat4f() const {
+        Mat4f result;
+        for (size_t i = 0; i < 4; i++) {
+            for (size_t j = 0; j < 4; j++) {
+                result.data[i][j] = (float)this->data[i][j];
+            }
+        }
+        return result;
+    }
+
     /* Mat4f */
 
     Mat4f::Mat4f() {
@@ -83,14 +93,6 @@ namespace Vi {
                 data[i][j] = 0.0f;
             }
             data[i][i] = 1.0f;
-        }
-    }
-
-    Mat4f::Mat4f(const Mat4& matrix) {
-        for (size_t i = 0; i < 4; i++) {
-            for (size_t j = 0; j < 4; j++) {
-                data[i][j] = (float)matrix.data[i][j];
-            }
         }
     }
 

@@ -37,7 +37,7 @@ namespace Vi {
 					| std::views::transform([&](Vec3d p) { return Vec3d::rotate(p, up, i * theta); });
 				for (const Vec3d& point : face) {
 					sphere_mesh.vertices.push_back({
-						.position = point,
+						.position = static_cast<Vec3f>(point),
 						.color = Color::random(),
 						.tex_coord = Vec2f()
 					});
@@ -52,7 +52,7 @@ namespace Vi {
 					| std::views::transform([&](Vec3d p) { return Vec3d::rotate(p, right, theta); });
 				for (const Vec3d& point : face) {
 					sphere_mesh.vertices.push_back({
-						.position = point,
+						.position = static_cast<Vec3f>(point),
 						.color = Color::random(),
 						.tex_coord = Vec2f()
 					});
@@ -61,7 +61,7 @@ namespace Vi {
 		}
 
 		for (Vertex& vertex : sphere_mesh.vertices) {
-			Vec3d pos = vertex.position;
+			Vec3d pos = static_cast<Vec3d>(vertex.position);
 			double pi = std::numbers::pi;
 			vertex.tex_coord.x = (float)(0.5 + std::atan2(pos.x, pos.z) / (2.0 * pi));
 			vertex.tex_coord.y = (float)((std::asin(pos.y) + (pi / 2.0)) / pi);

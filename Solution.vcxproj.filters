@@ -28,7 +28,7 @@
     <ClCompile Include="Violet\Source\Keyboard.cpp">
       <Filter>Violet\Source</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Space\main.cpp">
       <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Mouse.cpp">
@@ -147,5 +147,8 @@
     <CudaCompile Include="Violet\Source\CUDA\kernel.cu">
       <Filter>Violet\Source\CUDA</Filter>
     </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Space\orbital_parameters.txt" />
   </ItemGroup>
 </Project>

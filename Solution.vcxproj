@@ -103,7 +103,7 @@
     <ClCompile Include="Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Libraries\opengl\glad.c" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Space\main.cpp" />
     <ClCompile Include="Violet\Source\Matrix.cpp" />
     <ClCompile Include="Violet\Source\Mesh.cpp" />
     <ClCompile Include="Violet\Source\Mouse.cpp" />
@@ -131,6 +131,9 @@
     <None Include="Violet\Shader\default.frag" />
     <None Include="Violet\Shader\default.vert" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Space\orbital_parameters.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

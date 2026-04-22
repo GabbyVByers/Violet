@@ -24,23 +24,15 @@ namespace Vi {
 
     class Vec2i {
     public:
-        Vec2i() = default;
-        Vec2i(int, int);
-        Vec2i(const Vec2f&);
-        Vec2i(const Vec2d&);
-        Vec2i& operator = (const Vec2f&) = delete;
-        Vec2i& operator = (const Vec2d&) = delete;
         int x = 0;
         int y = 0;
-        
+        double hypot() const;
         static Vec2i xpos();
         static Vec2i xneg();
         static Vec2i ypos();
         static Vec2i yneg();
-        double hypot() const;
         static int dot(const Vec2i&, const Vec2i&);
         static int cross(const Vec2i&, const Vec2i&);
-        
         Vec2i  operator +  (const Vec2i&) const;
         Vec2i  operator -  (const Vec2i&) const;
         Vec2i  operator *  (const int) const;
@@ -49,30 +41,24 @@ namespace Vi {
         Vec2i& operator -= (const Vec2i&);
         Vec2i& operator *= (const int);
         Vec2i& operator /= (const int);
+        explicit operator Vec2f() const;
+        explicit operator Vec2d() const;
     };
 
     /* Vec2f */
 
     class Vec2f {
     public:
-        Vec2f() = default;
-        Vec2f(float, float);
-        Vec2f(const Vec2i&);
-        Vec2f(const Vec2d&);
-        Vec2f& operator = (const Vec2i&) = delete;
-        Vec2f& operator = (const Vec2d&) = delete;
         float x = 0.0f;
         float y = 0.0f;
-
+        float hypot() const;
         static Vec2f xpos();
         static Vec2f xneg();
         static Vec2f ypos();
         static Vec2f yneg();
-        float hypot() const;
         static float dot(const Vec2f&, const Vec2f&);
         static float cross(const Vec2f&, const Vec2f&);
         static Vec2f normalize(const Vec2f&);
-
         Vec2f  operator +  (const Vec2f&) const;
         Vec2f  operator -  (const Vec2f&) const;
         Vec2f  operator *  (const float) const;
@@ -81,30 +67,24 @@ namespace Vi {
         Vec2f& operator -= (const Vec2f&);
         Vec2f& operator *= (const float);
         Vec2f& operator /= (const float);
+        explicit operator Vec2i() const;
+        explicit operator Vec2d() const;
     };
 
     /* Vec2d */
 
     class Vec2d {
     public:
-        Vec2d() = default;
-        Vec2d(double, double);
-        Vec2d(const Vec2i&);
-        Vec2d(const Vec2f&);
-        Vec2d& operator = (const Vec2i&) = delete;
-        Vec2d& operator = (const Vec2f&) = delete;
         double x = 0.0;
         double y = 0.0;
-
+        double hypot() const;
         static Vec2d xpos();
         static Vec2d xneg();
         static Vec2d ypos();
         static Vec2d yneg();
-        double hypot() const;
         static double dot(const Vec2d&, const Vec2d&);
         static double cross(const Vec2d&, const Vec2d&);
         static Vec2d normalize(const Vec2d&);
-
         Vec2d  operator +  (const Vec2d&) const;
         Vec2d  operator -  (const Vec2d&) const;
         Vec2d  operator *  (const double) const;
@@ -113,22 +93,17 @@ namespace Vi {
         Vec2d& operator -= (const Vec2d&);
         Vec2d& operator *= (const double);
         Vec2d& operator /= (const double);
+        explicit operator Vec2i() const;
+        explicit operator Vec2f() const;
     };
 
     /* Vec3i */
 
     class Vec3i {
     public:
-        Vec3i() = default;
-        Vec3i(int, int, int);
-        Vec3i(const Vec3f&);
-        Vec3i(const Vec3d&);
-        Vec3i& operator = (const Vec3f&) = delete;
-        Vec3i& operator = (const Vec3d&) = delete;
         int x = 0;
         int y = 0;
         int z = 0;
-
         static Vec3i xpos();
         static Vec3i xneg();
         static Vec3i ypos();
@@ -138,7 +113,6 @@ namespace Vi {
         double hypot() const;
         static int dot(const Vec3i&, const Vec3i&);
         static Vec3i cross(const Vec3i&, const Vec3i&);
-
         Vec3i  operator +  (const Vec3i&) const;
         Vec3i  operator -  (const Vec3i&) const;
         Vec3i  operator *  (const int) const;
@@ -147,22 +121,17 @@ namespace Vi {
         Vec3i& operator -= (const Vec3i&);
         Vec3i& operator *= (const int);
         Vec3i& operator /= (const int);
+        explicit operator Vec3f() const;
+        explicit operator Vec3d() const;
     };
 
     /* Vec3f */
 
     class Vec3f {
     public:
-        Vec3f() = default;
-        Vec3f(float, float, float);
-        Vec3f(const Vec3i&);
-        Vec3f(const Vec3d&);
-        Vec3f& operator = (const Vec3i&) = delete;
-        Vec3f& operator = (const Vec3d&) = delete;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
-
         static Vec3f xpos();
         static Vec3f xneg();
         static Vec3f ypos();
@@ -175,7 +144,6 @@ namespace Vi {
         static Vec3f normalize(const Vec3f&);
         static Vec3f rotate(const Vec3f&, const Vec3f&, double);
         static Vec3f rotate(const Vec3f&, const Quat&);
-
         Vec3f  operator +  (const Vec3f&) const;
         Vec3f  operator -  (const Vec3f&) const;
         Vec3f  operator *  (const float) const;
@@ -184,22 +152,17 @@ namespace Vi {
         Vec3f& operator -= (const Vec3f&);
         Vec3f& operator *= (const float);
         Vec3f& operator /= (const float);
+        explicit operator Vec3i() const;
+        explicit operator Vec3d() const;
     };
 
     /* Vec3d */
 
     class Vec3d {
     public:
-        Vec3d() = default;
-        Vec3d(double, double, double);
-        Vec3d(const Vec3i&);
-        Vec3d(const Vec3f&);
-        Vec3d& operator = (const Vec3i&) = delete;
-        Vec3d& operator = (const Vec3f&) = delete;
         double x = 0.0;
         double y = 0.0;
         double z = 0.0;
-
         static Vec3d xpos();
         static Vec3d xneg();
         static Vec3d ypos();
@@ -212,7 +175,6 @@ namespace Vi {
         static Vec3d normalize(const Vec3d&);
         static Vec3d rotate(const Vec3d&, const Vec3d&, double);
         static Vec3d rotate(const Vec3d&, const Quat&);
-
         Vec3d  operator +  (const Vec3d&) const;
         Vec3d  operator -  (const Vec3d&) const;
         Vec3d  operator *  (const double) const;
@@ -221,6 +183,8 @@ namespace Vi {
         Vec3d& operator -= (const Vec3d&);
         Vec3d& operator *= (const double);
         Vec3d& operator /= (const double);
+        explicit operator Vec3i() const;
+        explicit operator Vec3f() const;
     };
 
     /* Quaternion */
@@ -255,17 +219,17 @@ namespace Vi {
         static Mat4 translation_matrix(const Vec3d&);
         static Mat4 rotation_matrix(const Quat&);
         Mat4 operator * (const Mat4&) const;
+        explicit operator Mat4f() const;
     private:
-        friend Mat4f;
         double data[4][4] = {};
     };
 
     class Mat4f {
     public:
         Mat4f();
-        Mat4f(const Mat4&);
         float* ptr() const;
     private:
+        friend Mat4;
         float data[4][4] = {};
     };
 }

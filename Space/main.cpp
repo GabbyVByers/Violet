@@ -46,7 +46,6 @@ void control_camera(Vi::Camera&);
 static void input_test(Vi::Window&);
 
 int main() {
-    
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
 	Vi::Mesh mesh = Vi::Shapes::sphere(10);

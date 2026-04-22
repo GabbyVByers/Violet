@@ -59,7 +59,7 @@ namespace Vi {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
-        io.FontGlobalScale = 2.0f;
+        io.FontGlobalScale = 1.0f;
         io.IniFilename = nullptr;
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -95,6 +95,9 @@ namespace Vi {
         mouse.reset();
         keyboard.reset();
         glfwPollEvents();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
     }
 
     void Window::clear(const Color& color) {
@@ -133,6 +136,8 @@ namespace Vi {
     }
 
     void Window::display() {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         GLFWwindow* window = glfwGetCurrentContext();
         glfwSwapBuffers(window);
     }

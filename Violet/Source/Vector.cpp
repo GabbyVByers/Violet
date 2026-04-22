@@ -88,13 +88,13 @@ namespace Vi {
 
     /* Vec3i */
 
+    double Vec3i::hypot() const { return std::hypot(x, y, z); }
     Vec3i Vec3i::xpos() { return Vec3i( 1, 0, 0); }
     Vec3i Vec3i::xneg() { return Vec3i(-1, 0, 0); }
     Vec3i Vec3i::ypos() { return Vec3i( 0, 1, 0); }
     Vec3i Vec3i::yneg() { return Vec3i( 0,-1, 0); }
     Vec3i Vec3i::zpos() { return Vec3i( 0, 0, 1); }
     Vec3i Vec3i::zneg() { return Vec3i( 0, 0,-1); }
-    double Vec3i::hypot() const { return std::hypot(x, y, z); }
     int Vec3i::dot(const Vec3i& a, const Vec3i& b) { return (a.x * b.x) + (a.y * b.y) + (a.z * b.z); }
     Vec3i Vec3i::cross(const Vec3i& a, const Vec3i& b) {
         return Vec3i(
@@ -116,13 +116,13 @@ namespace Vi {
 
     /* Vec3f */
     
+    float Vec3f::hypot() const { return std::hypot(x, y, z); }
     Vec3f Vec3f::xpos() { return Vec3f( 1.0f, 0.0f, 0.0f); }
     Vec3f Vec3f::xneg() { return Vec3f(-1.0f, 0.0f, 0.0f); }
     Vec3f Vec3f::ypos() { return Vec3f( 0.0f, 1.0f, 0.0f); }
     Vec3f Vec3f::yneg() { return Vec3f( 0.0f,-1.0f, 0.0f); }
     Vec3f Vec3f::zpos() { return Vec3f( 0.0f, 0.0f, 1.0f); }
     Vec3f Vec3f::zneg() { return Vec3f( 0.0f, 0.0f,-1.0f); }
-    float Vec3f::hypot() const { return std::hypot(x, y, z); }
     float Vec3f::dot(const Vec3f& a, const Vec3f& b) { return (a.x * b.x) + (a.y * b.y) + (a.z * b.z); }
     Vec3f Vec3f::cross(const Vec3f& a, const Vec3f& b) {
         return Vec3f(
@@ -162,13 +162,13 @@ namespace Vi {
     
     /* Vec3d */
 
+    double Vec3d::hypot() const { return std::hypot(x, y, z); }
     Vec3d Vec3d::xpos() { return Vec3d( 1.0, 0.0, 0.0); }
     Vec3d Vec3d::xneg() { return Vec3d(-1.0, 0.0, 0.0); }
     Vec3d Vec3d::ypos() { return Vec3d( 0.0, 1.0, 0.0); }
     Vec3d Vec3d::yneg() { return Vec3d( 0.0,-1.0, 0.0); }
     Vec3d Vec3d::zpos() { return Vec3d( 0.0, 0.0, 1.0); }
     Vec3d Vec3d::zneg() { return Vec3d( 0.0, 0.0,-1.0); }
-    double Vec3d::hypot() const { return std::hypot(x, y, z); }
     double Vec3d::dot(const Vec3d& a, const Vec3d& b) { return (a.x * b.x) + (a.y * b.y) + (a.z * b.z); }
     Vec3d Vec3d::cross(const Vec3d& a, const Vec3d& b) {
         return Vec3d(

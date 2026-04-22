@@ -45,6 +45,11 @@ namespace Vi {
         return scroll;
     }
 
+    bool Mouse::imgui_captured() const {
+        const ImGuiIO& io = ImGui::GetIO();
+        return io.WantCaptureMouse;
+    }
+
     /* Private */
 
     void Mouse::reset() {

@@ -115,6 +115,7 @@ namespace Vi {
     public:
         bool pressed(int, int) const;
         bool pressing(int) const;
+        bool imgui_captured() const;
     private:
         friend Window;
         Keyboard() = default;
@@ -133,6 +134,7 @@ namespace Vi {
         bool pressing(int) const;
         bool clicked(int, int) const;
         double scroll() const;
+        bool imgui_captured() const;
     private:
         friend Window;
         Mouse() = default;

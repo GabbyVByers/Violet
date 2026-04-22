@@ -151,9 +151,13 @@ void input_test(Vi::Window& window) {
 }
 
 void control_camera(Vi::Camera& camera) {
+
 	const double speed = 0.001;
 	static double distance = 2.5;
 	Vi::Mouse& mouse = Vi::Window::mouse();
+
+	if (mouse.imgui_captured())
+		return;
 
 	if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {
 		Vi::Vec3d up = Vi::Vec3d::ypos();

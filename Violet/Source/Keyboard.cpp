@@ -29,6 +29,11 @@ namespace Vi {
         return glfwGetKey(window, key) == GLFW_PRESS;
     }
 
+    bool Keyboard::imgui_captured() const {
+        ImGuiIO& io = ImGui::GetIO();
+        return io.WantCaptureKeyboard;
+    }
+
     /* Private */
 
     void Keyboard::reset() {

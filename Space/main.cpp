@@ -4,7 +4,8 @@
 */
 
 #include "../Violet/Violet.h"
-#include "../Violet/Siv.h"
+//#include "../Violet/Siv.h"
+//#include "../Violet/Socket.h"
 
 #include <string>
 #include <fstream>
@@ -12,6 +13,7 @@
 
 class Planet {
 public:
+	//Vi::ID id = Vi::InvalidID;
 	std::string name = "Unnamed Planet";
 	Vi::Vec3d position = Vi::Vec3d();
 	Vi::Vec3d velocity = Vi::Vec3d();
@@ -67,6 +69,7 @@ public:
 		}
 	}
 
+	//Vi::SiVector<Planet> planets;
 	std::vector<Planet> planets;
 
 };
@@ -173,6 +176,7 @@ void control_camera(Vi::Camera& camera) {
 		camera.orientation = rot_right * camera.orientation;
 		camera.orientation = camera.orientation.normalized();
 	}
+
 	double scroll = mouse.scroll();
 	if (scroll != 0) {
 		distance *= (45.0 - scroll) / 45.0;

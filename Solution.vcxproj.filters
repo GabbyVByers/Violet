@@ -58,6 +58,7 @@
     <ClCompile Include="Violet\Source\Shapes.cpp">
       <Filter>Violet\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Violet\Source\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">
@@ -131,6 +132,7 @@
     <ClInclude Include="Violet\Siv.h">
       <Filter>Violet</Filter>
     </ClInclude>
+    <ClInclude Include="Violet\Socket.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Violet\Shader\default.frag">

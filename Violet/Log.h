@@ -1,6 +1,6 @@
 
 /*
-    Logger.h
+    Log.h
 */
 
 #pragma once

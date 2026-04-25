@@ -3,76 +3,7 @@
     main.cpp
 */
 
-#include "../Violet/Violet.h"
-//#include "../Violet/Siv.h"
-#include "../Violet/Socket.h"
-
-#include <string>
-#include <fstream>
-#include <sstream>
-
-class Planet {
-public:
-	//Vi::ID id = Vi::InvalidID;
-	std::string name = "Unnamed Planet";
-	Vi::Vec3d position = Vi::Vec3d();
-	Vi::Vec3d velocity = Vi::Vec3d();
-};
-
-class Map {
-public:
-
-	Map() {
-		const std::string path = "Space/orbital_parameters.txt";
-		std::ifstream file(path);
-		if (!file) {
-			Vi::Log::error("Could not open " + path);
-			std::terminate();
-		}
-
-		std::stringstream sstream;
-		sstream << file.rdbuf();
-		file.close();
-
-		std::string token;
-		while (sstream >> token) {
-			if (token == "Begin_Planets") {
-				while (sstream >> token) {
-					if (token == "End_Planets")
-						break;
-					Planet planet;
-					planet.name = token;
-					sstream >> token; if (token != "X") { Vi::Log::warning("Expected 'X' (" + token + ")"); }
-					sstream >> planet.position.x;
-					sstream >> token; if (token != "Y") { Vi::Log::warning("Expected 'Y' (" + token + ")"); }
-					sstream >> planet.position.y;
-					sstream >> token; if (token != "Z") { Vi::Log::warning("Expected 'Z' (" + token + ")"); }
-					sstream >> planet.position.z;
-					sstream >> token; if (token != "VX") { Vi::Log::warning("Expected 'VX' (" + token + ")"); }
-					sstream >> planet.velocity.x;
-					sstream >> token; if (token != "VY") { Vi::Log::warning("Expected 'VY' (" + token + ")"); }
-					sstream >> planet.velocity.y;
-					sstream >> token; if (token != "VZ") { Vi::Log::warning("Expected 'VZ' (" + token + ")"); }
-					sstream >> planet.velocity.z;
-					planets.push_back(planet);
-				}
-			}
-			if (token == "End_Moons") {
-				break;
-			}
-			sstream >> token;
-			if (token != "Begin_Moons") { Vi::Log::warning("Expected 'Begin_Moons' (" + token + ")"); }
-			while (sstream >> token) {
-				if (token == "End_Moons")
-					break;
-			}
-		}
-	}
-
-	//Vi::SiVector<Planet> planets;
-	std::vector<Planet> planets;
-
-};
+#include "Game/Map.h"
 
 static void udp_connection_test();
 static void input_test(Vi::Window&);
@@ -94,22 +25,9 @@ int main() {
 
 		//input_test(window);
 		control_camera(camera);
-
 		udp_connection_test();
 
-		//ImGui::Begin("Debug");
-		//for (size_t i = 0; i < map.planets.size(); i++) {
-		//	const Planet& planet = map.planets[i];
-		//	ImGui::Text(planet.name.c_str());
-		//	Vi::Vec3f pos = static_cast<Vi::Vec3f>(planet.position);
-		//	Vi::Vec3f vel = static_cast<Vi::Vec3f>(planet.velocity);
-		//	std::string pos_label = "Position##" + std::to_string(i);
-		//	std::string vel_label = "Velocity##" + std::to_string(i);
-		//	ImGui::InputFloat3(pos_label.c_str(), (float*)&pos);
-		//	ImGui::InputFloat3(vel_label.c_str(), (float*)&vel);
-		//}
-		//ImGui::End();
-		
+		//map.debug_gui();
 		window.draw(mesh, camera);
 		window.display();
     }
@@ -236,4 +154,3 @@ void control_camera(Vi::Camera& camera) {
 	camera.position = camera.forward() * (-distance);
 }
 
- 

@@ -91,6 +91,7 @@
     <CudaCompile Include="Violet\Source\CUDA\kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Space\Game\Map.cpp" />
     <ClCompile Include="Violet\Source\Shapes.cpp" />
     <ClCompile Include="Violet\Source\Camera.cpp" />
     <ClCompile Include="Violet\Source\Color.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="Space\Game\Map.h" />
     <ClInclude Include="Violet\Siv.h" />
     <ClInclude Include="Violet\Log.h" />
     <ClInclude Include="Violet\Socket.h" />

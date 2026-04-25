@@ -60,6 +60,7 @@
     </ClCompile>
     <ClCompile Include="Violet\Source\Socket.cpp" />
     <ClCompile Include="Violet\Source\SocketUDP.cpp" />
+    <ClCompile Include="Space\Game\Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">
@@ -134,6 +135,7 @@
       <Filter>Violet</Filter>
     </ClInclude>
     <ClInclude Include="Violet\Socket.h" />
+    <ClInclude Include="Space\Game\Map.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Violet\Shader\default.frag">

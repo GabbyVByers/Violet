@@ -23,7 +23,7 @@ int main() {
         window.poll_events();
 		window.clear(Vi::Color(0.1f, 0.1f, 0.2f));
 
-		input_test(window);
+		//input_test(window);
 		control_camera(camera);
 		udp_connection_test();
 
@@ -124,7 +124,7 @@ void control_camera(Vi::Camera& camera) {
 	static double distance = 2.5;
 	Vi::Mouse& mouse = Vi::Window::mouse();
 
-	{ /* remove me to disable auto-spinning */
+	{ /* remove me to disable the auto-spinning */
 		Vi::Vec3d up = Vi::Vec3d::ypos();
 		Vi::Quat rot_up = Vi::Quat::rotation(up, 20.0 * -speed);
 		camera.orientation = rot_up * camera.orientation;

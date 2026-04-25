@@ -25,7 +25,7 @@ int main() {
 
 		input_test(window);
 		control_camera(camera);
-		//udp_connection_test();
+		udp_connection_test();
 
 		//map.debug_gui();
 		window.draw(mesh, camera);

@@ -18,7 +18,6 @@ namespace Vi {
 
     template <typename type>
     class SiVector {
-
     public:
         ID validate_id(const ID element_id) const {
             if (is_valid_id(element_id))
@@ -29,7 +28,7 @@ namespace Vi {
         size_t size() const {
             return data.size();
         }
-
+        
         ID add(const type& element) {
             if (id_from_index.size() > data.size()) {
                 size_t element_index = data.size();
@@ -37,11 +36,11 @@ namespace Vi {
                 ID element_id = id_from_index[element_index];
                 return element_id;
             }
-            size_t element_index = data.size();
+            size_t element_id = data.size();
             data.push_back(element);
-            index_from_id.push_back(element_index);
-            id_from_index.push_back(element_index);
-            return element_index;
+            index_from_id.push_back(element_id);
+            id_from_index.push_back(element_id);
+            return element_id;
         }
 
         ID add(type&& element) {
@@ -51,11 +50,11 @@ namespace Vi {
                 ID element_id = id_from_index[element_index];
                 return element_id;
             }
-            size_t element_index = data.size();
+            size_t element_id = data.size();
             data.push_back(std::move(element));
-            index_from_id.push_back(element_index);
-            id_from_index.push_back(element_index);
-            return element_index;
+            index_from_id.push_back(element_id);
+            id_from_index.push_back(element_id);
+            return element_id;
         }
 
         ID remove(const ID element_id) {
@@ -77,8 +76,8 @@ namespace Vi {
             data.pop_back();
             return element_id;
         }
-
-        type& get_element_by_id(const ID element_id) const {
+        
+        type& get_element_by_id(const ID element_id) {
             if (!is_valid_id(element_id)) {
                 std::cerr << "\033[31mError:\033[0m ";
                 std::cerr << "Invalid element ID: (" + std::to_string(element_id) + ")\n";
@@ -88,35 +87,34 @@ namespace Vi {
             return data[element_index];
         }
 
+        const type& get_element_by_id(const ID element_id) const {
+            if (!is_valid_id(element_id)) {
+                std::cerr << "\033[31mError:\033[0m ";
+                std::cerr << "Invalid element ID: (" + std::to_string(element_id) + ")\n";
+                assert(false);
+            }
+            size_t element_index = index_from_id[element_id];
+            return data[element_index];
+        }
+        
         type& operator [] (const size_t element_index) {
             return data[element_index];
         }
 
-        type& operator [] (const size_t element_index) const {
+        const type& operator [] (const size_t element_index) const {
             return data[element_index];
         }
-
-        auto begin() {
-            return data.begin();
-        }
-
-        auto end() {
-            return data.end();
-        }
-
-        auto begin() const {
-            return data.begin();
-        }
-
-        auto end() const {
-            return data.end();
-        }
-
+        
+        auto begin() { return data.begin(); }
+        auto end()   { return data.end(); }
+        auto begin() const { return data.begin(); }
+        auto end() const   { return data.end(); }
+    
     private:
-        std::vector<size_t> index_from_id;
-        std::vector<size_t> id_from_index;
-        std::vector<type> data;
-
+        std::vector<size_t> index_from_id{};
+        std::vector<size_t> id_from_index{};
+        std::vector<type> data{};
+        
         bool is_valid_id(const ID element_id) {
             if (element_id >= index_from_id.size())
                 return false;

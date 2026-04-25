@@ -37,7 +37,9 @@ Map::Map() {
 				sstream >> planet.velocity.y;
 				sstream >> token; if (token != "VZ") { Vi::Log::warning("Expected 'VZ' (" + token + ")"); }
 				sstream >> planet.velocity.z;
-				planets.push_back(planet);
+				Vi::ID id = planets.add(planet);
+				Planet& p = planets.get_element_by_id(id);
+				p.id = id;
 			}
 		}
 		if (token == "End_Moons") {

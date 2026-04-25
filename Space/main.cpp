@@ -5,7 +5,7 @@
 
 #include "../Violet/Violet.h"
 //#include "../Violet/Siv.h"
-//#include "../Violet/Socket.h"
+#include "../Violet/Socket.h"
 
 #include <string>
 #include <fstream>
@@ -74,10 +74,12 @@ public:
 
 };
 
-void control_camera(Vi::Camera&);
+static void udp_connection_test();
 static void input_test(Vi::Window&);
+static void control_camera(Vi::Camera&);
 
 int main() {
+	Vi::WinSock::init();
     Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 
 	Vi::Mesh mesh = Vi::Shapes::sphere(10);
@@ -90,27 +92,67 @@ int main() {
         window.poll_events();
 		window.clear(Vi::Color(0.1f, 0.1f, 0.2f));
 
-		input_test(window);
+		//input_test(window);
 		control_camera(camera);
 
-		ImGui::Begin("Debug");
-		for (size_t i = 0; i < map.planets.size(); i++) {
-			const Planet& planet = map.planets[i];
-			ImGui::Text(planet.name.c_str());
-			Vi::Vec3f pos = static_cast<Vi::Vec3f>(planet.position);
-			Vi::Vec3f vel = static_cast<Vi::Vec3f>(planet.velocity);
-			std::string pos_label = "Position##" + std::to_string(i);
-			std::string vel_label = "Velocity##" + std::to_string(i);
-			ImGui::InputFloat3(pos_label.c_str(), (float*)&pos);
-			ImGui::InputFloat3(vel_label.c_str(), (float*)&vel);
-		}
-		ImGui::End();
+		udp_connection_test();
+
+		//ImGui::Begin("Debug");
+		//for (size_t i = 0; i < map.planets.size(); i++) {
+		//	const Planet& planet = map.planets[i];
+		//	ImGui::Text(planet.name.c_str());
+		//	Vi::Vec3f pos = static_cast<Vi::Vec3f>(planet.position);
+		//	Vi::Vec3f vel = static_cast<Vi::Vec3f>(planet.velocity);
+		//	std::string pos_label = "Position##" + std::to_string(i);
+		//	std::string vel_label = "Velocity##" + std::to_string(i);
+		//	ImGui::InputFloat3(pos_label.c_str(), (float*)&pos);
+		//	ImGui::InputFloat3(vel_label.c_str(), (float*)&vel);
+		//}
+		//ImGui::End();
 		
 		window.draw(mesh, camera);
 		window.display();
     }
 
+	Vi::WinSock::cleanup();
     return 0;
+}
+
+void udp_connection_test() {
+
+	static Vi::SocketUDP udp_socket;
+
+	ImGui::Begin("UDP Connection");
+	static char ip_address[32] = "";
+	static int port = 2000;
+	ImGui::InputText("IP Address", ip_address, sizeof(ip_address));
+	ImGui::InputInt("Port", &port);
+	if (ImGui::Button("Listen on Port")) {
+		udp_socket.set_listening_port(port);
+	}
+	if (ImGui::Button("Set Peer Address")) {
+		udp_socket.set_peer_address(ip_address, port);
+	}
+	if (ImGui::Button("SEND")) {
+		static const char* msg = "Hello friend!";
+		udp_socket.send_packet(msg, strlen(msg));
+	}
+	if (ImGui::Button("RECV")) {
+		static char buffer[1024];
+		int num_bytes = udp_socket.receive_packet(buffer, sizeof(buffer));
+		if (num_bytes != INVALID_SOCKET) {
+			std::string str(buffer, num_bytes);
+			if (str == "")
+				Vi::Log::info("No Packets");
+			else
+				Vi::Log::info("Received: " + str);
+		}
+	}
+	ImGui::Text("Listening on Port: %d", (int)udp_socket.get_listening_port());
+	ImGui::Text("Destination Address:");
+	ImGui::Text("\tIP: %s", udp_socket.get_peer_address().c_str());
+	ImGui::Text("\tPort: %d", (int)udp_socket.get_peer_port());
+	ImGui::End();
 }
 
 void input_test(Vi::Window& window) {
@@ -163,6 +205,15 @@ void control_camera(Vi::Camera& camera) {
 	const double speed = 0.001;
 	static double distance = 2.5;
 	Vi::Mouse& mouse = Vi::Window::mouse();
+
+	{
+		Vi::Vec3d up = Vi::Vec3d::ypos();
+		Vi::Quat rot_up = Vi::Quat::rotation(up, 20.0 * -speed);
+		camera.orientation = rot_up * camera.orientation;
+		camera.orientation = camera.orientation.normalized();
+		camera.position = camera.forward() * (-distance);
+		return;
+	}
 
 	if (mouse.imgui_captured())
 		return;

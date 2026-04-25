@@ -59,6 +59,7 @@
       <Filter>Violet\Source</Filter>
     </ClCompile>
     <ClCompile Include="Violet\Source\Socket.cpp" />
+    <ClCompile Include="Violet\Source\SocketUDP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Additional Libraries">

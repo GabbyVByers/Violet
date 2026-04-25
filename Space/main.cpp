@@ -236,3 +236,4 @@ void control_camera(Vi::Camera& camera) {
 	camera.position = camera.forward() * (-distance);
 }
 
+ 

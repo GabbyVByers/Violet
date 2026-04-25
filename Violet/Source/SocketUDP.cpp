@@ -100,7 +100,12 @@ namespace Vi {
         }
         int status = sendto(sock, buffer, size, 0, (sockaddr*)&peer_address, sizeof(peer_address));
         if (status == SOCKET_ERROR) {
-            Log::error("Send Failed: " + std::to_string(WSAGetLastError()));
+            const int error = WSAGetLastError();
+            if (error == WSAEADDRNOTAVAIL) {
+                Log::warning("Configured Address is Not Available");
+                return;
+            }
+            Log::error("Send Failed: " + std::to_string(error));
             std::terminate();
         }
     }

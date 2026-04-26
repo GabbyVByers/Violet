@@ -38,6 +38,8 @@ namespace Vi {
         void send_packet(const char* buffer, int size) const;
         int receive_packet(char* buffer, int size) const;
     private:
+        void sock_init();
+        void sock_cleanup();
         SOCKET sock = INVALID_SOCKET;
         uint16_t listening_port = 0;
         bool peer_address_configured = false;

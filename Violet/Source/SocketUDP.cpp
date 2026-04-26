@@ -10,6 +10,15 @@ namespace Vi {
     /* Constructor & Destructor */
 
     SocketUDP::SocketUDP() {
+        sock_init();
+    }
+
+    SocketUDP::~SocketUDP() {
+        sock_cleanup();
+    }
+
+    void SocketUDP::sock_init() {
+        sock_cleanup();
         sock = socket(address_family, socket_type, network_protocol);
         if (sock == INVALID_SOCKET) {
             Log::error("Socket Creation Failed: " + std::to_string(WSAGetLastError()));
@@ -22,7 +31,7 @@ namespace Vi {
         }
     }
 
-    SocketUDP::~SocketUDP() {
+    void SocketUDP::sock_cleanup() {
         if (sock != INVALID_SOCKET)
             closesocket(sock);
     }

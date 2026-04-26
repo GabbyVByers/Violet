@@ -15,6 +15,10 @@
 #define Vi Vi
 namespace Vi {
 
+    class WinSock;
+    class SocketUDP;
+    class SocketTCP;
+
     class WinSock {
     public:
         WinSock() = delete;
@@ -22,6 +26,11 @@ namespace Vi {
         WinSock(WinSock&&) = delete;
         static void init();
         static void cleanup();
+    private:
+        friend SocketUDP;
+        friend SocketTCP;
+        static inline bool is_init_flag = false;
+        static bool assert_is_init(bool = false);
     };
 
     class SocketUDP {
@@ -38,8 +47,6 @@ namespace Vi {
         void send_packet(const char* buffer, int size) const;
         int receive_packet(char* buffer, int size) const;
     private:
-        void sock_init();
-        void sock_cleanup();
         SOCKET sock = INVALID_SOCKET;
         uint16_t listening_port = 0;
         bool peer_address_configured = false;

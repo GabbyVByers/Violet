@@ -1,7 +1,35 @@
 
 ### This README is under construction...
 
-# Code Standard
+Modules
+
+### Creating a UDP Network Connection (Example Code)
+
+```cpp
+#include "Violet/Socket.h"
+#include <string>
+#include <iostream>
+
+int main() {
+    Vi::WinSock::init();
+    Vi::SocketUDP network_connection{};
+
+    network_connection.set_listening_port(2000);
+    network_connection.set_peer_address("127.0.0.1", 2000);
+
+    std::string outgoing_message = "I've just send myself a message over UDP! :)";
+    network_connection.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
+
+    char buffer[1024]{};
+    int num_bytes = network_connection.receive_packet(buffer, sizeof(buffer));
+    std::string incoming_message(buffer, num_bytes);
+
+    std::cout << incoming_message << std::endl;
+    Vi::WinSock::cleanup();
+}
+```
+
+### Code Standard
 
 ```cpp
 

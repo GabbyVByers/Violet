@@ -43,8 +43,8 @@ An application can send or receive strings of data over a network connection by 
 ### Establishing a UDP Connection (Example)
 
 ```cpp
-#include "Violet/Socket.h"
-#include "Violet/Log.h"
+#include "Violet/Networking.h"
+#include "Violet/Logging.h"
 #include <string>
 
 int main() {

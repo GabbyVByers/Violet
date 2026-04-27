@@ -6,7 +6,7 @@
 # Violet
 Violet is a simple, lightweight, object-oriented set of tools for desktop development in C++.
 Violet is currently under active development, with several new features and modules planned for the near future.
-During this time, any existing code is liable to be rewritten or reimplemented.
+During this time, any existing code is also liable to be rewritten or reimplemented.
 Violet does not yet have an anticipated release date.
 
 ### Authors

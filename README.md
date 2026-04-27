@@ -11,10 +11,7 @@ Modules
 #include <string>
 
 int main() {
-    // Initialize Windows Winsock API
-    Vi::WinSock::init();
-
-    // Creating a UDP Socket
+    // Create a UDP Socket
     static Vi::SocketUDP network_connection{};
     network_connection.set_listening_port(2000);
     network_connection.set_destination_address("127.0.0.1", 2000);
@@ -28,9 +25,6 @@ int main() {
     int num_bytes = network_connection.receive_packet(buffer, sizeof(buffer));
     std::string incoming_message(buffer, num_bytes);
     Vi::Log::info(incoming_message);
-    
-    // Cleanup
-    Vi::WinSock::cleanup();
 }
 ```
 
@@ -241,4 +235,10 @@ ThingOne\\
 ThingTwo
 \end{cases}
 $$
+
+
+| Header 1 | Header 2 | Header 3 |
+| -------- | -------- | -------- |
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |
 

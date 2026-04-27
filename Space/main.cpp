@@ -8,9 +8,6 @@
 #include "../../Violet/Socket.h"
 
 int main() {
-    // Initialize Windows Winsock API
-    Vi::WinSock::init();
-
     // Creating a UDP Socket
     static Vi::SocketUDP network_connection{};
     network_connection.set_listening_port(2000);
@@ -25,9 +22,6 @@ int main() {
     int num_bytes = network_connection.receive_packet(buffer, sizeof(buffer));
     std::string incoming_message(buffer, num_bytes);
     Vi::Log::info(incoming_message);
-    
-    // Cleanup
-    //Vi::WinSock::cleanup();
 }
 
 //#include "Game/Map.h"
@@ -40,9 +34,10 @@ int main() {
 //	Vi::WinSock::init();
 //    Vi::Window window = Vi::Window("Application Title", 1920, 1080);
 //
-//	Vi::Mesh mesh = Vi::Shapes::sphere(10);
+//	Vi::Mesh mesh = Vi::Shapes::sphere(1);
 //	Vi::Camera camera;
 //	camera.position = Vi::Vec3d(0, 0, 5);
+//	camera.fov_deg = 30.0;
 //
 //	Map map;
 //
@@ -76,7 +71,7 @@ int main() {
 //		udp_socket.set_listening_port(port);
 //	}
 //	if (ImGui::Button("Set Peer Address")) {
-//		udp_socket.set_peer_address(ip_address, port);
+//		udp_socket.set_destination_address(ip_address, port);
 //	}
 //	if (ImGui::Button("SEND")) {
 //		static const char* msg = "Hello friend!";
@@ -95,8 +90,8 @@ int main() {
 //	}
 //	ImGui::Text("Listening on Port: %d", (int)udp_socket.get_listening_port());
 //	ImGui::Text("Destination Address:");
-//	ImGui::Text("\tIP: %s", udp_socket.get_peer_address().c_str());
-//	ImGui::Text("\tPort: %d", (int)udp_socket.get_peer_port());
+//	ImGui::Text("\tIP: %s", udp_socket.get_destination_address().c_str());
+//	ImGui::Text("\tPort: %d", (int)udp_socket.get_destination_port());
 //	ImGui::End();
 //}
 //
@@ -157,7 +152,7 @@ int main() {
 //		camera.orientation = rot_up * camera.orientation;
 //		camera.orientation = camera.orientation.normalized();
 //		camera.position = camera.forward() * (-distance);
-//		return;
+//		//return;
 //	}
 //
 //	if (mouse.imgui_captured())
@@ -180,4 +175,5 @@ int main() {
 //
 //	camera.position = camera.forward() * (-distance);
 //}
-
+//
+//

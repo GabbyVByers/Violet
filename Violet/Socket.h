@@ -24,13 +24,12 @@ namespace Vi {
         WinSock() = delete;
         WinSock(const WinSock&) = delete;
         WinSock(WinSock&&) = delete;
-        static void init();
-        static void cleanup();
     private:
         friend SocketUDP;
         friend SocketTCP;
-        static inline bool is_init_flag = false;
-        static bool assert_is_init(bool = false);
+        static inline size_t counter = 0;
+        static void inc_socket_counter();
+        static void dec_socket_counter();
     };
 
     class SocketUDP {

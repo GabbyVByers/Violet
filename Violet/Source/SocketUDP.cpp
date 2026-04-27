@@ -10,8 +10,7 @@ namespace Vi {
     /* Constructor & Destructor */
 
     SocketUDP::SocketUDP() {
-        const bool crash_hard = true;
-        WinSock::assert_is_init(crash_hard);
+        WinSock::inc_socket_counter();
         sock = socket(address_family, socket_type, network_protocol);
         if (sock == INVALID_SOCKET) {
             const int error = WSAGetLastError();
@@ -27,18 +26,14 @@ namespace Vi {
     }
 
     SocketUDP::~SocketUDP() {
-        const bool crash_hard = true;
-        WinSock::assert_is_init(crash_hard);
         if (sock != INVALID_SOCKET)
             closesocket(sock);
+        WinSock::dec_socket_counter();
     }
 
     /* Configuration */
 
     void SocketUDP::set_listening_port(uint16_t port) {
-        if (!WinSock::assert_is_init())
-            return;
-
         if (port == 0) {
             Log::warning("Listening port cannot be set to zero");
             return;
@@ -61,8 +56,6 @@ namespace Vi {
     }
 
     void SocketUDP::set_destination_address(std::string ip_address, uint16_t port) {
-        if (!WinSock::assert_is_init())
-            return;
         sockaddr_in dummy{};
         int status = inet_pton(address_family, ip_address.c_str(), &dummy.sin_addr);
         if ((status == 0) || (status == -1)) {
@@ -84,28 +77,20 @@ namespace Vi {
     /* Getters */
 
     uint16_t SocketUDP::get_listening_port() const {
-        if (!WinSock::assert_is_init())
-            return 0;
         return listening_port;
     }
 
     std::string SocketUDP::get_destination_address() const {
-        if (!WinSock::assert_is_init())
-            return "n/a";
         return destination_ip_address;
     }
 
     uint16_t SocketUDP::get_destination_port() const {
-        if (!WinSock::assert_is_init())
-            return 0;
         return destination_port;
     }
 
     /* Sending & Receiving */
 
     void SocketUDP::send_packet(const char* buffer, int size) const {
-        if (!WinSock::assert_is_init())
-            return;
         if (buffer == nullptr) {
             Log::warning("Buffer is nullptr");
             return;
@@ -135,8 +120,6 @@ namespace Vi {
     }
 
     int SocketUDP::receive_packet(char* buffer, int size) const {
-        if (!WinSock::assert_is_init())
-            return SOCKET_ERROR;
         if (buffer == nullptr) {
             Log::warning("Buffer is nullptr");
             return 0;

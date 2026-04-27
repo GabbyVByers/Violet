@@ -4,25 +4,25 @@
 ***
 
 # Violet
-Violet is a simple, lightweight, object-oriented set of tools for desktop development in C++.
-Violet is currently under active development, with several new features and modules planned for the near future.
-During this time, any existing code is also liable to be rewritten or reimplemented.
-Violet does not yet have an anticipated release date.
+Violet is a simple, lightweight, object-oriented set of tools for desktop development in C++.  
+Violet is currently under active development, with new features and modules planned for the near future.  
+During this time, any existing code is also liable to be rewritten or reimplemented.  
+Violet does not yet have an anticipated release date.  
 
 ### Authors
 - Gabby Byers (gabbyvbyers@gmail.com)
 
 ### Artisanally-Handcrafted Guarantee
-Violet is written entirely by hand, without the use of any agentic AI coding tools.
+Violet is written entirely by hand, without the use of any agentic AI coding tools.  
 The makers of Violet care deeply about code craftsmanship and are strongly committed to only publishing code that is well understood by their author.
 
 ### Contributions
-Violet is not currently accepting contributions from anyone not personally connected to the primary author.
-Violet will never accept contributions submitted by AI agents.
+Violet is not currently accepting contributions from anyone not personally connected to the primary author.  
+Violet will never accept contributions submitted by AI agents.  
 
 ### License
 Violet is distributed under the MIT license.  
-External libraries used by Violet are distributed under their own licenses.
+External libraries used by Violet are distributed under their own licenses.  
 
 ### External Libraries
  - stb_image is public domain.

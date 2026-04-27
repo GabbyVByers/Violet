@@ -3,7 +3,7 @@
     Matrix.cpp
 */
 
-#include "../Types.h"
+#include "../Math.h"
 
 namespace Vi {
     

@@ -1,6 +1,6 @@
 
 /*
-    Types.h
+    Math.h
 */
 
 #pragma once
@@ -8,19 +8,19 @@
 #define Vi Vi
 namespace Vi {
 
+    /* Forward Class Declarations */
+
     class Vec2i;
     class Vec2f;
     class Vec2d;
     class Vec3i;
     class Vec3f;
     class Vec3d;
-
-    class Color;
     class Quat;
     class Mat4;
     class Mat4f;
 
-    /* Vec2i */
+    /* Vector of Two Integers */
 
     class Vec2i {
     public:
@@ -45,7 +45,7 @@ namespace Vi {
         explicit operator Vec2d() const;
     };
 
-    /* Vec2f */
+    /* Vector of Two Floats */
 
     class Vec2f {
     public:
@@ -71,7 +71,7 @@ namespace Vi {
         explicit operator Vec2d() const;
     };
 
-    /* Vec2d */
+    /* Vector of Two Doubles */
 
     class Vec2d {
     public:
@@ -97,7 +97,7 @@ namespace Vi {
         explicit operator Vec2f() const;
     };
 
-    /* Vec3i */
+    /* Vector of Three Integers */
 
     class Vec3i {
     public:
@@ -125,7 +125,7 @@ namespace Vi {
         explicit operator Vec3d() const;
     };
 
-    /* Vec3f */
+    /* Vector of Three Floats */
 
     class Vec3f {
     public:
@@ -156,7 +156,7 @@ namespace Vi {
         explicit operator Vec3d() const;
     };
 
-    /* Vec3d */
+    /* Vector of Three Doubles */
 
     class Vec3d {
     public:
@@ -187,7 +187,7 @@ namespace Vi {
         explicit operator Vec3f() const;
     };
 
-    /* Quaternion */
+    /* Quaternions */
 
     class Quat {
     public:
@@ -204,7 +204,7 @@ namespace Vi {
         Quat operator * (const Quat&) const;
     };
 
-    /* Matrix */
+    /* Matrices 4x4 */
 
     class Mat4 {
     public:

@@ -3,7 +3,7 @@
     Quaternion.cpp
 */
 
-#include "../Types.h"
+#include "../Math.h"
 #include <cmath>
 
 namespace Vi {

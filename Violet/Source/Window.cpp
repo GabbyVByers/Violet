@@ -59,7 +59,7 @@ namespace Vi {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
-        io.FontGlobalScale = 2.0f;
+        io.FontGlobalScale = 1.0f;
         io.IniFilename = nullptr;
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -87,6 +87,18 @@ namespace Vi {
     bool Window::is_open() {
         GLFWwindow* window = glfwGetCurrentContext();
         return !glfwWindowShouldClose(window);
+    }
+
+    float Window::imgui_scale(float scale) {
+        if (scale == 0.0f) { /* if no argument is given, by default scale = 0.0f, and we just return the current scale */
+            ImGuiIO& io = ImGui::GetIO();
+            return io.FontGlobalScale;
+        }
+        else {
+            ImGuiIO& io = ImGui::GetIO();
+            io.FontGlobalScale = scale;
+            return io.FontGlobalScale;
+        }
     }
 
     void Window::poll_events() {

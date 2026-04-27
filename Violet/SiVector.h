@@ -1,6 +1,6 @@
 
 /*
-    Siv.h
+    SiVector.h
 */
 
 #pragma once

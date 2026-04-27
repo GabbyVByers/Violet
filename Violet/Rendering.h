@@ -1,6 +1,6 @@
 
 /*
-    Violet.h
+    Rendering.h
 */
 
 #pragma once
@@ -11,7 +11,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "Logging.h"
-#include "Types.h"
+#include "Math.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -157,6 +157,7 @@ namespace Vi {
         Vec2i size();
         void vsync(bool);
         bool is_open();
+        float imgui_scale(float = 0.0f);
         void poll_events();
         void clear(const Color&);
         void draw(const Mesh&, const Camera&);

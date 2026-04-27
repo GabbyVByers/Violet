@@ -6,7 +6,7 @@
 #include "Map.h"
 
 Map::Map() {
-	const std::string path = "Space/orbital_parameters.txt";
+	const std::string path = "Game/orbital_parameters.txt";
 	std::ifstream file(path);
 	if (!file) {
 		Vi::Log::error("Could not open " + path);

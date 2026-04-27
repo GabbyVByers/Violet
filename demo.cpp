@@ -7,7 +7,7 @@
 #include "Violet/SiVector.h"
 #include "Violet/Networking.h"
 
-#include "Space/Game/Map.h"
+#include "Game/Map.h"
 
 static void udp_connection_test();
 static void input_test(Vi::Window&);
@@ -31,7 +31,7 @@ int main() {
 		control_camera(camera);
 		udp_connection_test();
 
-		//map.debug_gui();
+		map.debug_gui();
 		window.draw(mesh, camera);
 		window.display();
     }

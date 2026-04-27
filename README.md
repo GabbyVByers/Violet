@@ -99,8 +99,8 @@ private:
 
 class Baz {
 public:
-    Foo() = default;
-    Foo(int, int, int = 1)
+    Baz() = default;
+    Baz(int, int, int = 1)
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;

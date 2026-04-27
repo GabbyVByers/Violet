@@ -8,8 +8,8 @@
 #include "../../Violet/Socket.h"
 
 int main() {
-    // Creating a UDP Socket
-    static Vi::SocketUDP network_connection{};
+    // Create a UDP Socket
+    Vi::SocketUDP network_connection{};
     network_connection.set_listening_port(2000);
     network_connection.set_destination_address("127.0.0.1", 2000);
 

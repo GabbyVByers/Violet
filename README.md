@@ -12,7 +12,7 @@ Modules
 
 int main() {
     // Create a UDP Socket
-    static Vi::SocketUDP network_connection{};
+    Vi::SocketUDP network_connection{};
     network_connection.set_listening_port(2000);
     network_connection.set_destination_address("127.0.0.1", 2000);
 

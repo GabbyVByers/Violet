@@ -1,7 +1,44 @@
 
 ### This README is under construction...
 
-Modules
+***
+
+# Violet
+Violet is a simple, lightweight, object-oriented set of tools for desktop development in C++.
+Violet is currently under active development, with several new features and modules planned for the near future.
+During this time, any existing code is liable to be rewritten or reimplemented.
+Violet does not yet have an anticipated release date.
+
+## Authors
+- Gabby Byers (gabbyvbyers@gmail.com)
+
+## Artisanally-Handcrafted Guarantee
+Violet is written entirely by hand, without the use of any agentic AI coding tools.
+The makers of Violet care deeply about code craftsmanship and are strongly committed to only publishing code that is well understood by their author.
+
+## Contributions
+Violet is not currently accepting contributions from anyone not personally connected to the primary author.
+Violet will never accept contributions submitted by AI agents.
+
+## License
+Violet’s source code is distributed under the permissive MIT license.  See `[license.md](license.md)`.
+External libraries used by Violet are distributed under their own licenses.
+
+## External Libraries
+`stb_image` is [public domain]()
+
+***
+
+# Documentation
+
+## Major Modules
+ - Violet/Networking.h
+ - Violet/Rendering.h
+
+## Networking
+
+`Violet/Networking.h` provides access to a lightweight and easy to use UDP socket connection endpoint.
+An application can send or receive strings of data over a network connection by instantiating an instance of `Vi::SocketUDP`.
 
 ### Establishing a UDP Connection (Example)
 
@@ -17,7 +54,7 @@ int main() {
     network_connection.set_destination_address("127.0.0.1", 2000);
 
     // Send
-    std::string outgoing_message = "I've just send myself a message over UDP! :)";
+    std::string outgoing_message = "I've just sent myself a message over UDP! :)";
     network_connection.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
 
     // Receive
@@ -27,6 +64,16 @@ int main() {
     Vi::Log::info(incoming_message);
 }
 ```
+
+
+### Rendering
+
+## Minor Modules
+ - Violet/Logging.h
+ - Violet/SiVector.h
+
+
+
 
 ### Code Standard
 

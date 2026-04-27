@@ -14,7 +14,7 @@ int main() {
     network_connection.set_destination_address("127.0.0.1", 2000);
 
     // Send
-    std::string outgoing_message = "I've just send myself a message over UDP! :)";
+    std::string outgoing_message = "I've just sent myself a message over UDP! :)";
     network_connection.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
 
     // Receive

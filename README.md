@@ -21,11 +21,11 @@ Violet is not currently accepting contributions from anyone not personally conne
 Violet will never accept contributions submitted by AI agents.
 
 ## License
-Violet’s source code is distributed under the permissive MIT license.  See `[license.md](license.md)`.
+Violet’s source code is distributed under the permissive MIT license.  See [license.md](license.md).
 External libraries used by Violet are distributed under their own licenses.
 
 ## External Libraries
-`stb_image` is [public domain]()
+stb_image is public domain.
 
 ***
 

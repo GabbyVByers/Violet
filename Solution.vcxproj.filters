@@ -58,7 +58,7 @@
     <ClCompile Include="Violet\Source\Shapes.cpp">
       <Filter>Violet\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Violet\Source\Socket.cpp" />
+    <ClCompile Include="Violet\Source\WinSock.cpp" />
     <ClCompile Include="Violet\Source\SocketUDP.cpp" />
     <ClCompile Include="Space\Game\Map.cpp" />
   </ItemGroup>

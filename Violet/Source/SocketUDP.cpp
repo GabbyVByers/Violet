@@ -60,7 +60,7 @@ namespace Vi {
         }
     }
 
-    void SocketUDP::set_peer_address(std::string ip_address, uint16_t port) {
+    void SocketUDP::set_destination_address(std::string ip_address, uint16_t port) {
         if (!WinSock::assert_is_init())
             return;
         sockaddr_in dummy{};
@@ -73,12 +73,12 @@ namespace Vi {
             Log::warning("Attempted to set invalid destination port");
             return;
         }
-        peer_ip_address = ip_address;
-        peer_port = port;
-        peer_address.sin_family = address_family;
-        peer_address.sin_port = htons(peer_port);
-        inet_pton(address_family, ip_address.c_str(), &peer_address.sin_addr);
-        peer_address_configured = true;
+        destination_ip_address = ip_address;
+        destination_port = port;
+        destination_address.sin_family = address_family;
+        destination_address.sin_port = htons(destination_port);
+        inet_pton(address_family, ip_address.c_str(), &destination_address.sin_addr);
+        destination_address_configured = true;
     }
 
     /* Getters */
@@ -89,16 +89,16 @@ namespace Vi {
         return listening_port;
     }
 
-    std::string SocketUDP::get_peer_address() const {
+    std::string SocketUDP::get_destination_address() const {
         if (!WinSock::assert_is_init())
             return "n/a";
-        return peer_ip_address;
+        return destination_ip_address;
     }
 
-    uint16_t SocketUDP::get_peer_port() const {
+    uint16_t SocketUDP::get_destination_port() const {
         if (!WinSock::assert_is_init())
             return 0;
-        return peer_port;
+        return destination_port;
     }
 
     /* Sending & Receiving */
@@ -114,7 +114,7 @@ namespace Vi {
             Log::warning("Invalid buffer size");
             return;
         }
-        if (!peer_address_configured) {
+        if (!destination_address_configured) {
             Log::warning("Destination address has not been set");
             return;
         }
@@ -122,7 +122,7 @@ namespace Vi {
             Log::warning("Listening port has not been set");
             return;
         }
-        int status = sendto(sock, buffer, size, 0, (sockaddr*)&peer_address, sizeof(peer_address));
+        int status = sendto(sock, buffer, size, 0, (sockaddr*)&destination_address, sizeof(destination_address));
         if (status == SOCKET_ERROR) {
             const int error = WSAGetLastError();
             if (error == WSAEADDRNOTAVAIL) {

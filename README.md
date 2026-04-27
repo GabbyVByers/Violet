@@ -3,16 +3,15 @@
 
 Modules
 
-### Creating a UDP Network Connection (Example Code)
+### Establishing a UDP Connection (Example)
 
 ```cpp
 #include "Violet/Socket.h"
 #include "Violet/Log.h"
 #include <string>
-#include <iostream>
 
 int main() {
-    // Initialising Winsock (Version 2.2 by Default)
+    // Initialising Winsock (Version 2.2)
     Vi::WinSock::init();
 
     // Creating a UDP Socket

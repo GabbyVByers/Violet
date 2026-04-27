@@ -8,13 +8,13 @@
 #include "../../Violet/Socket.h"
 
 int main() {
-    // Initialising Winsock (Version 2.2 by Default)
+    // Initialize Windows Winsock API
     Vi::WinSock::init();
 
     // Creating a UDP Socket
     static Vi::SocketUDP network_connection{};
     network_connection.set_listening_port(2000);
-    network_connection.set_peer_address("127.0.0.1", 2000);
+    network_connection.set_destination_address("127.0.0.1", 2000);
 
     // Send
     std::string outgoing_message = "I've just send myself a message over UDP! :)";
@@ -27,7 +27,7 @@ int main() {
     Vi::Log::info(incoming_message);
     
     // Cleanup
-    Vi::WinSock::cleanup();
+    //Vi::WinSock::cleanup();
 }
 
 //#include "Game/Map.h"

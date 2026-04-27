@@ -24,7 +24,7 @@ namespace Vi {
         WinSock() = delete;
         WinSock(const WinSock&) = delete;
         WinSock(WinSock&&) = delete;
-        static void init(int = 2, int = 2);
+        static void init();
         static void cleanup();
     private:
         friend SocketUDP;
@@ -40,19 +40,19 @@ namespace Vi {
         SocketUDP(SocketUDP&&) = delete;
         ~SocketUDP();
         void set_listening_port(uint16_t);
-        void set_peer_address(std::string, uint16_t);
+        void set_destination_address(std::string, uint16_t);
         uint16_t get_listening_port() const;
-        std::string get_peer_address() const;
-        uint16_t get_peer_port() const;
+        std::string get_destination_address() const;
+        uint16_t get_destination_port() const;
         void send_packet(const char* buffer, int size) const;
         int receive_packet(char* buffer, int size) const;
     private:
         SOCKET sock = INVALID_SOCKET;
         uint16_t listening_port = 0;
-        bool peer_address_configured = false;
-        uint16_t peer_port = 0;
-        std::string peer_ip_address{};
-        sockaddr_in peer_address{};
+        bool destination_address_configured = false;
+        uint16_t destination_port = 0;
+        std::string destination_ip_address{};
+        sockaddr_in destination_address{};
         const int address_family = AF_INET;
         const int socket_type = SOCK_DGRAM;
         const IPPROTO network_protocol = IPPROTO_UDP;

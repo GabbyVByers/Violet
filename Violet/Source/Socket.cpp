@@ -9,14 +9,13 @@
 
 namespace Vi {
 
-    void WinSock::init() {
-        const int major_version = 2;
-        const int minor_version = 2;
+    void WinSock::init(const int major_version, const int minor_version) {
         WSAData wsa_data;
         int status = WSAStartup(MAKEWORD(major_version, minor_version), &wsa_data);
         if (status != 0) {
             Log::error("WinSock initialization failed" + std::to_string(status));
             std::terminate();
+            return;
         }
         is_init_flag = true;
     }
@@ -31,7 +30,7 @@ namespace Vi {
             return true;
         }
         else {
-            static const std::string msg = "WinSock has not been initialized";
+            static const std::string msg = "WinSock is not initialized";
             if (crash_aggressivly) {
                 Log::error(msg);
                 std::terminate();

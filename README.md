@@ -7,24 +7,30 @@ Modules
 
 ```cpp
 #include "Violet/Socket.h"
+#include "Violet/Log.h"
 #include <string>
 #include <iostream>
 
 int main() {
+    // Initialising Winsock (Version 2.2 by Default)
     Vi::WinSock::init();
-    Vi::SocketUDP network_connection{};
 
+    // Creating a UDP Socket
+    static Vi::SocketUDP network_connection{};
     network_connection.set_listening_port(2000);
     network_connection.set_peer_address("127.0.0.1", 2000);
 
+    // Send
     std::string outgoing_message = "I've just send myself a message over UDP! :)";
     network_connection.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
 
+    // Receive
     char buffer[1024]{};
     int num_bytes = network_connection.receive_packet(buffer, sizeof(buffer));
     std::string incoming_message(buffer, num_bytes);
-
-    std::cout << incoming_message << std::endl;
+    Vi::Log::info(incoming_message);
+    
+    // Cleanup
     Vi::WinSock::cleanup();
 }
 ```

@@ -24,7 +24,7 @@ namespace Vi {
         WinSock() = delete;
         WinSock(const WinSock&) = delete;
         WinSock(WinSock&&) = delete;
-        static void init();
+        static void init(int = 2, int = 2);
         static void cleanup();
     private:
         friend SocketUDP;

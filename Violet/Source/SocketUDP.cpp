@@ -14,12 +14,14 @@ namespace Vi {
         WinSock::assert_is_init(crash_hard);
         sock = socket(address_family, socket_type, network_protocol);
         if (sock == INVALID_SOCKET) {
-            Log::error("Socket Creation Failed: " + std::to_string(WSAGetLastError()));
+            const int error = WSAGetLastError();
+            Log::error("Socket Creation Failed: " + std::to_string(error));
             std::terminate();
         }
         u_long non_blocking = 1;
         if (ioctlsocket(sock, FIONBIO, &non_blocking) == SOCKET_ERROR) {
-            Log::error("Failed to Set Non-Blocking Mode: " + std::to_string(WSAGetLastError()));
+            const int error = WSAGetLastError();
+            Log::error("Failed to Set Non-Blocking Mode: " + std::to_string(error));
             std::terminate();
         }
     }
@@ -38,11 +40,11 @@ namespace Vi {
             return;
 
         if (port == 0) {
-            Log::warning("Attempted to Set Invalid Listening Port");
+            Log::warning("Listening port cannot be set to zero");
             return;
         }
-        if (this->listening_port != 0) {
-            Log::warning("Already Bound to Port: " + std::to_string(this->listening_port));
+        if (listening_port != 0) {
+            Log::warning("Cannot reasign listening port: " + std::to_string(listening_port));
             return;
         }
         listening_port = port;
@@ -52,7 +54,8 @@ namespace Vi {
         sockaddr_in_port.sin_addr.s_addr = INADDR_ANY;
         int bind_status = bind(sock, (sockaddr*)&sockaddr_in_port, sizeof(sockaddr_in_port));
         if (bind_status == SOCKET_ERROR) {
-            Log::error("Binding Failed: " + std::to_string(WSAGetLastError()));
+            const int error = WSAGetLastError();
+            Log::error("Binding to listening port failed: " + std::to_string(error));
             std::terminate();
         }
     }
@@ -63,11 +66,11 @@ namespace Vi {
         sockaddr_in dummy{};
         int status = inet_pton(address_family, ip_address.c_str(), &dummy.sin_addr);
         if ((status == 0) || (status == -1)) {
-            Log::warning("Attempted to Set Invalid Destination IP Address");
+            Log::warning("Attempted to set invalid destination ip address");
             return;
         }
         if (port == 0) {
-            Log::warning("Attempted to Set Invalid Destination Port");
+            Log::warning("Attempted to set invalid destination port");
             return;
         }
         peer_ip_address = ip_address;
@@ -108,11 +111,15 @@ namespace Vi {
             return;
         }
         if (size <= 0) {
-            Log::warning("Invalid Buffer Size");
+            Log::warning("Invalid buffer size");
             return;
         }
         if (!peer_address_configured) {
-            Log::warning("Destination Address is not Configured");
+            Log::warning("Destination address has not been set");
+            return;
+        }
+        if (listening_port == 0) {
+            Log::warning("Listening port has not been set");
             return;
         }
         int status = sendto(sock, buffer, size, 0, (sockaddr*)&peer_address, sizeof(peer_address));
@@ -135,11 +142,11 @@ namespace Vi {
             return 0;
         }
         if (size <= 0) {
-            Log::warning("Invalid Buffer Size");
+            Log::warning("Invalid buffer size");
             return 0;
         }
         if (listening_port == 0) {
-            Log::warning("Listening Port Not Configured");
+            Log::warning("Listening port has not been set");
             return SOCKET_ERROR;
         }
         sockaddr_in return_address{};

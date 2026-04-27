@@ -3,7 +3,7 @@
     SocketUDP.cpp
 */
 
-#include "../Socket.h"
+#include "../Networking.h"
 
 namespace Vi {
 

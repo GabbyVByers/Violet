@@ -3,11 +3,11 @@
     main.cpp
 */
 
-#include "../../Violet/Violet.h"
-#include "../../Violet/Siv.h"
-#include "../../Violet/Socket.h"
+#include "Violet/Rendering.h"
+#include "Violet/SiVector.h"
+#include "Violet/Networking.h"
 
-#include "Game/Map.h"
+#include "Space/Game/Map.h"
 
 static void udp_connection_test();
 static void input_test(Vi::Window&);
@@ -19,7 +19,7 @@ int main() {
 	Vi::Mesh mesh = Vi::Shapes::sphere(1);
 	Vi::Camera camera;
 	camera.position = Vi::Vec3d(0, 0, 5);
-	camera.fov_deg = 30.0;
+	camera.fov_deg = 90.0;
 
 	Map map;
 

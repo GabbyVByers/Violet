@@ -5,12 +5,12 @@
 
 #pragma once
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-
+#include "Logging.h"
 #include <string>
 #include <cstdint>
-#include "Log.h"
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
 
 #define Vi Vi
 namespace Vi {

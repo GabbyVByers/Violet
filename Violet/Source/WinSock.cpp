@@ -3,8 +3,8 @@
     Socket.cpp
 */
 
-#include "../Socket.h"
-#include "../Log.h"
+#include "../Networking.h"
+#include "../Logging.h"
 #include <string>
 
 namespace Vi {

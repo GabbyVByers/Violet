@@ -3,7 +3,7 @@
     Vector.cpp
 */
 
-#include "../Log.h"
+#include "../Logging.h"
 #include "../Types.h"
 #include <iostream>
 #include <cmath>

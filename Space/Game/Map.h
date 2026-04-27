@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "../../Violet/Violet.h"
-#include "../../Violet/Siv.h"
-#include "../../Violet/Socket.h"
+#include "../../Violet/Rendering.h"
+#include "../../Violet/SiVector.h"
+#include "../../Violet/Networking.h"
 
 #include <string>
 #include <fstream>

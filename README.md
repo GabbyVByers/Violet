@@ -25,8 +25,8 @@ Violet’s source code is distributed under the MIT license.
 External libraries used by Violet are distributed under their own licenses.
 
 ### External Libraries
-stb_image is public domain.
-Dear Imgui is onder the MIT license.
+ - stb_image is public domain.
+ - Dear Imgui is under the MIT license.
 
 ***
 

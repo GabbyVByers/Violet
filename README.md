@@ -85,22 +85,16 @@ Vi::SocketUDP
 | - |
 | `void Vi::SocketUDP::set_listening_port(uint16_t)` |
 | Binds an instance of Vi::SocketUDP to a port from which it can receive incoming packets. This method can only be called once unless a new instance of Vi::SocketUDP is created. |
-
 | `void Vi::SocketUDP::set_destination_address(std::string, uint16_t)` |
 | Configures an instance of Vi::SocketUDP with the IPv4 address and port that subsequent calls to `send_packet()` will be directed towards. |
-
 | `uint16_t Vi::SocketUDP::get_listening_port() const` |
 | Returns the port an instance of Vi::SocketUDP is currently listening on as a sixteen bit unsigned integer. This method will return zero if no listening port has been set. |
-
 | `std::string Vi::SocketUDP::get_destination_address() const` |
 | Returns the IPv4 address of the currently set destination address as an std::string.  Returns an empty string if no address has been set. |
-
 | `uint16_t Vi::SocketUDP::get_destination_port() const` |
 | Returns the currently set destination port as a sixteen bit unsigned integer.  Returns zero if no destination port has been set. |
-
 | `void Vi::SocketUDP::send_packet(const char*, int) const` |
 | Sends a packet. |
-
 | `int Vi::SocketUDP::receive_packet(char*, int) const` |
 | Receives a packet. |
 

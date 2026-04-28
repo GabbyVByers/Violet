@@ -44,7 +44,7 @@ Violet requires that your build system acknowledge include paths that begin insi
  - Add `glfw3.lib`, `opengl32.lib`, and `Ws2_32.lib` to `Additional Dependencies`
 
 ***
-# Documentation & Tutorials
+# Examples
 
 The following modules are currently provided by Violet. All of the classes in modules provided by Violet exist in a namespace named `Vi`.
  - `Violet/Networking.h`
@@ -53,7 +53,7 @@ The following modules are currently provided by Violet. All of the classes in mo
  - `Violet/Math.h`
  - `Violet/SiVector.h`
 
-### Violet/Networking.h
+ - ## Violet/Networking.h
 
 Violet provides a module called Networking that enables access to a lightweight and intuitive UDP socket connection endpoint. A UDP socket can be configured to listen for incoming packets on a specified port. The same socket can be configured to send packets to a specified IPv4 address and port. The following example code demonstrates this ability.
 
@@ -64,23 +64,60 @@ Violet provides a module called Networking that enables access to a lightweight 
 
 int main() {
     // Create a UDP Socket
-    Vi::SocketUDP network_connection{};
-    network_connection.set_listening_port(2000);
-    network_connection.set_destination_address("127.0.0.1", 2000);
+    Vi::SocketUDP socket{};
+    socket.set_listening_port(2000);
+    socket.set_destination_address("127.0.0.1", 2000);
 
     // Send
     std::string outgoing_message = "I've just sent myself a message over UDP! :)";
-    network_connection.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
+    socket.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
 
     // Receive
     char buffer[1024]{};
-    int num_bytes = network_connection.receive_packet(buffer, sizeof(buffer));
+    int num_bytes = socket.receive_packet(buffer, sizeof(buffer));
     std::string incoming_message(buffer, num_bytes);
     Vi::Log::info(incoming_message);
+    return 0;
 }
 ```
 
-### Violet/Rendering.h
+ - ## Violet/Rendering.h
+
+```cpp
+#include "Violet/Rendering.h"
+
+int main() {
+    // Window
+    Vi::Window window = Vi::Window("My Application Title", 1920, 1080);
+    
+    // Sphere
+    Vi::Mesh sphere = Vi::Shapes::sphere(10);
+
+    // Camera
+    Vi::Camera camera{};
+    camera.position = Vi::Vec3d(0.0, 0.0, 2.0);
+
+    // Main Loop
+    while (window.is_open()) {
+        // Event Handling
+        window.poll_events();
+        // Clear Backround
+        window.clear(Vi::Color::blue());
+        // Render the Sphere from Camera's perspective
+        window.draw(sphere, camera);
+        // Swap Buffers
+        window.display();
+    }
+
+    return 0;
+}
+```
+
+ - ## Violet/Logging.h
+
+ - ## Violet/Math.h
+
+ - ## Violet/SiVector.h
 
 Violet provides a module called Rendering that enables 3D rendering within a windows application via OpenGL and GLFW.
 

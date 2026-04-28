@@ -3,24 +3,31 @@
     main.cpp
 */
 
-#include "Violet/Networking.h"
 #include "Violet/Rendering.h"
-#include "Violet/Math.h"
-#include "Violet/SiVector.h"
-#include "Violet/Logging.h"
 
 int main() {
-    Vi::SocketUDP socket{};
-    socket.set_listening_port(2000);
-    socket.set_destination_address("127.0.0.1", 2000);
+    // Create a Window
+    Vi::Window window = Vi::Window("My Application Title", 1920, 1080);
+    
+    // Sphere
+    Vi::Mesh sphere = Vi::Shapes::sphere(10);
 
-    std::string outgoing_message = "Hello! :)";
-    socket.send_packet(outgoing_message.c_str(), (int)outgoing_message.length());
+    // Camera
+    Vi::Camera camera{};
+    camera.position = Vi::Vec3d(0.0, 0.0, 2.0);
 
-    char buffer[1024]{};
-    int num = socket.receive_packet(buffer, sizeof(buffer));
-    std::string incoming_string(buffer, num);
-    Vi::Log::info(incoming_string);
+    // Main Loop
+    while (window.is_open()) {
+        // Event Handling
+        window.poll_events();
+        // Clear Backround
+        window.clear(Vi::Color::blue());
+        // Render the Sphere from Camera's perspective
+        window.draw(sphere, camera);
+        // Swap Buffers
+        window.display();
+    }
+
     return 0;
 }
 

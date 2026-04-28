@@ -1,12 +1,12 @@
 
-## Caution advised; This `readme.md` is still under construction...
+## This `readme.md` is still under construction...
 
 ***
 # Violet
 Violet is a lightweight, object-oriented set of tools for desktop development in C++. Violet is currently under active development, with new features and modules planned for the near future. During this time, existing code is liable to be rewritten or reimplemented. Violet does not yet have an anticipated release date.
 
 ### Author
-- Gabby Byers (gabbyvbyers@gmail.com)
+- Gabitha Byers (gabbyvbyers@gmail.com)
 
 ### Artisanally-Handcrafted Guarantee
 Violet is written entirely by hand, without the use of any agentic AI coding tools. The makers of Violet care deeply about code craftsmanship and are strongly committed to publishing code that is well understood by their author.
@@ -26,22 +26,35 @@ Violet is distributed under the MIT license. See [license.md](license.md). Exter
  - GLAD is under the MIT license.
 
 ***
+# Installation
+
+Violet requires that your build system acknowledge include paths that begin inside `Violet/Libraries/include`, and that your build system’s linker is aware of static libraries located within `Violet/Libraries/lib`. Visual Studio can be configured to do so by following the procedure provided below.
+
+### Adding Violet to a Visual Studio 2022/2026 Project
+Open the `Property Pages` of your Visual Studio 2022 or 2026 project.  
+Navigate to `Configuration Properties -> VC++ Directories`  
+Add `$(SolutionDir)Violet/Libraries/include` to `Include Directories`  
+Add `$(SolutionDir)Violet/Libraries/lib` to `Library Directories`  
+Navigate to `Configuration Properties -> C/C++ -> General`  
+Add `$(SolutionDir)Violet/Libraries/include` to: `Additional Include Directories`  
+Navigate to `Configuration Properties -> Linker -> General`  
+Add `$(SolutionDir)Violet/Libraries/lib` to: `Additional Library Directories`  
+Navigate to `Configuration Properties -> Linker -> Input`  
+Add `glfw3.lib`, `opengl32.lib`, and `Ws2_32.lib` to `Additional Dependencies`
+
+***
 # Documentation & Tutorials
 
-### Modules
-The following modules are currently provided by Violet.
+The following modules are currently provided by Violet. All of the classes in modules provided by Violet exist in a namespace named `Vi`.
  - `Violet/Networking.h`
  - `Violet/Rendering.h`
  - `Violet/Logging.h`
  - `Violet/Math.h`
  - `Violet/SiVector.h`
 
-### Networking
+### The Networking Module
 
-`Violet/Networking.h` provides access to a lightweight and easy to use UDP socket connection endpoint.
-An application can send or receive strings of data over a network connection by instantiating an instance of `Vi::SocketUDP`.
-
-### Establishing a UDP Connection (Example)
+Violet provides a module called Networking that enables access to a lightweight and intuitive UDP socket connection endpoint. A UDP socket can be configured to listen for incoming packets on a specific port. The same socket can be configured to send packets to a specific IPv4 address and port. The following example code demonstrates this ability.
 
 ```cpp
 #include "Violet/Networking.h"
@@ -66,14 +79,13 @@ int main() {
 }
 ```
 
-### Rendering
+### The Rendering Module
 
-### Minor Modules
- - Violet/Logging.h
- - Violet/SiVector.h
+Violet provides a module called Rendering that enables 3D rendering within a windows application via OpenGL and GLFW.
 
 ***
 # Miscellaneous
+
 
 
 <!-- Miscellaneous -->

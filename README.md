@@ -83,8 +83,13 @@ Vi::SocketUDP
 
 | Member Function | Description |  
 | - | - |  
-| ```cpp void Vi::SocketUDP::set_listening_port(uint16_t)``` | Binds an instance of Vi::SocketUDP to a port from which it can receive incoming packets. This method can only be called once unless a new instance of Vi::SocketUDP is instantiated. |  
-| Thing 2 | Thing 3 |
+| `void Vi::SocketUDP::set_listening_port(uint16_t)` | Binds an instance of Vi::SocketUDP to a port from which it can receive incoming packets. This method can only be called once unless a new instance of Vi::SocketUDP is instantiated. |  
+| `void Vi::SocketUDP::set_destination_address(std::string, uint16_t)` | desc. |  
+| `uint16_t Vi::SocketUDP::get_listening_port() const` | desc. |  
+| `std::string Vi::SocketUDP::get_destination_address() const` | desc. |  
+| `uint16_t Vi::SocketUDP::get_destination_port() const` | desc. |  
+| `void Vi::SocketUDP::send_packet(const char*, int) const` | desc. |  
+| `int Vi::SocketUDP::receive_packet(char*, int) const` | desc. |
 
 ### Violet/Rendering.h
 

@@ -10,19 +10,17 @@
 #include "Violet/Logging.h"
 
 int main() {
-
-    Vi::SocketUDP netconn{};
-    netconn.set_listening_port(2000);
-    netconn.set_destination_address("127.0.0.1", 2000);
+    Vi::SocketUDP socket{};
+    socket.set_listening_port(2000);
+    socket.set_destination_address("127.0.0.1", 2000);
 
     std::string outgoing_message = "Hello! :)";
-    netconn.send_packet(outgoing_message.c_str(), (int)outgoing_message.length());
+    socket.send_packet(outgoing_message.c_str(), (int)outgoing_message.length());
 
     char buffer[1024]{};
-    int num = netconn.receive_packet(buffer, sizeof(buffer));
+    int num = socket.receive_packet(buffer, sizeof(buffer));
     std::string incoming_string(buffer, num);
     Vi::Log::info(incoming_string);
-
     return 0;
 }
 

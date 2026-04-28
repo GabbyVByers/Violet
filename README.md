@@ -52,9 +52,9 @@ The following modules are currently provided by Violet. All of the classes in mo
  - `Violet/Math.h`
  - `Violet/SiVector.h`
 
-### The Networking Module
+### Violet/Networking.h
 
-Violet provides a module called Networking that enables access to a lightweight and intuitive UDP socket connection endpoint. A UDP socket can be configured to listen for incoming packets on a specific port. The same socket can be configured to send packets to a specific IPv4 address and port. The following example code demonstrates this ability.
+Violet provides a module called Networking that enables access to a lightweight and intuitive UDP socket connection endpoint. A UDP socket can be configured to listen for incoming packets on a specified port. The same socket can be configured to send packets to a specified IPv4 address and port. The following example code demonstrates this ability.
 
 ```cpp
 #include "Violet/Networking.h"
@@ -79,12 +79,21 @@ int main() {
 }
 ```
 
-### The Rendering Module
+Vi::SocketUDP
+
+| Member Function | Description |
+| ```cpp void Vi::SocketUDP::set_listening_port(uint16_t)``` | Binds an instance of Vi::SocketUDP to a port from which it can receive incoming packets. This method can only be called once unless a new instance of Vi::SocketUDP is instantiated. |
+| Thing 2 | Thing 3 |
+
+### Violet/Rendering.h
 
 Violet provides a module called Rendering that enables 3D rendering within a windows application via OpenGL and GLFW.
 
 ***
 # Miscellaneous
+
+
+
 
 <!-- Miscellaneous -->
 

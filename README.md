@@ -82,7 +82,7 @@ int main() {
 Vi::SocketUDP
 
 | Member Function | Description |
-| ```cpp void Vi::SocketUDP::set_listening_port(uint16_t)``` | Binds an instance of Vi::SocketUDP to a port from which it can receive incoming packets. This method can only be called once unless a new instance of Vi::SocketUDP is instantiated. |
+| ```cpp void Vi::SocketUDP::set_listening_port(uint16_t)``` | Binds an instance of Vi::SocketUDP to a port from which it can receive incoming packets. This method can only be called once unless a new instance of Vi::SocketUDP is instantiated. |  
 | Thing 2 | Thing 3 |
 
 ### Violet/Rendering.h
@@ -91,8 +91,6 @@ Violet provides a module called Rendering that enables 3D rendering within a win
 
 ***
 # Miscellaneous
-
-
 
 
 <!-- Miscellaneous -->

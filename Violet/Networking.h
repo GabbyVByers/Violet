@@ -9,8 +9,17 @@
 #include <string>
 #include <cstdint>
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <winsock2.h>
 #include <ws2tcpip.h>
+
+#ifdef near
+#undef near
+#endif
+#ifdef far
+#undef far
+#endif
 
 #define Vi Vi
 namespace Vi {

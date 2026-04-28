@@ -5,8 +5,8 @@
 
 #include "../Rendering.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION /* #define STB_IMAGE_IMPLEMENTATION must only exist in exactly one translation unit (*.h or *.cpp) */
+#include "../ExternLibs/STB/stb_image.h"
 #include <fstream>
 #include <sstream>
 

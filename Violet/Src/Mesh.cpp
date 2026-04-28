@@ -6,7 +6,7 @@
 #include "../Rendering.h"
 
 #define STB_IMAGE_IMPLEMENTATION /* #define STB_IMAGE_IMPLEMENTATION must only exist in exactly one translation unit (*.h or *.cpp) */
-#include "../ExternLibs/STB/stb_image.h"
+#include <stb/stb_image.h>
 #include <fstream>
 #include <sstream>
 
@@ -189,10 +189,10 @@ namespace Vi {
             std::stringstream buffer;
             buffer << file.rdbuf();
             return buffer.str();
-            };
+        };
 
-        std::string vert_source = load("Violet/Shader/" + path + ".vert");
-        std::string frag_source = load("Violet/Shader/" + path + ".frag");
+        std::string vert_source = load("Shaders/" + path + ".vert");
+        std::string frag_source = load("Shaders/" + path + ".frag");
         const char* vert_c_str = vert_source.c_str();
         const char* frag_c_str = frag_source.c_str();
 

@@ -7,8 +7,6 @@
 #include "Violet/SiVector.h"
 #include "Violet/Networking.h"
 
-#include "Game/Map.h"
-
 static void udp_connection_test();
 static void input_test(Vi::Window&);
 static void control_camera(Vi::Camera&);
@@ -21,8 +19,6 @@ int main() {
 	camera.position = Vi::Vec3d(0, 0, 5);
 	camera.fov_deg = 90.0;
 
-	Map map;
-
     while (window.is_open()) {
         window.poll_events();
 		window.clear(Vi::Color(0.1f, 0.1f, 0.2f));
@@ -31,7 +27,6 @@ int main() {
 		control_camera(camera);
 		udp_connection_test();
 
-		map.debug_gui();
 		window.draw(mesh, camera);
 		window.display();
     }

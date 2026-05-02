@@ -3,19 +3,16 @@
 
 ***
 # Violet
-Violet is a lightweight, object-oriented set of tools for desktop development in C++. Violet is currently under active development, with new features and modules planned for the near future. During this time, existing code is liable to be rewritten or reimplemented. Violet does not yet have an anticipated release date.
+Violet is a lightweight, object-oriented set of tools for 3D application development in C++. Violet is currently under active development, with new features and modules planned for the near future. During this time, existing code is liable to be rewritten or reimplemented. Violet does not yet have an anticipated release date.
 
 ### Author
 - Gabitha Byers (gabbyvbyers@gmail.com)
 
-### Artisanally-Handcrafted Guarantee
-Violet is written entirely by hand, without the use of any agentic AI coding tools. The makers of Violet care deeply about code craftsmanship and are strongly committed to publishing code that is well understood by their author.
-
 ### Contributions
-Violet is not currently accepting contributions from anyone not personally connected to the primary author. Violet will never accept contributions submitted by AI agents.
+Violet is not currently accepting contributions from anyone not personally connected to the primary author.
 
 ### License
-Violet is distributed under the MIT license. See [license.md](license.md). External libraries used by Violet are distributed under their own licenses.
+Violet is available under the MIT license. External libraries used by Violet are distributed under their own licenses.
 
 ### External Libraries
  - stb_image is public domain.
@@ -28,7 +25,7 @@ Violet is distributed under the MIT license. See [license.md](license.md). Exter
 ***
 # Installation
 
-Violet requires that your build system acknowledge include paths that begin inside `Violet/Libraries/include`, and that your build system’s linker is aware of static libraries located within `Violet/Libraries/lib`. Visual Studio can be configured to do so by following the procedure provided below.
+Violet requires that your build system acknowledge include paths that begin inside `Violet/Libraries/include`, and that your build systemâ€™s linker is aware of static libraries located within `Violet/Libraries/lib`. Visual Studio can be configured to do so by following the procedure provided below.
 
 ### Adding Violet to a Visual Studio 2022/2026 Project
  - Ensure you are compiling with C++20.
@@ -44,7 +41,7 @@ Violet requires that your build system acknowledge include paths that begin insi
  - Add `glfw3.lib`, `opengl32.lib`, and `Ws2_32.lib` to `Additional Dependencies`
 
 ***
-# Examples
+# Documentation & Tutorials
 
 The following modules are currently provided by Violet. All of the classes in modules provided by Violet exist in a namespace named `Vi`.
  - `Violet/Networking.h`
@@ -53,7 +50,7 @@ The following modules are currently provided by Violet. All of the classes in mo
  - `Violet/Math.h`
  - `Violet/SiVector.h`
 
- - ## Violet/Networking.h
+### Violet/Networking.h
 
 Violet provides a module called Networking that enables access to a lightweight and intuitive UDP socket connection endpoint. A UDP socket can be configured to listen for incoming packets on a specified port. The same socket can be configured to send packets to a specified IPv4 address and port. The following example code demonstrates this ability.
 
@@ -64,60 +61,23 @@ Violet provides a module called Networking that enables access to a lightweight 
 
 int main() {
     // Create a UDP Socket
-    Vi::SocketUDP socket{};
-    socket.set_listening_port(2000);
-    socket.set_destination_address("127.0.0.1", 2000);
+    Vi::SocketUDP network_connection{};
+    network_connection.set_listening_port(2000);
+    network_connection.set_destination_address("127.0.0.1", 2000);
 
     // Send
     std::string outgoing_message = "I've just sent myself a message over UDP! :)";
-    socket.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
+    network_connection.send_packet(outgoing_message.c_str(), (int)outgoing_message.size());
 
     // Receive
     char buffer[1024]{};
-    int num_bytes = socket.receive_packet(buffer, sizeof(buffer));
+    int num_bytes = network_connection.receive_packet(buffer, sizeof(buffer));
     std::string incoming_message(buffer, num_bytes);
     Vi::Log::info(incoming_message);
-    return 0;
 }
 ```
 
- - ## Violet/Rendering.h
-
-```cpp
-#include "Violet/Rendering.h"
-
-int main() {
-    // Window
-    Vi::Window window = Vi::Window("My Application Title", 1920, 1080);
-    
-    // Sphere
-    Vi::Mesh sphere = Vi::Shapes::sphere(10);
-
-    // Camera
-    Vi::Camera camera{};
-    camera.position = Vi::Vec3d(0.0, 0.0, 2.0);
-
-    // Main Loop
-    while (window.is_open()) {
-        // Event Handling
-        window.poll_events();
-        // Clear Backround
-        window.clear(Vi::Color::blue());
-        // Render the Sphere from Camera's perspective
-        window.draw(sphere, camera);
-        // Swap Buffers
-        window.display();
-    }
-
-    return 0;
-}
-```
-
- - ## Violet/Logging.h
-
- - ## Violet/Math.h
-
- - ## Violet/SiVector.h
+### Violet/Rendering.h
 
 Violet provides a module called Rendering that enables 3D rendering within a windows application via OpenGL and GLFW.
 

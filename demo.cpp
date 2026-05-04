@@ -4,6 +4,7 @@
 */
 
 #include "Violet/Rendering.h"
+#include "Violet/Logging.h"
 
 static void control_camera(Vi::Camera&, Vi::Window&);
 static void demo_gui(Vi::Window&);

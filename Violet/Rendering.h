@@ -54,10 +54,10 @@ namespace Vi {
 
     class Camera {
     public:
-        bool is_inf = false;
-        double far = 100.0f;
-        double near = 0.1f;
-        double fov_deg = 70.0f;
+        bool is_inf{false};
+        double far{100.0f};
+        double near{0.1f};
+        double fov_deg{70.0f};
         Vec3d position{};
         Quat orientation{};
         Vec3d forward() const;

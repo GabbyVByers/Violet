@@ -14,13 +14,13 @@ namespace Vi {
         sock = socket(address_family, socket_type, network_protocol);
         if (sock == INVALID_SOCKET) {
             const int error = WSAGetLastError();
-            Log::error("Socket Creation Failed: " + std::to_string(error));
+            Log::error("Socket Creation Failed: ", error);
             std::terminate();
         }
         u_long non_blocking = 1;
         if (ioctlsocket(sock, FIONBIO, &non_blocking) == SOCKET_ERROR) {
             const int error = WSAGetLastError();
-            Log::error("Failed to Set Non-Blocking Mode: " + std::to_string(error));
+            Log::error("Failed to Set Non-Blocking Mode: ", error);
             std::terminate();
         }
     }
@@ -39,7 +39,7 @@ namespace Vi {
             return;
         }
         if (listening_port != 0) {
-            Log::warning("Cannot reasign listening port: " + std::to_string(listening_port));
+            Log::warning("Cannot reasign listening port: ", listening_port);
             return;
         }
         listening_port = port;
@@ -50,7 +50,7 @@ namespace Vi {
         int bind_status = bind(sock, (sockaddr*)&sockaddr_in_port, sizeof(sockaddr_in_port));
         if (bind_status == SOCKET_ERROR) {
             const int error = WSAGetLastError();
-            Log::error("Binding to listening port failed: " + std::to_string(error));
+            Log::error("Binding to listening port failed: ", error);
             std::terminate();
         }
     }
@@ -114,7 +114,7 @@ namespace Vi {
                 Log::warning("Configured Address is Not Available");
                 return;
             }
-            Log::error("Send Failed: " + std::to_string(error));
+            Log::error("Send Failed: ", error);
             std::terminate();
         }
     }
@@ -140,7 +140,7 @@ namespace Vi {
             if (error == WSAEWOULDBLOCK) {
                 return 0;
             }
-            Log::error("Receive Failed: " + std::to_string(error));
+            Log::error("Receive Failed: ", error);
             std::terminate();
         }
         return bytes_received;

@@ -5,6 +5,9 @@
 
 #include "../Rendering.h"
 
+#include <chrono>
+#include <array>
+
 namespace Vi {
 
     /* Public */
@@ -101,7 +104,12 @@ namespace Vi {
         }
     }
 
+    double Window::frame_rate() {
+        return track_frame_rate(true);
+    }
+
     void Window::poll_events() {
+        track_frame_rate(false);
         Mouse& mouse = Window::mouse();
         Keyboard& keyboard = Window::keyboard();
         mouse.reset();
@@ -173,6 +181,43 @@ namespace Vi {
     }
 
     /* Private */
+
+    static double stopwatch() {
+        static std::chrono::steady_clock::time_point prev_time = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point curr_time = std::chrono::steady_clock::now();
+        std::chrono::duration<double, std::milli> duration = curr_time - prev_time;
+        double ms = duration.count();
+        prev_time = curr_time;
+        return ms;
+    }
+
+    double Window::track_frame_rate(bool query_frame_rate) {
+        static size_t curr_index{};
+        constexpr size_t len = 15;
+        static std::array<double, len> dt_ms_hist{};
+        static bool buffer_full = false;
+        if (query_frame_rate) {
+            if (!buffer_full && (curr_index < 3)) /* ily2! */
+                return 90.0;
+            double sum_ms{};
+            for (size_t i{}; i < len; i++) {
+                sum_ms += dt_ms_hist[i];
+            }
+            double sum_s = sum_ms / 1000.0;
+            double divisor = (buffer_full) ? (double)(len) : (double)(curr_index + 1);
+            double dt_s = sum_s / divisor;
+            double fps = 1.0 / dt_s;
+            return fps;
+        }
+        double dt_ms = stopwatch();
+        dt_ms_hist[curr_index] = dt_ms;
+        curr_index++;
+        if (curr_index >= (len)) {
+            curr_index = 0;
+            buffer_full = true;
+        }
+        return double{};
+    }
 
     void Window::callback_window_resize(GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);

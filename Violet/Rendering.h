@@ -147,12 +147,14 @@ namespace Vi {
 
     class Window {
     public:
+        // todo: some of these functions could be marked const?
         Window(std::string, int, int);
         ~Window();
         Vec2i size();
         void vsync(bool);
         bool is_open();
         float imgui_scale(float = 0.0f);
+        double frame_rate();
         void poll_events();
         void clear(const Color&);
         void draw(const Mesh&, const Camera&);
@@ -162,6 +164,7 @@ namespace Vi {
     private:
         Window(const Window&) = delete;
         Window(Window&&) = delete;
+        double track_frame_rate(bool);
         static void callback_window_resize(GLFWwindow*, int, int);
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);

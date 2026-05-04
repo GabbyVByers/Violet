@@ -36,7 +36,7 @@ namespace Vi {
     private:
         friend SocketUDP;
         friend SocketTCP;
-        static inline size_t counter = 0;
+        static inline size_t counter{};
         static void inc_socket_counter();
         static void dec_socket_counter();
     };
@@ -56,9 +56,9 @@ namespace Vi {
         int receive_packet(char* buffer, int size) const;
     private:
         SOCKET sock = INVALID_SOCKET;
-        uint16_t listening_port = 0;
+        uint16_t listening_port{};
         bool destination_address_configured = false;
-        uint16_t destination_port = 0;
+        uint16_t destination_port{};
         std::string destination_ip_address{};
         sockaddr_in destination_address{};
         const int address_family = AF_INET;

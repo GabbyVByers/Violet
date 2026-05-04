@@ -30,9 +30,9 @@ namespace Vi {
 
     class Color {
     public:
-        float r = 0.0f;
-        float g = 0.0f;
-        float b = 0.0f;
+        float r{};
+        float g{};
+        float b{};
         float a = 1.0f;
         static Color random();
         static Color white();
@@ -47,9 +47,9 @@ namespace Vi {
 
     class Vertex {
     public:
-        Vec3f position = Vec3f();
+        Vec3f position{};
         Color color = Color::white();
-        Vec2f tex_coord = Vec2f();
+        Vec2f tex_coord{};
     };
 
     class Camera {
@@ -58,8 +58,8 @@ namespace Vi {
         double far = 100.0f;
         double near = 0.1f;
         double fov_deg = 70.0f;
-        Vec3d position = Vec3d();
-        Quat orientation = Quat();
+        Vec3d position{};
+        Quat orientation{};
         Vec3d forward() const;
         Vec3d up() const;
         Vec3d right() const;
@@ -76,22 +76,22 @@ namespace Vi {
         Mesh& operator = (Mesh&&) noexcept;
         ~Mesh();
         double scale = 1.0;
-        Vec3d position = Vec3d();
-        Quat orientation = Quat();
-        std::vector<Vertex> vertices = {};
+        Vec3d position{};
+        Quat orientation{};
+        std::vector<Vertex> vertices{};
         void paint(const Color&);
         void texture(const std::string& = "");
         void material(const std::string& = "default", const GLenum = GL_TRIANGLES);
         Mat4 model_matrix() const;
     private:
         friend Window;
-        std::string texture_path = "";
-        GLuint texture_id = NULL;
-        std::string shader_path = "";
-        GLuint primitive = NULL;
-        GLuint vao = NULL;
-        GLuint vbo = NULL;
-        GLuint shader = NULL;
+        std::string texture_path{};
+        GLuint texture_id{};
+        std::string shader_path{};
+        GLuint primitive{};
+        GLuint vao{};
+        GLuint vbo{};
+        GLuint shader{};
         void destroy_texture();
         void destroy_material();
     };
@@ -103,7 +103,7 @@ namespace Vi {
     private:
         Shapes() = delete;
         Shapes(const Shapes&) = delete;
-        Shapes(Shapes&&) noexcept = delete;
+        Shapes(Shapes&&) = delete;
     };
 
     class Keyboard {
@@ -115,10 +115,10 @@ namespace Vi {
         friend Window;
         Keyboard() = default;
         Keyboard(const Keyboard&) = delete;
-        Keyboard(Keyboard&&) noexcept = delete;
+        Keyboard(Keyboard&&) = delete;
         ~Keyboard() = default;
         struct KeyboardEvent { int key; int scancode; int action; int mods; };
-        std::vector<KeyboardEvent> keyboard_events = {};
+        std::vector<KeyboardEvent> keyboard_events{};
         void reset();
     };
 
@@ -134,14 +134,14 @@ namespace Vi {
         friend Window;
         Mouse() = default;
         Mouse(const Mouse&) = delete;
-        Mouse(Mouse&&) noexcept = delete;
+        Mouse(Mouse&&) = delete;
         ~Mouse() = default;
         struct MouseEvent { int button; int action; int mods; };
         struct ScrollEvent { double xoffset; double yoffset; };
-        Vec2d pos = Vec2d();
-        Vec2d vel = Vec2d();
-        std::vector<MouseEvent> mouse_events = {};
-        std::vector<ScrollEvent> scroll_events = {};
+        Vec2d pos{};
+        Vec2d vel{};
+        std::vector<MouseEvent> mouse_events{};
+        std::vector<ScrollEvent> scroll_events{};
         void reset();
     };
 
@@ -161,7 +161,7 @@ namespace Vi {
         static Keyboard& keyboard();
     private:
         Window(const Window&) = delete;
-        Window(Window&&) noexcept = delete;
+        Window(Window&&) = delete;
         static void callback_window_resize(GLFWwindow*, int, int);
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);

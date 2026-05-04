@@ -24,8 +24,8 @@ namespace Vi {
 
     class Vec2i {
     public:
-        int x = 0;
-        int y = 0;
+        int x{};
+        int y{};
         double hypot() const;
         static Vec2i xpos();
         static Vec2i xneg();
@@ -49,8 +49,8 @@ namespace Vi {
 
     class Vec2f {
     public:
-        float x = 0.0f;
-        float y = 0.0f;
+        float x{};
+        float y{};
         float hypot() const;
         static Vec2f xpos();
         static Vec2f xneg();
@@ -75,8 +75,8 @@ namespace Vi {
 
     class Vec2d {
     public:
-        double x = 0.0;
-        double y = 0.0;
+        double x{};
+        double y{};
         double hypot() const;
         static Vec2d xpos();
         static Vec2d xneg();
@@ -101,9 +101,9 @@ namespace Vi {
 
     class Vec3i {
     public:
-        int x = 0;
-        int y = 0;
-        int z = 0;
+        int x{};
+        int y{};
+        int z{};
         double hypot() const;
         static Vec3i xpos();
         static Vec3i xneg();
@@ -129,9 +129,9 @@ namespace Vi {
 
     class Vec3f {
     public:
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
+        float x{};
+        float y{};
+        float z{};
         float hypot() const;
         static Vec3f xpos();
         static Vec3f xneg();
@@ -160,9 +160,9 @@ namespace Vi {
 
     class Vec3d {
     public:
-        double x = 0.0;
-        double y = 0.0;
-        double z = 0.0;
+        double x{};
+        double y{};
+        double z{};
         double hypot() const;
         static Vec3d xpos();
         static Vec3d xneg();
@@ -194,9 +194,9 @@ namespace Vi {
         Quat() = default;
         Quat(double, double, double, double);
         double w = 1.0;
-        double x = 0.0;
-        double y = 0.0;
-        double z = 0.0;
+        double x{};
+        double y{};
+        double z{};
         Quat normalized() const;
         Quat complex_conjugate() const;
         static Quat rotation(const Vec3f&, const double);
@@ -204,7 +204,7 @@ namespace Vi {
         Quat operator * (const Quat&) const;
     };
 
-    /* Matrices 4x4 */
+    /* 4x4 Matrices */
 
     class Mat4 {
     public:
@@ -221,7 +221,7 @@ namespace Vi {
         Mat4 operator * (const Mat4&) const;
         explicit operator Mat4f() const;
     private:
-        double data[4][4] = {};
+        double data[4][4]{};
     };
 
     class Mat4f {
@@ -230,7 +230,7 @@ namespace Vi {
         float* ptr() const;
     private:
         friend Mat4;
-        float data[4][4] = {};
+        float data[4][4]{};
     };
 }
 

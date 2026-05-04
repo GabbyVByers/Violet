@@ -1,8 +1,7 @@
 
 /*
-    main.cpp
+    demo.cpp
 */
-
 
 #include "Violet/Rendering.h"
 #include "Violet/SiVector.h"
@@ -19,6 +18,9 @@ int main() {
 	Vi::Camera camera;
 	camera.position = Vi::Vec3d(0, 0, 5);
 	camera.fov_deg = 90.0;
+
+	Vi::Log::warning();
+	Vi::Log::info();
 
     while (window.is_open()) {
         window.poll_events();

@@ -54,7 +54,7 @@ namespace Vi {
 
     class Camera {
     public:
-        bool is_inf{false};
+        bool infinite_projection{true};
         double far{100.0f};
         double near{0.1f};
         double fov_deg{70.0f};
@@ -63,6 +63,8 @@ namespace Vi {
         Vec3d forward() const;
         Vec3d up() const;
         Vec3d right() const;
+    private:
+        friend Window;
         Mat4 view_matrix() const;
         Mat4 projection_matrix(const Vec2i) const;
     };
@@ -148,7 +150,6 @@ namespace Vi {
 
     class Window {
     public:
-        // todo: some of these functions could be marked const?
         Window(std::string, int, int);
         ~Window();
         Vec2i size();

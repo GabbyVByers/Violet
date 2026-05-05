@@ -29,8 +29,6 @@ int main() {
         window.poll_events();
         window.clear(Vi::Color::blue());
 
-        //Vi::Log::info(window.frame_rate());
-
         control_camera(camera, window);
         demo_gui(window);
 

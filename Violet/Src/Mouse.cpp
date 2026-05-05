@@ -52,7 +52,8 @@ namespace Vi {
             std::terminate();
         }
         // GLFW_CURSOR_NORMAL
-        // GLFW_CURSOR_HIDDEN;
+        // GLFW_CURSOR_HIDDEN
+        // GLFW_CURSOR_DISABLED
         glfwSetInputMode(window, GLFW_CURSOR, cursor_setting);
     }
 

@@ -30,7 +30,7 @@ namespace Vi {
     }
 
     Mat4 Camera::projection_matrix(const Vec2i screen_size) const {
-        if (is_inf) {
+        if (infinite_projection) {
             double fov_rad = (fov_deg / 180.0) * std::numbers::pi;
             double f = 1.0 / tan(fov_rad * 0.5);
             double a = (double)screen_size.x / (double)screen_size.y;

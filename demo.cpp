@@ -59,14 +59,25 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
 
     Vi::Mouse& mouse = Vi::Window::mouse();
 
-    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.visible(false); }
-    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.visible(true); }
+    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.cursor(GLFW_CURSOR_DISABLED); }
+    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.cursor(GLFW_CURSOR_NORMAL); }
 
-
-
-    if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {
-
+    if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {        
+        double sensitivity = 0.1 * (1.0 / frame_rate);
+        double x_movement = mouse.velocity().x;
+        double y_movement = mouse.velocity().y;
+        // Lateral Rotation
+        Vi::Vec3d up = Vi::Vec3d::ypos();
+        Vi::Quat lateral_rotation = Vi::Quat::rotation(up, sensitivity * -x_movement);
+        camera.orientation = lateral_rotation * camera.orientation;
+        // Longitudinal Rotation
+        Vi::Vec3d right = camera.right();
+        Vi::Quat longitudinal_rotation = Vi::Quat::rotation(right, sensitivity * -y_movement);
+        camera.orientation = longitudinal_rotation * camera.orientation;
+        camera.orientation = camera.orientation.normalized();
     }
+
+
 }
 
 static void demo_gui(Vi::Window& window) {

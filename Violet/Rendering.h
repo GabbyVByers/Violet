@@ -129,7 +129,7 @@ namespace Vi {
         bool pressing(int) const;
         bool pressed(int, int) const;
         double scroll() const;
-        void visible(int) const;
+        void cursor(int) const;
         bool imgui_captured() const;
     private:
         friend Window;

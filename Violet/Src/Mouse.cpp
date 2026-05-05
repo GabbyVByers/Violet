@@ -45,12 +45,14 @@ namespace Vi {
         return scroll;
     }
 
-    void Mouse::visible(int cursor_setting) const {
+    void Mouse::cursor(int cursor_setting) const {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("GLFW context does not exist");
             std::terminate();
         }
+        // GLFW_CURSOR_NORMAL
+        // GLFW_CURSOR_HIDDEN;
         glfwSetInputMode(window, GLFW_CURSOR, cursor_setting);
     }
 

@@ -64,6 +64,7 @@ namespace Vi {
         ImGuiIO& io = ImGui::GetIO();
         io.FontGlobalScale = 1.0f;
         io.IniFilename = nullptr;
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; /* Allows calls like Mouse::cursor(GLFW_CURSOR_HIDDEN) to persist */
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 330");

@@ -16,13 +16,11 @@ namespace Vi {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window != nullptr) {
             Log::error("Cannot create Window object, GLFW context already exists");
-            std::terminate();
         }
 
         GLuint status = glfwInit();
         if (status == NULL) {
             Log::error("Failed to initialize GLFW");
-            std::terminate();
         }
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -32,20 +30,17 @@ namespace Vi {
         window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
         if (window == nullptr) {
             Log::error("Failed to create GLFW window");
-            std::terminate();
         }
 
         glfwMakeContextCurrent(window);
         window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("Failed to make GLFW current context");
-            std::terminate();
         }
 
         status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         if (status == NULL) {
             Log::error("Failed to load GLAD");
-            std::terminate();
         }
 
         glViewport(0, 0, width, height);
@@ -64,7 +59,7 @@ namespace Vi {
         ImGuiIO& io = ImGui::GetIO();
         io.FontGlobalScale = 1.0f;
         io.IniFilename = nullptr;
-        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; /* Allows calls like Mouse::cursor(GLFW_CURSOR_HIDDEN) to persist */
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 330");
@@ -94,7 +89,7 @@ namespace Vi {
     }
 
     float Window::imgui_scale(float scale) {
-        if (scale == 0.0f) { /* if no argument is given, by default scale = 0.0f, and we just return the current scale */
+        if (scale == 0.0f) {
             ImGuiIO& io = ImGui::GetIO();
             return io.FontGlobalScale;
         }
@@ -198,7 +193,7 @@ namespace Vi {
         static std::array<double, len> dt_ms_hist{};
         static bool buffer_full = false;
         if (query_frame_rate) {
-            if (!buffer_full && (curr_index < 3)) /* ily2! */
+            if (!buffer_full && (curr_index < 3))
                 return 90.0;
             double sum_ms{};
             for (size_t i{}; i < len; i++) {

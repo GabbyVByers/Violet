@@ -56,6 +56,12 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
 
     if (keyboard.pressing(GLFW_KEY_SPACE))      { camera.position += camera.up() * speed; }
     if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += camera.up() * -speed; }
+
+    Vi::Mouse& mouse = Vi::Window::mouse();
+
+    if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {
+
+    }
 }
 
 static void demo_gui(Vi::Window& window) {

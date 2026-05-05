@@ -45,6 +45,15 @@ namespace Vi {
         return scroll;
     }
 
+    void Mouse::visible(int cursor_setting) const {
+        GLFWwindow* window = glfwGetCurrentContext();
+        if (window == nullptr) {
+            Log::error("GLFW context does not exist");
+            std::terminate();
+        }
+        glfwSetInputMode(window, GLFW_CURSOR, cursor_setting);
+    }
+
     bool Mouse::imgui_captured() const {
         const ImGuiIO& io = ImGui::GetIO();
         return io.WantCaptureMouse;

@@ -29,7 +29,7 @@ int main() {
         window.poll_events();
         window.clear(Vi::Color::blue());
 
-        Vi::Log::info(window.frame_rate());
+        //Vi::Log::info(window.frame_rate());
 
         control_camera(camera, window);
         demo_gui(window);
@@ -58,6 +58,11 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
     if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += camera.up() * -speed; }
 
     Vi::Mouse& mouse = Vi::Window::mouse();
+
+    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.visible(false); }
+    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.visible(true); }
+
+
 
     if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {
 

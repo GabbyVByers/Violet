@@ -127,7 +127,7 @@ namespace Vi {
         Vec2d position() const;
         Vec2d velocity() const;
         bool pressing(int) const;
-        bool clicked(int, int) const;
+        bool pressed(int, int) const;
         double scroll() const;
         void visible(int) const;
         bool imgui_captured() const;

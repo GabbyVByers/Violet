@@ -26,7 +26,7 @@ namespace Vi {
         return glfwGetMouseButton(window, button) == GLFW_PRESS;
     }
 
-    bool Mouse::clicked(int button, int action) const {
+    bool Mouse::pressed(int button, int action) const {
         for (const MouseEvent& event : mouse_events) {
             if (button == event.button) {
                 if (action == event.action) {

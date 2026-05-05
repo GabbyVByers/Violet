@@ -10,13 +10,14 @@
 
 namespace Vi {
 
-    static void zero_error() {
-        Log::error("Division by zero");
-        std::terminate();
+    /* Divide by Zero Warning */
+
+    template<typename type>
+    static void zero(const type val) {
+        if (val == type{}) {
+            Log::warning("A vector math operation resulted division by zero");
+        }
     }
-    static void zero(int x)    { if (x == 0)    { zero_error(); } }
-    static void zero(float x)  { if (x == 0.0f) { zero_error(); } }
-    static void zero(double x) { if (x == 0.0)  { zero_error(); } }
     
     /* Vec2i */
 

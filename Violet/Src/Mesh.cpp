@@ -18,51 +18,52 @@ namespace Vi {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("Cannot create Mesh object, GLFW context does not exist");
-            std::terminate();
         }
         texture();
         material();
     }
 
     Mesh::Mesh(const Mesh& other) {
-        texture(other.texture_path);
-        material(other.shader_path, other.primitive);
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
         vertices = other.vertices;
+        texture(other.texture_path);
+        material(other.shader_path, other.primitive);
     }
 
     Mesh::Mesh(Mesh&& other) noexcept {
-        texture_path = other.texture_path;
-        texture_id = other.texture_id;
-        shader_path = other.shader_path;
-        primitive = other.primitive;
-        vao = other.vao;
-        vbo = other.vbo;
-        shader = other.shader;
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
         vertices = other.vertices;
+        texture_path = other.texture_path;
+        texture_id = other.texture_id;
+        shader_path = other.shader_path;
+        shader = other.shader;
+        primitive = other.primitive;
+        vao = other.vao;
+        vbo = other.vbo;
 
+        other.texture_path = "";
         other.texture_id = NULL;
+        other.shader_path = "";
+        other.shader = NULL;
         other.primitive = NULL;
         other.vao = NULL;
         other.vbo = NULL;
-        other.shader = NULL;
     }
 
     Mesh& Mesh::operator = (const Mesh& other) {
         if (this == &other)
             return *this;
 
-        texture(other.texture_path);
-        material(other.shader_path, other.primitive);
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
         vertices = other.vertices;
+        texture(other.texture_path);
+        material(other.shader_path, other.primitive);
 
         return *this;
     }
@@ -73,23 +74,25 @@ namespace Vi {
 
         destroy_texture();
         destroy_material();
-        texture_path = other.texture_path;
-        texture_id = other.texture_id;
-        shader_path = other.shader_path;
-        primitive = other.primitive;
-        vao = other.vao;
-        vbo = other.vbo;
-        shader = other.shader;
         scale = other.scale;
         position = other.position;
         orientation = other.orientation;
         vertices = other.vertices;
+        texture_path = other.texture_path;
+        texture_id = other.texture_id;
+        shader_path = other.shader_path;
+        shader = other.shader;
+        primitive = other.primitive;
+        vao = other.vao;
+        vbo = other.vbo;
 
+        other.texture_path = "";
         other.texture_id = NULL;
+        other.shader_path = "";
+        other.shader = NULL;
         other.primitive = NULL;
         other.vao = NULL;
         other.vbo = NULL;
-        other.shader = NULL;
 
         return *this;
     }
@@ -99,7 +102,13 @@ namespace Vi {
         destroy_material();
     }
 
-    /* Texture */
+    /* Public */
+
+    void Mesh::paint(const Color& color) {
+        for (Vertex& vertex : vertices) {
+            vertex.color = color;
+        }
+    }
 
     void Mesh::texture(const std::string& path) {
         texture_path = path;
@@ -126,8 +135,7 @@ namespace Vi {
         stbi_set_flip_vertically_on_load(true);
         unsigned char* data = stbi_load(path.c_str(), &width, &height, &num_color_channels, NULL);
         if (data == NULL) {
-            Log::error("Failed to load image: " + path);
-            std::terminate();
+            Log::error("Failed to load image: ", path);
         }
 
         GLenum format = NULL;
@@ -136,7 +144,6 @@ namespace Vi {
         if (num_color_channels == 4) format = GL_RGBA;
         if (format == NULL) {
             Log::error("Could not parse image format");
-            std::terminate();
         }
 
         glGenTextures(1, &texture_id);
@@ -153,15 +160,6 @@ namespace Vi {
 
         stbi_image_free(data);
     }
-
-    void Mesh::destroy_texture() {
-        if (texture_id != NULL) {
-            glDeleteTextures(1, &texture_id);
-            texture_id = NULL;
-        }
-    }
-
-    /* Material */
 
     void Mesh::material(const std::string& path, const GLenum type) {
         shader_path = path;
@@ -183,8 +181,7 @@ namespace Vi {
         auto load = [](std::string path) -> std::string {
             std::ifstream file(path);
             if (!file) {
-                Log::error("Could not load file: " + path);
-                std::terminate();
+                Log::error("Could not load file: ", path);
             }
             std::stringstream buffer;
             buffer << file.rdbuf();
@@ -204,7 +201,6 @@ namespace Vi {
         glGetShaderiv(vert_program, GL_COMPILE_STATUS, &success);
         if (success == GL_FALSE) {
             Log::error("Failed to compile vertex shader");
-            std::terminate();
         }
 
         GLuint frag_program = glCreateShader(GL_FRAGMENT_SHADER);
@@ -213,7 +209,6 @@ namespace Vi {
         glGetShaderiv(frag_program, GL_COMPILE_STATUS, &success);
         if (success == GL_FALSE) {
             Log::error("Failed to compile fragment shader");
-            std::terminate();
         }
 
         shader = glCreateProgram();
@@ -225,7 +220,22 @@ namespace Vi {
         glGetProgramiv(shader, GL_LINK_STATUS, &success);
         if (success == GL_FALSE) {
             Log::error("Failed to link shader program");
-            std::terminate();
+        }
+    }
+
+    /* Private */
+
+    Mat4 Mesh::model_matrix() const {
+        Mat4 scalar_matrix = Mat4::scalar_matrix(scale);
+        Mat4 translation_matrix = Mat4::translation_matrix(position);
+        Mat4 rotation_matrix = Mat4::rotation_matrix(orientation);
+        return scalar_matrix * translation_matrix * rotation_matrix;
+    }
+
+    void Mesh::destroy_texture() {
+        if (texture_id != NULL) {
+            glDeleteTextures(1, &texture_id);
+            texture_id = NULL;
         }
     }
 
@@ -241,21 +251,6 @@ namespace Vi {
         if (shader != NULL) {
             glDeleteProgram(shader);
             shader = NULL;
-        }
-    }
-
-    /* Other */
-
-    Mat4 Mesh::model_matrix() const {
-        Mat4 scalar_matrix = Mat4::scalar_matrix(scale);
-        Mat4 translation_matrix = Mat4::translation_matrix(position);
-        Mat4 rotation_matrix = Mat4::rotation_matrix(orientation);
-        return scalar_matrix * translation_matrix * rotation_matrix;
-    }
-
-    void Mesh::paint(const Color& color) {
-        for (Vertex& vertex : vertices) {
-            vertex.color = color;
         }
     }
 }

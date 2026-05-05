@@ -1,6 +1,6 @@
 
 /*
-    Socket.h
+    Networking.h
 */
 
 #pragma once
@@ -47,11 +47,11 @@ namespace Vi {
         SocketUDP(const SocketUDP&) = delete;
         SocketUDP(SocketUDP&&) = delete;
         ~SocketUDP();
-        void set_listening_port(uint16_t);
-        void set_destination_address(std::string, uint16_t);
-        uint16_t get_listening_port() const;
-        std::string get_destination_address() const;
-        uint16_t get_destination_port() const;
+        void config_listening_port(uint16_t);
+        void config_destination_address(std::string, uint16_t);
+        uint16_t query_listening_port() const;
+        std::string query_destination_address() const;
+        uint16_t query_destination_port() const;
         void send_packet(const char* buffer, int size) const;
         int receive_packet(char* buffer, int size) const;
     private:
@@ -59,7 +59,7 @@ namespace Vi {
         uint16_t listening_port{};
         bool destination_address_configured = false;
         uint16_t destination_port{};
-        std::string destination_ip_address{};
+        std::string destination_ip_address_string{};
         sockaddr_in destination_address{};
         const int address_family = AF_INET;
         const int socket_type = SOCK_DGRAM;

@@ -1,6 +1,6 @@
 
 /*
-    Socket.cpp
+    WinSock.cpp
 */
 
 #include "../Networking.h"
@@ -8,6 +8,8 @@
 #include <string>
 
 namespace Vi {
+
+    /* Private */
 
     void WinSock::inc_socket_counter() {
         counter++;
@@ -18,7 +20,6 @@ namespace Vi {
             int status = WSAStartup(MAKEWORD(major_version, minor_version), &wsa_data);
             if (status != 0) {
                 Log::error("WinSock initialization failed" + std::to_string(status));
-                std::terminate();
                 return;
             }
         }

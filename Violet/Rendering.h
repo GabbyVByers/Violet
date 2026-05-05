@@ -37,6 +37,7 @@ namespace Vi {
         static Color random();
         static Color white();
         static Color black();
+        static Color gray();
         static Color red();
         static Color green();
         static Color blue();
@@ -77,23 +78,23 @@ namespace Vi {
         Mesh& operator = (const Mesh&);
         Mesh& operator = (Mesh&&) noexcept;
         ~Mesh();
-        double scale = 1.0;
+        double scale{1.0};
         Vec3d position{};
         Quat orientation{};
         std::vector<Vertex> vertices{};
         void paint(const Color&);
         void texture(const std::string& = "");
         void material(const std::string& = "default", const GLenum = GL_TRIANGLES);
-        Mat4 model_matrix() const;
     private:
         friend Window;
         std::string texture_path{};
         GLuint texture_id{};
         std::string shader_path{};
+        GLuint shader{};
         GLuint primitive{};
         GLuint vao{};
         GLuint vbo{};
-        GLuint shader{};
+        Mat4 model_matrix() const;
         void destroy_texture();
         void destroy_material();
     };
@@ -118,7 +119,6 @@ namespace Vi {
         Keyboard() = default;
         Keyboard(const Keyboard&) = delete;
         Keyboard(Keyboard&&) = delete;
-        ~Keyboard() = default;
         struct KeyboardEvent { int key; int scancode; int action; int mods; };
         std::vector<KeyboardEvent> keyboard_events{};
         void reset();
@@ -131,14 +131,13 @@ namespace Vi {
         bool pressing(int) const;
         bool pressed(int, int) const;
         double scroll() const;
-        void cursor(int) const;
+        void cursor(int);
         bool imgui_captured() const;
     private:
         friend Window;
         Mouse() = default;
         Mouse(const Mouse&) = delete;
         Mouse(Mouse&&) = delete;
-        ~Mouse() = default;
         struct MouseEvent { int button; int action; int mods; };
         struct ScrollEvent { double xoffset; double yoffset; };
         Vec2d pos{};

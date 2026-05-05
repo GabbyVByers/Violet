@@ -24,7 +24,6 @@ namespace Vi {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("GLFW context does not exist");
-            std::terminate();
         }
         return glfwGetKey(window, key) == GLFW_PRESS;
     }

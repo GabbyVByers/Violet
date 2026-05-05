@@ -21,7 +21,6 @@ namespace Vi {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("GLFW context does not exist");
-            std::terminate();
         }
         return glfwGetMouseButton(window, button) == GLFW_PRESS;
     }
@@ -45,11 +44,10 @@ namespace Vi {
         return scroll;
     }
 
-    void Mouse::cursor(int cursor_setting) const {
+    void Mouse::cursor(int cursor_setting) {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("GLFW context does not exist");
-            std::terminate();
         }
         // GLFW_CURSOR_NORMAL
         // GLFW_CURSOR_HIDDEN
@@ -68,7 +66,6 @@ namespace Vi {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {
             Log::error("GLFW context does not exist");
-            std::terminate();
         }
         double x, y; glfwGetCursorPos(window, &x, &y);
         Vec2d new_pos = Vec2d(x, y);

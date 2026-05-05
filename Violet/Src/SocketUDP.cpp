@@ -15,13 +15,11 @@ namespace Vi {
         if (sock == INVALID_SOCKET) {
             const int error = WSAGetLastError();
             Log::error("Socket Creation Failed: ", error);
-            std::terminate();
         }
         u_long non_blocking = 1;
         if (ioctlsocket(sock, FIONBIO, &non_blocking) == SOCKET_ERROR) {
             const int error = WSAGetLastError();
             Log::error("Failed to Set Non-Blocking Mode: ", error);
-            std::terminate();
         }
     }
 
@@ -31,9 +29,9 @@ namespace Vi {
         WinSock::dec_socket_counter();
     }
 
-    /* Configuration */
+    /* Configs (setters) */
 
-    void SocketUDP::set_listening_port(uint16_t port) {
+    void SocketUDP::config_listening_port(uint16_t port) {
         if (port == 0) {
             Log::warning("Listening port cannot be set to zero");
             return;
@@ -51,11 +49,10 @@ namespace Vi {
         if (bind_status == SOCKET_ERROR) {
             const int error = WSAGetLastError();
             Log::error("Binding to listening port failed: ", error);
-            std::terminate();
         }
     }
 
-    void SocketUDP::set_destination_address(std::string ip_address, uint16_t port) {
+    void SocketUDP::config_destination_address(std::string ip_address, uint16_t port) {
         sockaddr_in dummy{};
         int status = inet_pton(address_family, ip_address.c_str(), &dummy.sin_addr);
         if ((status == 0) || (status == -1)) {
@@ -66,25 +63,25 @@ namespace Vi {
             Log::warning("Attempted to set invalid destination port");
             return;
         }
-        destination_ip_address = ip_address;
+        destination_ip_address_string = ip_address;
         destination_port = port;
         destination_address.sin_family = address_family;
         destination_address.sin_port = htons(destination_port);
-        inet_pton(address_family, ip_address.c_str(), &destination_address.sin_addr);
+        inet_pton(address_family, destination_ip_address_string.c_str(), &destination_address.sin_addr);
         destination_address_configured = true;
     }
 
-    /* Getters */
+    /* Queries (getters) */
 
-    uint16_t SocketUDP::get_listening_port() const {
+    uint16_t SocketUDP::query_listening_port() const {
         return listening_port;
     }
 
-    std::string SocketUDP::get_destination_address() const {
-        return destination_ip_address;
+    std::string SocketUDP::query_destination_address() const {
+        return destination_ip_address_string;
     }
 
-    uint16_t SocketUDP::get_destination_port() const {
+    uint16_t SocketUDP::query_destination_port() const {
         return destination_port;
     }
 
@@ -115,7 +112,6 @@ namespace Vi {
                 return;
             }
             Log::error("Send Failed: ", error);
-            std::terminate();
         }
     }
 
@@ -141,7 +137,6 @@ namespace Vi {
                 return 0;
             }
             Log::error("Receive Failed: ", error);
-            std::terminate();
         }
         return bytes_received;
     }

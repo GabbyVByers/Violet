@@ -8,6 +8,8 @@
 
 namespace Vi {
 
+    /* Public */
+
     Vec3d Camera::forward() const {
         Vec3d forward = Vec3d::zneg();
         return Vec3d::rotate(forward, orientation);
@@ -23,6 +25,8 @@ namespace Vi {
         return Vec3d::rotate(right, orientation);
     }
 
+    /* Private */
+    
     Mat4 Camera::view_matrix() const {
         Mat4 translation_matrix_inverse = Mat4::translation_matrix(position * -1.0);
         Mat4 rotation_matrix_inverse = Mat4::rotation_matrix(orientation.complex_conjugate());

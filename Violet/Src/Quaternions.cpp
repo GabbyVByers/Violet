@@ -1,6 +1,6 @@
 
 /*
-    Quaternion.cpp
+    Quaternions.cpp
 */
 
 #include "../Math.h"
@@ -8,22 +8,12 @@
 
 namespace Vi {
 
-    Quat::Quat(double w, double x, double y, double z) {
-        this->w = w;
-        this->x = x;
-        this->y = y;
-        this->z = z;
-    }
+    /* Public */
 
     Quat Quat::normalized() const {
         double len = std::hypot(x, y, z);
         len = std::hypot(w, len);
-        return Quat(
-            w / len,
-            x / len,
-            y / len,
-            z / len
-        );
+        return Quat(w / len, x / len, y / len, z / len);
     }
 
     Quat Quat::complex_conjugate() const {
@@ -33,23 +23,13 @@ namespace Vi {
     Quat Quat::rotation(const Vec3f& vec, const double theta) {
         double half = theta * 0.5;
         double s = std::sin(half);
-        return Quat(
-            std::cos(half),
-            s * (double)vec.x,
-            s * (double)vec.y,
-            s * (double)vec.z
-        );
+        return Quat(std::cos(half), s * (double)vec.x, s * (double)vec.y, s * (double)vec.z);
     }
 
     Quat Quat::rotation(const Vec3d& vec, const double theta) {
         double half = theta * 0.5;
         double s = std::sin(half);
-        return Quat(
-            std::cos(half),
-            s * vec.x,
-            s * vec.y,
-            s * vec.z
-        );
+        return Quat(std::cos(half), s * vec.x, s * vec.y, s * vec.z);
     }
 
     Quat Quat::operator * (const Quat& other) const {

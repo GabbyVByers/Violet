@@ -81,8 +81,7 @@ namespace Vi {
         
         type& get(const ID element_id) {
             if (!is_valid_id(element_id)) {
-                Log::error("get(): Invalid ID: " + std::to_string(element_id));
-                std::terminate();
+                Log::error("get(): Invalid ID: ", element_id);
             }
             size_t element_index = index_from_id[element_id];
             return data[element_index];
@@ -90,8 +89,7 @@ namespace Vi {
 
         const type& get(const ID element_id) const {
             if (!is_valid_id(element_id)) {
-                Log::error("get(): Invalid ID: " + std::to_string(element_id));
-                std::terminate();
+                Log::error("get(): Invalid ID: ", element_id);
             }
             size_t element_index = index_from_id[element_id];
             return data[element_index];
@@ -108,7 +106,7 @@ namespace Vi {
         auto begin() { return data.begin(); }
         auto end()   { return data.end(); }
         auto begin() const { return data.begin(); }
-        auto end() const   { return data.end(); }
+        auto end()   const { return data.end(); }
     
     private:
         std::vector<size_t> index_from_id{};

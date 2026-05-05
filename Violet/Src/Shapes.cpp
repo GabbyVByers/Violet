@@ -9,6 +9,11 @@
 
 namespace Vi {
 
+	/*
+		This code will soon be depricated.
+		Likely to be replaced by dedicated shape classes that inherit from Vi::Mesh.
+	*/
+
     Mesh Shapes::sphere(unsigned int divisions) {
 		Mesh sphere_mesh;
 

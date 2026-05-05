@@ -191,9 +191,7 @@ namespace Vi {
 
     class Quat {
     public:
-        Quat() = default;
-        Quat(double, double, double, double);
-        double w = 1.0;
+        double w{ 1.0 };
         double x{};
         double y{};
         double z{};

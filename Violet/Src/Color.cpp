@@ -7,6 +7,8 @@
 #include <cstdlib>
 
 namespace Vi {
+
+    /* Public */
     
     Color Color::random() {
         return Color(
@@ -18,6 +20,7 @@ namespace Vi {
 
     Color Color::white()  { return Color(1.0, 1.0, 1.0); }
     Color Color::black()  { return Color(0.0, 0.0, 0.0); }
+    Color Color::gray()   { return Color(0.5, 0.5, 0.5); }
     Color Color::red()    { return Color(1.0, 0.0, 0.0); }
     Color Color::green()  { return Color(0.0, 1.0, 0.0); }
     Color Color::blue()   { return Color(0.0, 0.0, 1.0); }

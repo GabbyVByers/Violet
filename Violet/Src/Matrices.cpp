@@ -1,13 +1,13 @@
 
 /*
-    Matrix.cpp
+    Matrices.cpp
 */
 
 #include "../Math.h"
 
 namespace Vi {
     
-    /* Mat4 */
+    /* Matrix 4x4 (Double Precision) */
 
     Mat4::Mat4() {
         for (size_t i = 0; i < 4; i++) {
@@ -85,7 +85,7 @@ namespace Vi {
         return result;
     }
 
-    /* Mat4f */
+    /* Matrix 4x4 (Single Precision) */
 
     Mat4f::Mat4f() {
         for (size_t i = 0; i < 4; i++) {

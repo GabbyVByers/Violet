@@ -1,6 +1,6 @@
 
 /*
-    Quaternions.cpp
+    Quaternion.cpp
 */
 
 #include "../Math.h"
@@ -18,12 +18,6 @@ namespace Vi {
 
     Quat Quat::complex_conjugate() const {
         return Quat(w, -x, -y, -z);
-    }
-
-    Quat Quat::rotation(const Vec3f& vec, const double theta) {
-        double half = theta * 0.5;
-        double s = std::sin(half);
-        return Quat(std::cos(half), s * (double)vec.x, s * (double)vec.y, s * (double)vec.z);
     }
 
     Quat Quat::rotation(const Vec3d& vec, const double theta) {

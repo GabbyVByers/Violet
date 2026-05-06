@@ -1,6 +1,6 @@
 
 /*
-    Matrices.cpp
+    Matrix.cpp
 */
 
 #include "../Math.h"

@@ -18,12 +18,11 @@
 
 #define Vi Vi
 namespace Vi {
-
+    
     class Color;
     class Vertex;
-    class Camera;
     class Mesh;
-    class Shapes;
+    class Camera;
     class Keyboard;
     class Mouse;
     class Window;
@@ -53,23 +52,6 @@ namespace Vi {
         Vec2f tex_coord{};
     };
 
-    class Camera {
-    public:
-        bool infinite_projection{true};
-        double far{100.0f};
-        double near{0.1f};
-        double fov_deg{70.0f};
-        Vec3d position{};
-        Quat orientation{};
-        Vec3d forward() const;
-        Vec3d up() const;
-        Vec3d right() const;
-    private:
-        friend Window;
-        Mat4 view_matrix() const;
-        Mat4 projection_matrix(const Vec2i) const;
-    };
-
     class Mesh {
     public:
         Mesh();
@@ -78,13 +60,13 @@ namespace Vi {
         Mesh& operator = (const Mesh&);
         Mesh& operator = (Mesh&&) noexcept;
         ~Mesh();
-        double scale{1.0};
+        double scale{ 1.0 };
         Vec3d position{};
         Quat orientation{};
         std::vector<Vertex> vertices{};
         void paint(const Color&);
-        void texture(const std::string& = "");
-        void material(const std::string& = "default", const GLenum = GL_TRIANGLES);
+        void texture(const std::string & = "");
+        void material(const std::string & = "default", const GLenum = GL_TRIANGLES);
     private:
         friend Window;
         std::string texture_path{};
@@ -99,14 +81,21 @@ namespace Vi {
         void destroy_material();
     };
 
-    class Shapes {
+    class Camera {
     public:
-        static Mesh sphere(unsigned int);
-        static Mesh cube(unsigned int);
+        bool infinite_projection{ true };
+        double far{ 100.0f };
+        double near{ 0.1f };
+        double fov_deg{ 70.0f };
+        Vec3d position{};
+        Quat orientation{};
+        Vec3d forward() const;
+        Vec3d up() const;
+        Vec3d right() const;
     private:
-        Shapes() = delete;
-        Shapes(const Shapes&) = delete;
-        Shapes(Shapes&&) = delete;
+        friend Window;
+        Mat4 view_matrix() const;
+        Mat4 projection_matrix(const Vec2i) const;
     };
 
     class Keyboard {

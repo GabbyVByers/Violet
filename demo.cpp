@@ -4,6 +4,7 @@
 */
 
 #include "Violet/Rendering.h"
+#include "Violet/Shapes.h"
 #include "Violet/Logging.h"
 
 static void control_camera(Vi::Camera&, Vi::Window&);
@@ -13,29 +14,18 @@ int main() {
 
     Vi::Window window = Vi::Window("Application", 1920, 1080);
     window.imgui_scale(2.0f);
+    
     Vi::Camera camera{};
-    camera.position = Vi::Vec3d(0, 0, 10);
+    camera.position = Vi::Vec3d(0, 0, 2);
 
-    std::vector<Vi::Mesh> spheres{};
-    for (size_t i{}; i < 10; i++) {
-        Vi::Mesh sphere = Vi::Shapes::sphere(10);
-        sphere.paint(Vi::Color::random());
-        sphere.position = Vi::Vec3d(i, i, i);
-        spheres.push_back(sphere);
-    }
+    Vi::Sphere sphere{};
 
     while (window.is_open()) {
-
         window.poll_events();
         window.clear(Vi::Color::blue());
-
         control_camera(camera, window);
         demo_gui(window);
-
-        for (Vi::Mesh& sphere : spheres) {
-            window.draw(sphere, camera);
-        }
-
+        window.draw(sphere, camera);
         window.display();
     }
 
@@ -45,15 +35,15 @@ int main() {
 static void control_camera(Vi::Camera& camera, Vi::Window& window) {
     Vi::Keyboard& keyboard = Vi::Window::keyboard();
     double frame_rate = window.frame_rate();
-    double speed = 25.0 * (1.0 / frame_rate);
+    double speed = 5.0 * (1.0 / frame_rate);
 
     if (keyboard.pressing(GLFW_KEY_W)) { camera.position += camera.forward() * speed; }
     if (keyboard.pressing(GLFW_KEY_A)) { camera.position += camera.right() * -speed; }
     if (keyboard.pressing(GLFW_KEY_S)) { camera.position += camera.forward() * -speed; }
     if (keyboard.pressing(GLFW_KEY_D)) { camera.position += camera.right() * speed; }
 
-    if (keyboard.pressing(GLFW_KEY_SPACE))      { camera.position += camera.up() * speed; }
-    if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += camera.up() * -speed; }
+    if (keyboard.pressing(GLFW_KEY_SPACE))      { camera.position += Vi::Vec3d::ypos() * speed; }
+    if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += Vi::Vec3d::yneg() * speed; }
 
     Vi::Mouse& mouse = Vi::Window::mouse();
 

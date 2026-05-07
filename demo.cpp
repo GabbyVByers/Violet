@@ -18,13 +18,22 @@ int main() {
     Vi::Camera camera{};
     camera.position = Vi::Vec3d(0, 0, 2);
 
+    Vi::Cube cube{};
+    cube.position = Vi::Vec3d::xneg();
+    cube.paint(Vi::Color::white());
+    cube.texture("Violet/Textures/texture_square.png");
+
     Vi::Sphere sphere{};
+    sphere.position = Vi::Vec3d::xpos();
+    sphere.paint(Vi::Color::white());
+    sphere.texture("Violet/Textures/texture_rect.png");
 
     while (window.is_open()) {
         window.poll_events();
-        window.clear(Vi::Color::blue());
+        window.clear(Vi::Color::blue() * 0.5);
         control_camera(camera, window);
         demo_gui(window);
+        window.draw(cube, camera);
         window.draw(sphere, camera);
         window.display();
     }
@@ -37,19 +46,19 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
     double frame_rate = window.frame_rate();
     double speed = 5.0 * (1.0 / frame_rate);
 
-    if (keyboard.pressing(GLFW_KEY_W)) { camera.position += camera.forward() * speed; }
+    Vi::Vec3d forward = camera.forward();
+    forward.y = 0.0;
+    forward = forward.normalized();
+    if (keyboard.pressing(GLFW_KEY_W)) { camera.position += forward * speed; }
     if (keyboard.pressing(GLFW_KEY_A)) { camera.position += camera.right() * -speed; }
-    if (keyboard.pressing(GLFW_KEY_S)) { camera.position += camera.forward() * -speed; }
+    if (keyboard.pressing(GLFW_KEY_S)) { camera.position += forward * -speed; }
     if (keyboard.pressing(GLFW_KEY_D)) { camera.position += camera.right() * speed; }
-
-    if (keyboard.pressing(GLFW_KEY_SPACE))      { camera.position += Vi::Vec3d::ypos() * speed; }
+    if (keyboard.pressing(GLFW_KEY_SPACE)) { camera.position += Vi::Vec3d::ypos() * speed; }
     if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += Vi::Vec3d::yneg() * speed; }
 
     Vi::Mouse& mouse = Vi::Window::mouse();
-
     if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.cursor(GLFW_CURSOR_DISABLED); }
     if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.cursor(GLFW_CURSOR_NORMAL); }
-
     if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {        
         double sensitivity = 0.1 * (1.0 / frame_rate);
         double x_movement = mouse.velocity().x;
@@ -64,8 +73,6 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
         camera.orientation = longitudinal_rotation * camera.orientation;
         camera.orientation = camera.orientation.normalized();
     }
-
-
 }
 
 static void demo_gui(Vi::Window& window) {

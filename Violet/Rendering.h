@@ -43,6 +43,7 @@ namespace Vi {
         static Color cyan();
         static Color purple();
         static Color yellow();
+        Color operator * (double);
     };
 
     class Vertex {

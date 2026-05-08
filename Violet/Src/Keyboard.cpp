@@ -35,6 +35,11 @@ namespace Vi {
 
     /* Private */
 
+    Keyboard& Keyboard::get_instance() {
+        static Keyboard keyboard{};
+        return keyboard;
+    }
+
     void Keyboard::reset() {
         keyboard_events.clear();
     }

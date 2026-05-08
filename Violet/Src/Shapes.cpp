@@ -8,7 +8,7 @@
 
 namespace Vi {
 
-    /* Cube */
+    /* Cube Sphere */
 
     static enum class Shape {
         CUBE,
@@ -21,17 +21,15 @@ namespace Vi {
         vertices = cube_sphere_geometry(divisions, Shape::CUBE);
     }
 
-    /* Sphere */
-
     Sphere::Sphere(int divisions) {
         vertices = cube_sphere_geometry(divisions, Shape::SPHERE);
     }
 
-    Vec2f Sphere::screen_position() const {
+    Vec2f Sphere::screen_position(const Camera& camera) const {
         return Vec2f{};
     }
 
-    float Sphere::apparent_radius() const {
+    float Sphere::apparent_radius(const Camera& camera) const {
         return float{};
     }
 

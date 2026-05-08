@@ -106,6 +106,7 @@ namespace Vi {
         bool imgui_captured() const;
     private:
         friend Window;
+        static Keyboard& get_instance();
         Keyboard() = default;
         Keyboard(const Keyboard&) = delete;
         Keyboard(Keyboard&&) = delete;
@@ -125,6 +126,7 @@ namespace Vi {
         bool imgui_captured() const;
     private:
         friend Window;
+        static Mouse& get_instance();
         Mouse() = default;
         Mouse(const Mouse&) = delete;
         Mouse(Mouse&&) = delete;
@@ -150,8 +152,8 @@ namespace Vi {
         void clear(const Color&);
         void draw(const Mesh&, const Camera&);
         void display();
-        static Mouse& mouse();
-        static Keyboard& keyboard();
+        Mouse& mouse() const;
+        Keyboard& keyboard() const;
     private:
         Window(const Window&) = delete;
         Window(Window&&) = delete;

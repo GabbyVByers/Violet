@@ -158,22 +158,12 @@ namespace Vi {
         glfwSwapBuffers(window);
     }
 
-    Mouse& Window::mouse() {
-        GLFWwindow* window = glfwGetCurrentContext();
-        if (window == nullptr) {
-            Log::error("Cannot invoke Mouse without an existing GLFW context.");
-        }
-        static Mouse mouse;
-        return mouse;
+    Mouse& Window::mouse() const {
+        return Mouse::get_instance();
     }
 
-    Keyboard& Window::keyboard() {
-        GLFWwindow* window = glfwGetCurrentContext();
-        if (window == nullptr) {
-            Log::error("Cannot invoke Keyboard without an existing GLFW context.");
-        }
-        static Keyboard keyboard;
-        return keyboard;
+    Keyboard& Window::keyboard() const {
+        return Keyboard::get_instance();
     }
 
     /* Private */
@@ -226,7 +216,7 @@ namespace Vi {
             .action = action,
             .mods = mods,
         };
-        Keyboard& keyboard = Window::keyboard();
+        Keyboard& keyboard = Keyboard::get_instance();
         keyboard.keyboard_events.push_back(event);
     }
 
@@ -236,7 +226,7 @@ namespace Vi {
             .action = action,
             .mods = mods
         };
-        Mouse& mouse = Window::mouse();
+        Mouse& mouse = Mouse::get_instance();
         mouse.mouse_events.push_back(event);
     }
 
@@ -245,7 +235,7 @@ namespace Vi {
             .xoffset = xoffset,
             .yoffset = yoffset
         };
-        Mouse& mouse = Window::mouse();
+        Mouse& mouse = Mouse::get_instance();
         mouse.scroll_events.push_back(event);
     }
 }

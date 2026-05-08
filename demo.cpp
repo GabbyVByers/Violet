@@ -42,7 +42,7 @@ int main() {
 }
 
 static void control_camera(Vi::Camera& camera, Vi::Window& window) {
-    Vi::Keyboard& keyboard = Vi::Window::keyboard();
+    Vi::Keyboard& keyboard = window.keyboard();
     double frame_rate = window.frame_rate();
     double speed = 5.0 * (1.0 / frame_rate);
 
@@ -56,7 +56,7 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
     if (keyboard.pressing(GLFW_KEY_SPACE)) { camera.position += Vi::Vec3d::ypos() * speed; }
     if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += Vi::Vec3d::yneg() * speed; }
 
-    Vi::Mouse& mouse = Vi::Window::mouse();
+    Vi::Mouse& mouse = window.mouse();
     if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.cursor(GLFW_CURSOR_DISABLED); }
     if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.cursor(GLFW_CURSOR_NORMAL); }
     if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {        

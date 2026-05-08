@@ -62,6 +62,11 @@ namespace Vi {
 
     /* Private */
 
+    Mouse& Mouse::get_instance() {
+        static Mouse mouse{};
+        return mouse;
+    }
+
     void Mouse::reset() {
         GLFWwindow* window = glfwGetCurrentContext();
         if (window == nullptr) {

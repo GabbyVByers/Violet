@@ -1,9 +1,10 @@
 
 /*
-    Window.cpp
+    window.cpp
 */
 
-#include "../Rendering.h"
+#include "../rendering.h"
+#include "../logging.h"
 
 #include <chrono>
 #include <array>

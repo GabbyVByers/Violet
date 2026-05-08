@@ -1,6 +1,6 @@
 
 /*
-    WinSock.cpp
+    winsock.cpp
 */
 
 #include "../Networking.h"

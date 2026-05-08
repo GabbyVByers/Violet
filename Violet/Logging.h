@@ -1,15 +1,18 @@
 
 /*
-    Logging.h
+    logging.h
 */
 
 #pragma once
 #include <iostream>
 #include <string>
 #include <cassert>
-#include <utility> // Needed for std::forward
+#include <utility>
 
+#ifndef Vi
 #define Vi Vi
+#endif // Vi
+
 namespace Vi {
 
     class Log {

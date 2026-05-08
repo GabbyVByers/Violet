@@ -1,9 +1,9 @@
 
 /*
-    Quaternion.cpp
+    quaternion.cpp
 */
 
-#include "../Math.h"
+#include "../rendering.h"
 #include <cmath>
 
 namespace Vi {

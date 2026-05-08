@@ -1,9 +1,9 @@
 
 /*
-    Camera.cpp
+    camera.cpp
 */
 
-#include "../Rendering.h"
+#include "../rendering.h"
 #include <numbers>
 
 namespace Vi {
@@ -12,17 +12,17 @@ namespace Vi {
 
     Vec3d Camera::forward() const {
         Vec3d forward = Vec3d::zneg();
-        return Vec3d::rotate(forward, orientation);
+        return forward.rotated_using(orientation);
     }
 
     Vec3d Camera::up() const {
         Vec3d up = Vec3d::ypos();
-        return Vec3d::rotate(up, orientation);
+        return up.rotated_using(orientation);
     }
 
     Vec3d Camera::right() const {
         Vec3d right = Vec3d::xpos();
-        return Vec3d::rotate(right, orientation);
+        return right.rotated_using(orientation);
     }
 
     /* Private */

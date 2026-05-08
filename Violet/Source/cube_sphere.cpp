@@ -1,16 +1,14 @@
 
 /*
-    Shapes.cpp
+    cube_sphere.cpp
 */
 
-#include "../Shapes.h"
+#include "../rendering.h"
 #include <numbers>
 
 namespace Vi {
 
-    /* Cube Sphere */
-
-    static enum class Shape {
+    enum class Shape {
         CUBE,
         SPHERE
     };
@@ -26,17 +24,11 @@ namespace Vi {
     }
 
     Vec2f Sphere::screen_position(const Camera& camera) const {
-        return Vec2f{};
+        return Vec2f{}; // todo: impl
     }
 
     float Sphere::apparent_radius(const Camera& camera) const {
-        return float{};
-    }
-
-    /* Arrow */
-
-    Arrow::Arrow() {
-
+        return float{}; // todo: impl
     }
 }
 
@@ -72,13 +64,13 @@ namespace Vi {
             for (const Vec3d& point : points) {
                 Vec3d p;
                 if (type == Shape::CUBE)
-                    p = Vec3d::rotate(point, rot);
+                    p = point.rotated_using(rot);
                 if (type == Shape::SPHERE)
-                    p = Vec3d::rotate(point.normalized(), rot);
+                    p = point.rotated_using(rot).normalized();
                 Vertex vert = {
                     .position = static_cast<Vec3f>(p),
                     .color = Color::random(),
-                    .tex_coord = Vec2f((float)p.x, (float)p.y) // this is wrong
+                    .tex_coord = Vec2f((float)p.x, (float)p.y) // todo: this is wrong
                 };
                 vertices.push_back(vert);
             }

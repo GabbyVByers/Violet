@@ -1,11 +1,9 @@
 
 /*
-    Networking.h
+    networking.h
 */
 
 #pragma once
-
-#include "Logging.h"
 #include <string>
 #include <cstdint>
 
@@ -16,12 +14,16 @@
 
 #ifdef near
 #undef near
-#endif
+#endif // near
+
 #ifdef far
 #undef far
-#endif
+#endif // far
 
+#ifndef Vi
 #define Vi Vi
+#endif // Vi
+
 namespace Vi {
 
     class WinSock;

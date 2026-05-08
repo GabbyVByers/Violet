@@ -3,9 +3,8 @@
     demo.cpp
 */
 
-#include "Violet/Rendering.h"
-#include "Violet/Shapes.h"
-#include "Violet/Logging.h"
+#include "Violet/rendering.h"
+#include "Violet/logging.h"
 
 static void control_camera(Vi::Camera&, Vi::Window&);
 static void demo_gui(Vi::Window&);
@@ -42,36 +41,40 @@ int main() {
 }
 
 static void control_camera(Vi::Camera& camera, Vi::Window& window) {
-    Vi::Keyboard& keyboard = window.keyboard();
     double frame_rate = window.frame_rate();
     double speed = 5.0 * (1.0 / frame_rate);
 
-    Vi::Vec3d forward = camera.forward();
-    forward.y = 0.0;
-    forward = forward.normalized();
-    if (keyboard.pressing(GLFW_KEY_W)) { camera.position += forward * speed; }
-    if (keyboard.pressing(GLFW_KEY_A)) { camera.position += camera.right() * -speed; }
-    if (keyboard.pressing(GLFW_KEY_S)) { camera.position += forward * -speed; }
-    if (keyboard.pressing(GLFW_KEY_D)) { camera.position += camera.right() * speed; }
-    if (keyboard.pressing(GLFW_KEY_SPACE)) { camera.position += Vi::Vec3d::ypos() * speed; }
-    if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += Vi::Vec3d::yneg() * speed; }
+    Vi::Keyboard& keyboard = window.keyboard();
+    if (!keyboard.imgui_captured()) {
+        Vi::Vec3d forward = camera.forward();
+        forward.y = 0.0;
+        forward = forward.normalized();
+        if (keyboard.pressing(GLFW_KEY_W)) { camera.position += forward * speed; }
+        if (keyboard.pressing(GLFW_KEY_A)) { camera.position += camera.right() * -speed; }
+        if (keyboard.pressing(GLFW_KEY_S)) { camera.position += forward * -speed; }
+        if (keyboard.pressing(GLFW_KEY_D)) { camera.position += camera.right() * speed; }
+        if (keyboard.pressing(GLFW_KEY_SPACE)) { camera.position += Vi::Vec3d::ypos() * speed; }
+        if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += Vi::Vec3d::yneg() * speed; }
+    }
 
     Vi::Mouse& mouse = window.mouse();
-    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.cursor(GLFW_CURSOR_DISABLED); }
-    if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.cursor(GLFW_CURSOR_NORMAL); }
-    if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {        
-        double sensitivity = 0.1 * (1.0 / frame_rate);
-        double x_movement = mouse.velocity().x;
-        double y_movement = mouse.velocity().y;
-        // Lateral Rotation
-        Vi::Vec3d up = Vi::Vec3d::ypos();
-        Vi::Quat lateral_rotation = Vi::Quat::rotation(up, sensitivity * -x_movement);
-        camera.orientation = lateral_rotation * camera.orientation;
-        // Longitudinal Rotation
-        Vi::Vec3d right = camera.right();
-        Vi::Quat longitudinal_rotation = Vi::Quat::rotation(right, sensitivity * -y_movement);
-        camera.orientation = longitudinal_rotation * camera.orientation;
-        camera.orientation = camera.orientation.normalized();
+    if (!mouse.imgui_captured()) {
+        if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.cursor(GLFW_CURSOR_DISABLED); }
+        if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.cursor(GLFW_CURSOR_NORMAL); }
+        if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {        
+            double sensitivity = 0.1 * (1.0 / frame_rate);
+            double x_movement = mouse.velocity().x;
+            double y_movement = mouse.velocity().y;
+            // Lateral Rotation
+            Vi::Vec3d up = Vi::Vec3d::ypos();
+            Vi::Quat lateral_rotation = Vi::Quat::rotation(up, sensitivity * -x_movement);
+            camera.orientation = lateral_rotation * camera.orientation;
+            // Longitudinal Rotation
+            Vi::Vec3d right = camera.right();
+            Vi::Quat longitudinal_rotation = Vi::Quat::rotation(right, sensitivity * -y_movement);
+            camera.orientation = longitudinal_rotation * camera.orientation;
+            camera.orientation = camera.orientation.normalized();
+        }
     }
 }
 

@@ -1,13 +1,12 @@
 
 /*
-    SocketUDP.cpp
+    socket_udp.cpp
 */
 
-#include "../Networking.h"
+#include "../networking.h"
+#include "../logging.h"
 
 namespace Vi {
-
-    /* Constructor & Destructor */
 
     SocketUDP::SocketUDP() {
         WinSock::inc_socket_counter();
@@ -28,8 +27,6 @@ namespace Vi {
             closesocket(sock);
         WinSock::dec_socket_counter();
     }
-
-    /* Configs (setters) */
 
     void SocketUDP::config_listening_port(uint16_t port) {
         if (port == 0) {
@@ -71,8 +68,6 @@ namespace Vi {
         destination_address_configured = true;
     }
 
-    /* Queries (getters) */
-
     uint16_t SocketUDP::query_listening_port() const {
         return listening_port;
     }
@@ -84,8 +79,6 @@ namespace Vi {
     uint16_t SocketUDP::query_destination_port() const {
         return destination_port;
     }
-
-    /* Sending & Receiving */
 
     void SocketUDP::send_packet(const char* buffer, int size) const {
         if (buffer == nullptr) {

@@ -1,16 +1,18 @@
 
 /*
-    SiVector.h
+    stable_index_vector.h
 */
 
 #pragma once
-
 #include "Logging.h"
-
 #include <vector>
 #include <string>
 #include <iostream>
 #include <cassert>
+
+#ifndef Vi
+#define Vi Vi
+#endif // Vi
 
 #define Vi Vi
 namespace Vi {

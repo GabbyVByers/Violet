@@ -1,37 +1,213 @@
 
 /*
-    Rendering.h
+    Window.h
 */
 
 #pragma once
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include "Logging.h"
-#include "Math.h"
-#include <iostream>
 #include <vector>
 #include <string>
 
+#ifndef Vi
 #define Vi Vi
+#endif // Vi
+
+///////////////////////////////////////////////////////////////////////////////////
+//                       INTEGER, FLOAT, & DOUBLE VECTORS                        //
+///////////////////////////////////////////////////////////////////////////////////
+
+namespace Vi {
+
+    class Vec2i;
+    class Vec2f;
+    class Vec2d;
+    class Vec3i;
+    class Vec3f;
+    class Vec3d;
+
+    class Vec2i {
+    public:
+        int x{}, y{};
+        double length() const;
+        static Vec2i xpos();
+        static Vec2i xneg();
+        static Vec2i ypos();
+        static Vec2i yneg();
+        Vec2i  operator +  (const Vec2i&) const;
+        Vec2i  operator -  (const Vec2i&) const;
+        Vec2i  operator *  (const int) const;
+        Vec2i  operator /  (const int) const;
+        Vec2i& operator += (const Vec2i&);
+        Vec2i& operator -= (const Vec2i&);
+        Vec2i& operator *= (const int);
+        Vec2i& operator /= (const int);
+        explicit operator Vec2f() const;
+        explicit operator Vec2d() const;
+    };
+
+    class Vec2f {
+    public:
+        float x{}, y{};
+        float length() const;
+        Vec2f normalized() const;
+        static Vec2f xpos();
+        static Vec2f xneg();
+        static Vec2f ypos();
+        static Vec2f yneg();
+        Vec2f  operator +  (const Vec2f&) const;
+        Vec2f  operator -  (const Vec2f&) const;
+        Vec2f  operator *  (const float) const;
+        Vec2f  operator /  (const float) const;
+        Vec2f& operator += (const Vec2f&);
+        Vec2f& operator -= (const Vec2f&);
+        Vec2f& operator *= (const float);
+        Vec2f& operator /= (const float);
+        explicit operator Vec2i() const;
+        explicit operator Vec2d() const;
+    };
+
+    class Vec2d {
+    public:
+        double x{}, y{};
+        double length() const;
+        Vec2d normalized() const;
+        static Vec2d xpos();
+        static Vec2d xneg();
+        static Vec2d ypos();
+        static Vec2d yneg();
+        Vec2d  operator +  (const Vec2d&) const;
+        Vec2d  operator -  (const Vec2d&) const;
+        Vec2d  operator *  (const double) const;
+        Vec2d  operator /  (const double) const;
+        Vec2d& operator += (const Vec2d&);
+        Vec2d& operator -= (const Vec2d&);
+        Vec2d& operator *= (const double);
+        Vec2d& operator /= (const double);
+        explicit operator Vec2i() const;
+        explicit operator Vec2f() const;
+    };
+
+    class Vec3i {
+    public:
+        int x{}, y{}, z{};
+        double length() const;
+        static Vec3i xpos();
+        static Vec3i xneg();
+        static Vec3i ypos();
+        static Vec3i yneg();
+        static Vec3i zpos();
+        static Vec3i zneg();
+        Vec3i  operator +  (const Vec3i&) const;
+        Vec3i  operator -  (const Vec3i&) const;
+        Vec3i  operator *  (const int) const;
+        Vec3i  operator /  (const int) const;
+        Vec3i& operator += (const Vec3i&);
+        Vec3i& operator -= (const Vec3i&);
+        Vec3i& operator *= (const int);
+        Vec3i& operator /= (const int);
+        explicit operator Vec3f() const;
+        explicit operator Vec3d() const;
+    };
+
+    class Vec3f {
+    public:
+        float x{}, y{}, z{};
+        float length() const;
+        Vec3f normalized() const;
+        static Vec3f xpos();
+        static Vec3f xneg();
+        static Vec3f ypos();
+        static Vec3f yneg();
+        static Vec3f zpos();
+        static Vec3f zneg();
+        Vec3f  operator +  (const Vec3f&) const;
+        Vec3f  operator -  (const Vec3f&) const;
+        Vec3f  operator *  (const float) const;
+        Vec3f  operator /  (const float) const;
+        Vec3f& operator += (const Vec3f&);
+        Vec3f& operator -= (const Vec3f&);
+        Vec3f& operator *= (const float);
+        Vec3f& operator /= (const float);
+        explicit operator Vec3i() const;
+        explicit operator Vec3d() const;
+    };
+
+    class Quat; // Fwrd Dec
+    class Vec3d {
+    public:
+        double x{}, y{}, z{};
+        double length() const;
+        Vec3d normalized() const;
+        Vec3d rotated_around(const Vec3d&, double) const;
+        Vec3d rotated_using(const Quat&) const;
+        static Vec3d xpos();
+        static Vec3d xneg();
+        static Vec3d ypos();
+        static Vec3d yneg();
+        static Vec3d zpos();
+        static Vec3d zneg();
+        Vec3d  operator +  (const Vec3d&) const;
+        Vec3d  operator -  (const Vec3d&) const;
+        Vec3d  operator *  (const double) const;
+        Vec3d  operator /  (const double) const;
+        Vec3d& operator += (const Vec3d&);
+        Vec3d& operator -= (const Vec3d&);
+        Vec3d& operator *= (const double);
+        Vec3d& operator /= (const double);
+        explicit operator Vec3i() const;
+        explicit operator Vec3f() const;
+    };
+
+    namespace Vec {
+
+        // Dot Product
+        int    dot(const Vec2i&, const Vec2i&);
+        float  dot(const Vec2f&, const Vec2f&);
+        double dot(const Vec2d&, const Vec2d&);
+        int    dot(const Vec3i&, const Vec3i&);
+        float  dot(const Vec3f&, const Vec3f&);
+        double dot(const Vec3d&, const Vec3d&);
+
+        // Cross Product
+        int    cross(const Vec2i&, const Vec2i&);
+        float  cross(const Vec2f&, const Vec2f&);
+        double cross(const Vec2d&, const Vec2d&);
+        Vec3i  cross(const Vec3i&, const Vec3i&);
+        Vec3f  cross(const Vec3f&, const Vec3f&);
+        Vec3d  cross(const Vec3d&, const Vec3d&);
+
+        // Angle Between Two Vectors
+        double angle(const Vec2i&, const Vec2i&);
+        double angle(const Vec2f&, const Vec2f&);
+        double angle(const Vec2d&, const Vec2d&);
+        double angle(const Vec3i&, const Vec3i&);
+        double angle(const Vec3f&, const Vec3f&);
+        double angle(const Vec3d&, const Vec3d&);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+//                         RENDERING & MATH PRIMATIVES                           //
+///////////////////////////////////////////////////////////////////////////////////
+
 namespace Vi {
     
+    // Fwrd Decs
     class Color;
     class Vertex;
-    class Mesh;
-    class Camera;
-    class Keyboard;
-    class Mouse;
-    class Window;
+    class Quat;
+    class Mat4;
+    class Mat4f;
 
     class Color {
     public:
-        float r{};
-        float g{};
-        float b{};
+        float r{}, g{}, b{};
         float a = 1.0f;
         static Color random();
         static Color white();
@@ -43,7 +219,7 @@ namespace Vi {
         static Color cyan();
         static Color purple();
         static Color yellow();
-        Color operator * (double);
+        Color operator * (float);
     };
 
     class Vertex {
@@ -53,67 +229,55 @@ namespace Vi {
         Vec2f tex_coord{};
     };
 
-    class Mesh {
+    class Quat {
     public:
-        Mesh();
-        Mesh(const Mesh&);
-        Mesh(Mesh&&) noexcept;
-        Mesh& operator = (const Mesh&);
-        Mesh& operator = (Mesh&&) noexcept;
-        ~Mesh();
-        double scale{ 1.0 };
-        Vec3d position{};
-        Quat orientation{};
-        std::vector<Vertex> vertices{};
-        void paint(const Color&);
-        void texture(const std::string & = "");
-        void material(const std::string & = "default", const GLenum = GL_TRIANGLES);
-    private:
-        friend Window;
-        std::string texture_path{};
-        GLuint texture_id{};
-        std::string shader_path{};
-        GLuint shader{};
-        GLuint primitive{};
-        GLuint vao{};
-        GLuint vbo{};
-        Mat4 model_matrix() const;
-        void destroy_texture();
-        void destroy_material();
+        double w{ 1.0 };
+        double x{};
+        double y{};
+        double z{};
+        Quat normalized() const;
+        Quat complex_conjugate() const;
+        static Quat rotation(const Vec3d&, const double);
+        Quat operator * (const Quat&) const;
     };
 
-    class Camera {
+    class Mat4 {
     public:
-        bool infinite_projection{ true };
-        double far{ 100.0f };
-        double near{ 0.1f };
-        double fov_deg{ 70.0f };
-        Vec3d position{};
-        Quat orientation{};
-        Vec3d forward() const;
-        Vec3d up() const;
-        Vec3d right() const;
+        Mat4();
+        Mat4(
+            double, double, double, double,
+            double, double, double, double,
+            double, double, double, double,
+            double, double, double, double
+        );
+        static Mat4 scalar_matrix(const double);
+        static Mat4 translation_matrix(const Vec3d&);
+        static Mat4 rotation_matrix(const Quat&);
+        Mat4 operator * (const Mat4&) const;
+        explicit operator Mat4f() const;
     private:
-        friend Window;
-        Mat4 view_matrix() const;
-        Mat4 projection_matrix(const Vec2i) const;
+        double data[4][4]{};
     };
 
-    class Keyboard {
+    class Mat4f {
     public:
-        bool pressed(int, int) const;
-        bool pressing(int) const;
-        bool imgui_captured() const;
+        Mat4f();
+        float* ptr() const;
     private:
-        friend Window;
-        static Keyboard& get_instance();
-        Keyboard() = default;
-        Keyboard(const Keyboard&) = delete;
-        Keyboard(Keyboard&&) = delete;
-        struct KeyboardEvent { int key; int scancode; int action; int mods; };
-        std::vector<KeyboardEvent> keyboard_events{};
-        void reset();
+        friend Mat4;
+        float data[4][4]{};
     };
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+//                           WINDOW, MOUSE & KEYBOARD                            //
+///////////////////////////////////////////////////////////////////////////////////
+
+namespace Vi {
+
+    class Mouse;
+    class Keyboard;
+    class Window;
 
     class Mouse {
     public:
@@ -132,13 +296,30 @@ namespace Vi {
         Mouse(Mouse&&) = delete;
         struct MouseEvent { int button; int action; int mods; };
         struct ScrollEvent { double xoffset; double yoffset; };
-        Vec2d pos{};
-        Vec2d vel{};
+        Vec2d pos{}, vel{};
         std::vector<MouseEvent> mouse_events{};
         std::vector<ScrollEvent> scroll_events{};
         void reset();
     };
 
+    class Keyboard {
+    public:
+        bool pressed(int, int) const;
+        bool pressing(int) const;
+        bool imgui_captured() const;
+    private:
+        friend Window;
+        static Keyboard& get_instance();
+        Keyboard() = default;
+        Keyboard(const Keyboard&) = delete;
+        Keyboard(Keyboard&&) = delete;
+        struct KeyboardEvent { int key; int scancode; int action; int mods; };
+        std::vector<KeyboardEvent> keyboard_events{};
+        void reset();
+    };
+
+    class Mesh; // Fwrd Decs
+    class Camera;
     class Window {
     public:
         Window(std::string, int, int);
@@ -162,6 +343,96 @@ namespace Vi {
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);
         static void callback_mousescroll(GLFWwindow*, double, double);
+    };
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+//                                CAMERA & MESH                                  //
+///////////////////////////////////////////////////////////////////////////////////
+
+namespace Vi {
+
+    class Mesh;
+    class Camera;
+
+    class Mesh {
+    public:
+        Mesh();
+        Mesh(const Mesh&);
+        Mesh(Mesh&&) noexcept;
+        Mesh& operator = (const Mesh&);
+        Mesh& operator = (Mesh&&) noexcept;
+        ~Mesh();
+        double scale = 1.0;
+        Vec3d position{};
+        Quat orientation{};
+        std::vector<Vertex> vertices{};
+        void paint(const Color&);
+        void texture(const std::string & = "");
+        void material(const std::string & = "default", const GLenum = GL_TRIANGLES);
+    private:
+        friend Window;
+        std::string texture_path{};
+        GLuint texture_id{};
+        std::string shader_path{};
+        GLuint shader{};
+        GLuint primitive{};
+        GLuint vao{};
+        GLuint vbo{};
+        Mat4 model_matrix() const;
+        void destroy_texture();
+        void destroy_material();
+    };
+
+    class Camera {
+    public:
+        bool infinite_projection = true;
+        double far = 100.0;
+        double near = 0.1;
+        double fov_deg = 70.0;
+        Vec3d position{};
+        Quat orientation{};
+        Vec3d forward() const;
+        Vec3d up() const;
+        Vec3d right() const;
+    private:
+        friend Window;
+        Mat4 view_matrix() const;
+        Mat4 projection_matrix(const Vec2i) const;
+    };
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+//                            SHAPES, SPRITES, & TEXT                            //
+///////////////////////////////////////////////////////////////////////////////////
+
+namespace Vi {
+
+    class Cube : public Mesh {
+    public:
+        Cube(int = 0);
+    };
+
+    class Sphere : public Mesh {
+    public:
+        Sphere(int = 10);
+        Vec2f screen_position(const Camera&) const;
+        float apparent_radius(const Camera&) const;
+    };
+
+    class Arrow : public Mesh {
+    public:
+        Arrow();
+    };
+
+    class Sprite : public Mesh {
+    public:
+        Sprite() {}
+    };
+
+    class Text : public Sprite {
+    public:
+        Text() {}
     };
 }
 

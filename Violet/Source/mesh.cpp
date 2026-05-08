@@ -1,9 +1,10 @@
 
 /*
-    Mesh.cpp
+    mesh.cpp
 */
 
-#include "../Rendering.h"
+#include "../rendering.h"
+#include "../logging.h"
 
 #define STB_IMAGE_IMPLEMENTATION /* #define STB_IMAGE_IMPLEMENTATION must only exist in exactly one translation unit (*.h or *.cpp) */
 #include <stb/stb_image.h>

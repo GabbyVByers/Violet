@@ -1,9 +1,9 @@
 
 /*
-    Matrix.cpp
+    matrix.cpp
 */
 
-#include "../Math.h"
+#include "../rendering.h"
 
 namespace Vi {
     

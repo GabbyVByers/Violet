@@ -1,9 +1,10 @@
 
 /*
-    Mouse.cpp
+    mouse.cpp
 */
 
-#include "../Rendering.h"
+#include "../rendering.h"
+#include "../logging.h"
 
 namespace Vi {
 

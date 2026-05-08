@@ -30,6 +30,7 @@ namespace Vi {
     class Vec3i;
     class Vec3f;
     class Vec3d;
+    class Quat; // Fwrd Dec
 
     class Vec2i {
     public:
@@ -138,7 +139,6 @@ namespace Vi {
         explicit operator Vec3d() const;
     };
 
-    class Quat; // Fwrd Dec
     class Vec3d {
     public:
         double x{}, y{}, z{};
@@ -198,7 +198,6 @@ namespace Vi {
 
 namespace Vi {
     
-    // Fwrd Decs
     class Color;
     class Vertex;
     class Quat;
@@ -231,10 +230,8 @@ namespace Vi {
 
     class Quat {
     public:
-        double w{ 1.0 };
-        double x{};
-        double y{};
-        double z{};
+        double w = 1.0;
+        double x{}, y{}, z{};
         Quat normalized() const;
         Quat complex_conjugate() const;
         static Quat rotation(const Vec3d&, const double);
@@ -266,6 +263,63 @@ namespace Vi {
     private:
         friend Mat4;
         float data[4][4]{};
+    };
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+//                                CAMERA & MESH                                  //
+///////////////////////////////////////////////////////////////////////////////////
+
+namespace Vi {
+
+    class Mesh;
+    class Camera;
+    class Window; // Fwrd Dec
+
+    class Mesh {
+    public:
+        Mesh();
+        Mesh(const Mesh&);
+        Mesh(Mesh&&) noexcept;
+        Mesh& operator = (const Mesh&);
+        Mesh& operator = (Mesh&&) noexcept;
+        ~Mesh();
+        double scale = 1.0;
+        Vec3d position{};
+        Quat orientation{};
+        std::vector<Vertex> vertices{};
+        void paint(const Color&);
+        void texture(const std::string & = "");
+        void material(const std::string & = "default", const GLenum = GL_TRIANGLES);
+    private:
+        friend Window;
+        std::string texture_path{};
+        GLuint texture_id{};
+        std::string shader_path{};
+        GLuint shader{};
+        GLuint primitive{};
+        GLuint vao{};
+        GLuint vbo{};
+        Mat4 model_matrix() const;
+        void destroy_texture();
+        void destroy_material();
+    };
+
+    class Camera {
+    public:
+        bool infinite_projection = true;
+        double far = 100.0;
+        double near = 0.1;
+        double fov_deg = 70.0;
+        Vec3d position{};
+        Quat orientation{};
+        Vec3d forward() const;
+        Vec3d up() const;
+        Vec3d right() const;
+    private:
+        friend Window;
+        Mat4 view_matrix() const;
+        Mat4 projection_matrix(const Vec2i) const;
     };
 }
 
@@ -318,8 +372,6 @@ namespace Vi {
         void reset();
     };
 
-    class Mesh; // Fwrd Decs
-    class Camera;
     class Window {
     public:
         Window(std::string, int, int);
@@ -343,62 +395,6 @@ namespace Vi {
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);
         static void callback_mousescroll(GLFWwindow*, double, double);
-    };
-}
-
-///////////////////////////////////////////////////////////////////////////////////
-//                                CAMERA & MESH                                  //
-///////////////////////////////////////////////////////////////////////////////////
-
-namespace Vi {
-
-    class Mesh;
-    class Camera;
-
-    class Mesh {
-    public:
-        Mesh();
-        Mesh(const Mesh&);
-        Mesh(Mesh&&) noexcept;
-        Mesh& operator = (const Mesh&);
-        Mesh& operator = (Mesh&&) noexcept;
-        ~Mesh();
-        double scale = 1.0;
-        Vec3d position{};
-        Quat orientation{};
-        std::vector<Vertex> vertices{};
-        void paint(const Color&);
-        void texture(const std::string & = "");
-        void material(const std::string & = "default", const GLenum = GL_TRIANGLES);
-    private:
-        friend Window;
-        std::string texture_path{};
-        GLuint texture_id{};
-        std::string shader_path{};
-        GLuint shader{};
-        GLuint primitive{};
-        GLuint vao{};
-        GLuint vbo{};
-        Mat4 model_matrix() const;
-        void destroy_texture();
-        void destroy_material();
-    };
-
-    class Camera {
-    public:
-        bool infinite_projection = true;
-        double far = 100.0;
-        double near = 0.1;
-        double fov_deg = 70.0;
-        Vec3d position{};
-        Quat orientation{};
-        Vec3d forward() const;
-        Vec3d up() const;
-        Vec3d right() const;
-    private:
-        friend Window;
-        Mat4 view_matrix() const;
-        Mat4 projection_matrix(const Vec2i) const;
     };
 }
 

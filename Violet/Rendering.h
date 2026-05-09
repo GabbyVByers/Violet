@@ -1,6 +1,6 @@
 
 /*
-    Window.h
+    rendering.h
 */
 
 #pragma once
@@ -18,9 +18,9 @@
 #define Vi Vi
 #endif // Vi
 
-///////////////////////////////////////////////////////////////////////////////////
-//                       INTEGER, FLOAT, & DOUBLE VECTORS                        //
-///////////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------
+// [Section] INTEGER, FLOAT, & DOUBLE VECTORS
+// -----------------------------------------------------
 
 namespace Vi {
 
@@ -36,10 +36,6 @@ namespace Vi {
     public:
         int x{}, y{};
         double length() const;
-        static Vec2i xpos();
-        static Vec2i xneg();
-        static Vec2i ypos();
-        static Vec2i yneg();
         Vec2i  operator +  (const Vec2i&) const;
         Vec2i  operator -  (const Vec2i&) const;
         Vec2i  operator *  (const int) const;
@@ -48,8 +44,8 @@ namespace Vi {
         Vec2i& operator -= (const Vec2i&);
         Vec2i& operator *= (const int);
         Vec2i& operator /= (const int);
-        explicit operator Vec2f() const;
-        explicit operator Vec2d() const;
+        operator Vec2f() const;
+        operator Vec2d() const;
     };
 
     class Vec2f {
@@ -57,10 +53,6 @@ namespace Vi {
         float x{}, y{};
         float length() const;
         Vec2f normalized() const;
-        static Vec2f xpos();
-        static Vec2f xneg();
-        static Vec2f ypos();
-        static Vec2f yneg();
         Vec2f  operator +  (const Vec2f&) const;
         Vec2f  operator -  (const Vec2f&) const;
         Vec2f  operator *  (const float) const;
@@ -69,8 +61,8 @@ namespace Vi {
         Vec2f& operator -= (const Vec2f&);
         Vec2f& operator *= (const float);
         Vec2f& operator /= (const float);
-        explicit operator Vec2i() const;
-        explicit operator Vec2d() const;
+        operator Vec2i() const;
+        operator Vec2d() const;
     };
 
     class Vec2d {
@@ -78,10 +70,6 @@ namespace Vi {
         double x{}, y{};
         double length() const;
         Vec2d normalized() const;
-        static Vec2d xpos();
-        static Vec2d xneg();
-        static Vec2d ypos();
-        static Vec2d yneg();
         Vec2d  operator +  (const Vec2d&) const;
         Vec2d  operator -  (const Vec2d&) const;
         Vec2d  operator *  (const double) const;
@@ -90,20 +78,14 @@ namespace Vi {
         Vec2d& operator -= (const Vec2d&);
         Vec2d& operator *= (const double);
         Vec2d& operator /= (const double);
-        explicit operator Vec2i() const;
-        explicit operator Vec2f() const;
+        operator Vec2i() const;
+        operator Vec2f() const;
     };
 
     class Vec3i {
     public:
         int x{}, y{}, z{};
         double length() const;
-        static Vec3i xpos();
-        static Vec3i xneg();
-        static Vec3i ypos();
-        static Vec3i yneg();
-        static Vec3i zpos();
-        static Vec3i zneg();
         Vec3i  operator +  (const Vec3i&) const;
         Vec3i  operator -  (const Vec3i&) const;
         Vec3i  operator *  (const int) const;
@@ -112,8 +94,8 @@ namespace Vi {
         Vec3i& operator -= (const Vec3i&);
         Vec3i& operator *= (const int);
         Vec3i& operator /= (const int);
-        explicit operator Vec3f() const;
-        explicit operator Vec3d() const;
+        operator Vec3f() const;
+        operator Vec3d() const;
     };
 
     class Vec3f {
@@ -121,12 +103,6 @@ namespace Vi {
         float x{}, y{}, z{};
         float length() const;
         Vec3f normalized() const;
-        static Vec3f xpos();
-        static Vec3f xneg();
-        static Vec3f ypos();
-        static Vec3f yneg();
-        static Vec3f zpos();
-        static Vec3f zneg();
         Vec3f  operator +  (const Vec3f&) const;
         Vec3f  operator -  (const Vec3f&) const;
         Vec3f  operator *  (const float) const;
@@ -135,8 +111,8 @@ namespace Vi {
         Vec3f& operator -= (const Vec3f&);
         Vec3f& operator *= (const float);
         Vec3f& operator /= (const float);
-        explicit operator Vec3i() const;
-        explicit operator Vec3d() const;
+        operator Vec3i() const;
+        operator Vec3d() const;
     };
 
     class Vec3d {
@@ -146,12 +122,6 @@ namespace Vi {
         Vec3d normalized() const;
         Vec3d rotated_around(const Vec3d&, double) const;
         Vec3d rotated_using(const Quat&) const;
-        static Vec3d xpos();
-        static Vec3d xneg();
-        static Vec3d ypos();
-        static Vec3d yneg();
-        static Vec3d zpos();
-        static Vec3d zneg();
         Vec3d  operator +  (const Vec3d&) const;
         Vec3d  operator -  (const Vec3d&) const;
         Vec3d  operator *  (const double) const;
@@ -160,41 +130,66 @@ namespace Vi {
         Vec3d& operator -= (const Vec3d&);
         Vec3d& operator *= (const double);
         Vec3d& operator /= (const double);
-        explicit operator Vec3i() const;
-        explicit operator Vec3f() const;
+        operator Vec3i() const;
+        operator Vec3f() const;
     };
 
-    namespace Vec {
+    class Vec2 {
+    public:
+        static int    dot(const Vec2i&, const Vec2i&);
+        static float  dot(const Vec2f&, const Vec2f&);
+        static double dot(const Vec2d&, const Vec2d&);
 
-        // Dot Product
-        int    dot(const Vec2i&, const Vec2i&);
-        float  dot(const Vec2f&, const Vec2f&);
-        double dot(const Vec2d&, const Vec2d&);
-        int    dot(const Vec3i&, const Vec3i&);
-        float  dot(const Vec3f&, const Vec3f&);
-        double dot(const Vec3d&, const Vec3d&);
+        static int    cross(const Vec2i&, const Vec2i&);
+        static float  cross(const Vec2f&, const Vec2f&);
+        static double cross(const Vec2d&, const Vec2d&);
 
-        // Cross Product
-        int    cross(const Vec2i&, const Vec2i&);
-        float  cross(const Vec2f&, const Vec2f&);
-        double cross(const Vec2d&, const Vec2d&);
-        Vec3i  cross(const Vec3i&, const Vec3i&);
-        Vec3f  cross(const Vec3f&, const Vec3f&);
-        Vec3d  cross(const Vec3d&, const Vec3d&);
+        static double angle(const Vec2i&, const Vec2i&);
+        static double angle(const Vec2f&, const Vec2f&);
+        static double angle(const Vec2d&, const Vec2d&);
 
-        // Angle Between Two Vectors
-        double angle(const Vec2i&, const Vec2i&);
-        double angle(const Vec2f&, const Vec2f&);
-        double angle(const Vec2d&, const Vec2d&);
-        double angle(const Vec3i&, const Vec3i&);
-        double angle(const Vec3f&, const Vec3f&);
-        double angle(const Vec3d&, const Vec3d&);
-    }
+        static Vec2i xpos();
+        static Vec2i xneg();
+        static Vec2i ypos();
+        static Vec2i yneg();
+
+    private:
+        Vec2() = delete;
+        Vec2(const Vec2&) = delete;
+        Vec2(Vec2&&) = delete;
+    };
+
+    class Vec3 {
+    public:
+        static int    dot(const Vec3i&, const Vec3i&);
+        static float  dot(const Vec3f&, const Vec3f&);
+        static double dot(const Vec3d&, const Vec3d&);
+
+        static Vec3i  cross(const Vec3i&, const Vec3i&);
+        static Vec3f  cross(const Vec3f&, const Vec3f&);
+        static Vec3d  cross(const Vec3d&, const Vec3d&);
+
+        static double angle(const Vec3i&, const Vec3i&);
+        static double angle(const Vec3f&, const Vec3f&);
+        static double angle(const Vec3d&, const Vec3d&);
+
+        static Vec3i xpos();
+        static Vec3i xneg();
+        static Vec3i ypos();
+        static Vec3i yneg();
+        static Vec3i zpos();
+        static Vec3i zneg();
+
+    private:
+        Vec3() = delete;
+        Vec3(const Vec3&) = delete;
+        Vec3(Vec3&&) = delete;
+    };
 }
 
-///////////////////////////////////////////////////////////////////////////////////
-//                         RENDERING & MATH PRIMATIVES                           //
-///////////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------
+// [Section] RENDERING & MATH PRIMATIVES
+// -----------------------------------------------------
 
 namespace Vi {
     
@@ -266,15 +261,17 @@ namespace Vi {
     };
 }
 
-///////////////////////////////////////////////////////////////////////////////////
-//                                CAMERA & MESH                                  //
-///////////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------
+// [Section] MESH, CAMERA, WINDOW, MOUSE & KEYBOARD
+// -----------------------------------------------------
 
 namespace Vi {
 
     class Mesh;
     class Camera;
-    class Window; // Fwrd Dec
+    class Mouse;
+    class Keyboard;
+    class Window;
 
     class Mesh {
     public:
@@ -321,17 +318,6 @@ namespace Vi {
         Mat4 view_matrix() const;
         Mat4 projection_matrix(const Vec2i) const;
     };
-}
-
-///////////////////////////////////////////////////////////////////////////////////
-//                           WINDOW, MOUSE & KEYBOARD                            //
-///////////////////////////////////////////////////////////////////////////////////
-
-namespace Vi {
-
-    class Mouse;
-    class Keyboard;
-    class Window;
 
     class Mouse {
     public:
@@ -398,9 +384,9 @@ namespace Vi {
     };
 }
 
-///////////////////////////////////////////////////////////////////////////////////
-//                            SHAPES, SPRITES, & TEXT                            //
-///////////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------
+// [Section] SHAPES, SPRITES, & TEXT
+// -----------------------------------------------------
 
 namespace Vi {
 

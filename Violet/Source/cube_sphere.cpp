@@ -52,12 +52,12 @@ namespace Vi {
 
         double half_pi = std::numbers::pi * 0.5;
         std::vector<Quat> rotations = {
-            Quat::rotation(Vec3d::ypos(), half_pi * 0),
-            Quat::rotation(Vec3d::ypos(), half_pi * 1),
-            Quat::rotation(Vec3d::ypos(), half_pi * 2),
-            Quat::rotation(Vec3d::ypos(), half_pi * 3),
-            Quat::rotation(Vec3d::xpos(), half_pi * 1),
-            Quat::rotation(Vec3d::xpos(), half_pi * -1)
+            Quat::rotation(Vec3::ypos(), half_pi * 0),
+            Quat::rotation(Vec3::ypos(), half_pi * 1),
+            Quat::rotation(Vec3::ypos(), half_pi * 2),
+            Quat::rotation(Vec3::ypos(), half_pi * 3),
+            Quat::rotation(Vec3::xpos(), half_pi * 1),
+            Quat::rotation(Vec3::xpos(), half_pi * -1)
         };
 
         for (const Quat& rot : rotations) {

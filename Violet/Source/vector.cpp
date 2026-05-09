@@ -15,7 +15,7 @@ namespace Vi {
     template<typename type>
     static void zero(const type val) {
         if (val == type{}) {
-            Log::warning("A vector math operation resulted division by zero");
+            Log::warning("Vector math operation resulted in division by zero!");
         }
     }
     
@@ -24,11 +24,6 @@ namespace Vi {
     double Vec2i::length() const {
         return std::hypot(x, y);
     }
-    
-    Vec2i Vec2i::xpos() { return Vec2i( 1, 0); }
-    Vec2i Vec2i::xneg() { return Vec2i(-1, 0); }
-    Vec2i Vec2i::ypos() { return Vec2i( 0, 1); }
-    Vec2i Vec2i::yneg() { return Vec2i( 0,-1); }
     
     Vec2i  Vec2i::operator +  (const Vec2i& vec) const { return Vec2i(x + vec.x, y + vec.y); }
     Vec2i  Vec2i::operator -  (const Vec2i& vec) const { return Vec2i(x - vec.x, y - vec.y); }
@@ -52,10 +47,6 @@ namespace Vi {
         float len = length();
         return Vec2f(x / len, y / len);
     }
-    Vec2f Vec2f::xpos() { return Vec2f( 1.0f, 0.0f); }
-    Vec2f Vec2f::xneg() { return Vec2f(-1.0f, 0.0f); }
-    Vec2f Vec2f::ypos() { return Vec2f( 0.0f, 1.0f); }
-    Vec2f Vec2f::yneg() { return Vec2f( 0.0f,-1.0f); }
     
     Vec2f  Vec2f::operator +  (const Vec2f& vec)   const { return Vec2f(x + vec.x, y + vec.y); }
     Vec2f  Vec2f::operator -  (const Vec2f& vec)   const { return Vec2f(x - vec.x, y - vec.y); }
@@ -79,11 +70,6 @@ namespace Vi {
         double len = length();
         return Vec2d(x / len, y / len);
     }
-
-    Vec2d Vec2d::xpos() { return Vec2d( 1.0, 0.0); }
-    Vec2d Vec2d::xneg() { return Vec2d(-1.0, 0.0); }
-    Vec2d Vec2d::ypos() { return Vec2d( 0.0, 1.0); }
-    Vec2d Vec2d::yneg() { return Vec2d( 0.0,-1.0); }
     
     Vec2d  Vec2d::operator +  (const Vec2d& vec)   const { return Vec2d(x + vec.x, y + vec.y); }
     Vec2d  Vec2d::operator -  (const Vec2d& vec)   const { return Vec2d(x - vec.x, y - vec.y); }
@@ -102,13 +88,6 @@ namespace Vi {
     double Vec3i::length() const {
         return std::hypot(x, y, z);
     }
-    
-    Vec3i Vec3i::xpos() { return Vec3i( 1, 0, 0); }
-    Vec3i Vec3i::xneg() { return Vec3i(-1, 0, 0); }
-    Vec3i Vec3i::ypos() { return Vec3i( 0, 1, 0); }
-    Vec3i Vec3i::yneg() { return Vec3i( 0,-1, 0); }
-    Vec3i Vec3i::zpos() { return Vec3i( 0, 0, 1); }
-    Vec3i Vec3i::zneg() { return Vec3i( 0, 0,-1); }
     
     Vec3i  Vec3i::operator +  (const Vec3i& vec) const { return Vec3i(x + vec.x, y + vec.y, z + vec.z); }
     Vec3i  Vec3i::operator -  (const Vec3i& vec) const { return Vec3i(x - vec.x, y - vec.y, z - vec.z); }
@@ -132,13 +111,6 @@ namespace Vi {
         float len = length();
         return Vec3f(x / len, y / len, z / len);
     }
-
-    Vec3f Vec3f::xpos() { return Vec3f( 1.0f, 0.0f, 0.0f); }
-    Vec3f Vec3f::xneg() { return Vec3f(-1.0f, 0.0f, 0.0f); }
-    Vec3f Vec3f::ypos() { return Vec3f( 0.0f, 1.0f, 0.0f); }
-    Vec3f Vec3f::yneg() { return Vec3f( 0.0f,-1.0f, 0.0f); }
-    Vec3f Vec3f::zpos() { return Vec3f( 0.0f, 0.0f, 1.0f); }
-    Vec3f Vec3f::zneg() { return Vec3f( 0.0f, 0.0f,-1.0f); }
     
     Vec3f  Vec3f::operator +  (const Vec3f& vec)  const { return Vec3f(x + vec.x, y + vec.y, z + vec.z); }
     Vec3f  Vec3f::operator -  (const Vec3f& vec)  const { return Vec3f(x - vec.x, y - vec.y, z - vec.z); }
@@ -179,13 +151,6 @@ namespace Vi {
         );
     }
 
-    Vec3d Vec3d::xpos() { return Vec3d( 1.0, 0.0, 0.0); }
-    Vec3d Vec3d::xneg() { return Vec3d(-1.0, 0.0, 0.0); }
-    Vec3d Vec3d::ypos() { return Vec3d( 0.0, 1.0, 0.0); }
-    Vec3d Vec3d::yneg() { return Vec3d( 0.0,-1.0, 0.0); }
-    Vec3d Vec3d::zpos() { return Vec3d( 0.0, 0.0, 1.0); }
-    Vec3d Vec3d::zneg() { return Vec3d( 0.0, 0.0,-1.0); }
-
     Vec3d  Vec3d::operator +  (const Vec3d& vec)   const { return Vec3d(x + vec.x, y + vec.y, z + vec.z); }
     Vec3d  Vec3d::operator -  (const Vec3d& vec)   const { return Vec3d(x - vec.x, y - vec.y, z - vec.z); }
     Vec3d  Vec3d::operator *  (const double scale) const { return Vec3d(x * scale, y * scale, z * scale); }
@@ -198,99 +163,108 @@ namespace Vi {
     Vec3d::operator Vec3i() const { return Vec3i((int)x, (int)y, (int)z); }
     Vec3d::operator Vec3f() const { return Vec3f((float)x, (float)y, (float)z); }
 
-    /* Vector Math Operations */
+    /* Dot Products */
 
-    namespace Vec {
-
-        // Dot Product
-
-        int dot(const Vec2i& a, const Vec2i& b) {
-            return (a.x * b.x) + (a.y * b.y);
-        }
-
-        float dot(const Vec2f& a, const Vec2f& b) {
-            return (a.x * b.x) + (a.y * b.y);
-        }
-        
-        double dot(const Vec2d& a, const Vec2d& b) {
-            return (a.x * b.x) + (a.y * b.y);
-        }
-        
-        int dot(const Vec3i& a, const Vec3i& b) {
-            return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
-        }
-        
-        float dot(const Vec3f& a, const Vec3f& b) {
-            return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
-        }
-        
-        double dot(const Vec3d& a, const Vec3d& b) {
-            return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
-        }
-        
-        // Cross Product
-        
-        int cross(const Vec2i& a, const Vec2i& b) {
-            return (a.x * b.y) - (a.y * b.x);
-        }
-        
-        float cross(const Vec2f& a, const Vec2f& b) {
-            return (a.x * b.y) - (a.y * b.x);
-        }
-        
-        double cross(const Vec2d& a, const Vec2d& b) {
-            return (a.x * b.y) - (a.y * b.x);
-        }
-        
-        Vec3i cross(const Vec3i& a, const Vec3i& b) {
-            return Vec3i(
-                (a.y * b.z) - (a.z * b.y),
-                (a.z * b.x) - (a.x * b.z),
-                (a.x * b.y) - (a.y * b.x)
-            );
-        }
-        
-        Vec3f cross(const Vec3f& a, const Vec3f& b) {
-            return Vec3f(
-                (a.y * b.z) - (a.z * b.y),
-                (a.z * b.x) - (a.x * b.z),
-                (a.x * b.y) - (a.y * b.x)
-            );
-        }
-
-        Vec3d cross(const Vec3d& a, const Vec3d& b) {
-            return Vec3d(
-                (a.y * b.z) - (a.z * b.y),
-                (a.z * b.x) - (a.x * b.z),
-                (a.x * b.y) - (a.y * b.x)
-            );
-        }
-
-        // Angle Between Two Vectors
-
-        double angle(const Vec2i& a, const Vec2i& b) {
-            return std::acos(dot(a, b) / (a.length() * b.length()));
-        }
-        
-        double angle(const Vec2f& a, const Vec2f& b) {
-            return std::acos(dot(a, b) / (a.length() * b.length()));
-        }
-        
-        double angle(const Vec2d& a, const Vec2d& b) {
-            return std::acos(dot(a, b) / (a.length() * b.length()));
-        }
-        
-        double angle(const Vec3i& a, const Vec3i& b) {
-            return std::acos(dot(a, b) / (a.length() * b.length()));
-        }
-        
-        double angle(const Vec3f& a, const Vec3f& b) {
-            return std::acos(dot(a, b) / (a.length() * b.length()));
-        }
-
-        double angle(const Vec3d& a, const Vec3d& b) {
-            return std::acos(dot(a, b) / (a.length() * b.length()));
-        }
+    int Vec2::dot(const Vec2i& a, const Vec2i& b) {
+        return (a.x * b.x) + (a.y * b.y);
     }
+
+    float Vec2::dot(const Vec2f& a, const Vec2f& b) {
+        return (a.x * b.x) + (a.y * b.y);
+    }
+        
+    double Vec2::dot(const Vec2d& a, const Vec2d& b) {
+        return (a.x * b.x) + (a.y * b.y);
+    }
+        
+    int Vec3::dot(const Vec3i& a, const Vec3i& b) {
+        return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
+        
+    float Vec3::dot(const Vec3f& a, const Vec3f& b) {
+        return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
+        
+    double Vec3::dot(const Vec3d& a, const Vec3d& b) {
+        return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
+    
+    /* Cross Products */
+        
+    int Vec2::cross(const Vec2i& a, const Vec2i& b) {
+        return (a.x * b.y) - (a.y * b.x);
+    }
+        
+    float Vec2::cross(const Vec2f& a, const Vec2f& b) {
+        return (a.x * b.y) - (a.y * b.x);
+    }
+        
+    double Vec2::cross(const Vec2d& a, const Vec2d& b) {
+        return (a.x * b.y) - (a.y * b.x);
+    }
+        
+    Vec3i Vec3::cross(const Vec3i& a, const Vec3i& b) {
+        return Vec3i(
+            (a.y * b.z) - (a.z * b.y),
+            (a.z * b.x) - (a.x * b.z),
+            (a.x * b.y) - (a.y * b.x)
+        );
+    }
+        
+    Vec3f Vec3::cross(const Vec3f& a, const Vec3f& b) {
+        return Vec3f(
+            (a.y * b.z) - (a.z * b.y),
+            (a.z * b.x) - (a.x * b.z),
+            (a.x * b.y) - (a.y * b.x)
+        );
+    }
+
+    Vec3d Vec3::cross(const Vec3d& a, const Vec3d& b) {
+        return Vec3d(
+            (a.y * b.z) - (a.z * b.y),
+            (a.z * b.x) - (a.x * b.z),
+            (a.x * b.y) - (a.y * b.x)
+        );
+    }
+
+    /* Angle Between Vectors */
+
+    double Vec2::angle(const Vec2i& a, const Vec2i& b) {
+        return std::acos(dot(a, b) / (a.length() * b.length()));
+    }
+        
+    double Vec2::angle(const Vec2f& a, const Vec2f& b) {
+        return std::acos(dot(a, b) / (a.length() * b.length()));
+    }
+        
+    double Vec2::angle(const Vec2d& a, const Vec2d& b) {
+        return std::acos(dot(a, b) / (a.length() * b.length()));
+    }
+        
+    double Vec3::angle(const Vec3i& a, const Vec3i& b) {
+        return std::acos(dot(a, b) / (a.length() * b.length()));
+    }
+        
+    double Vec3::angle(const Vec3f& a, const Vec3f& b) {
+        return std::acos(dot(a, b) / (a.length() * b.length()));
+    }
+
+    double Vec3::angle(const Vec3d& a, const Vec3d& b) {
+        return std::acos(dot(a, b) / (a.length() * b.length()));
+    }
+
+    /* Basis Directions */
+
+    Vec2i Vec2::xpos() { return Vec2i( 1, 0); }
+    Vec2i Vec2::xneg() { return Vec2i(-1, 0); }
+    Vec2i Vec2::ypos() { return Vec2i( 0, 1); }
+    Vec2i Vec2::yneg() { return Vec2i( 0,-1); }
+
+    Vec3i Vec3::xpos() { return Vec3i( 1, 0, 0); }
+    Vec3i Vec3::xneg() { return Vec3i(-1, 0, 0); }
+    Vec3i Vec3::ypos() { return Vec3i( 0, 1, 0); }
+    Vec3i Vec3::yneg() { return Vec3i( 0,-1, 0); }
+    Vec3i Vec3::zpos() { return Vec3i( 0, 0, 1); }
+    Vec3i Vec3::zneg() { return Vec3i( 0, 0,-1); }
 }
 

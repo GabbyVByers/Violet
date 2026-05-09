@@ -11,17 +11,17 @@ namespace Vi {
     /* Public */
 
     Vec3d Camera::forward() const {
-        Vec3d forward = Vec3d::zneg();
+        Vec3d forward = Vec3::zneg();
         return forward.rotated_using(orientation);
     }
 
     Vec3d Camera::up() const {
-        Vec3d up = Vec3d::ypos();
+        Vec3d up = Vec3::ypos();
         return up.rotated_using(orientation);
     }
 
     Vec3d Camera::right() const {
-        Vec3d right = Vec3d::xpos();
+        Vec3d right = Vec3::xpos();
         return right.rotated_using(orientation);
     }
 

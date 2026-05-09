@@ -18,12 +18,12 @@ int main() {
     camera.position = Vi::Vec3d(0, 0, 2);
 
     Vi::Cube cube{};
-    cube.position = Vi::Vec3d::xneg();
+    cube.position = Vi::Vec3::xneg();
     cube.paint(Vi::Color::white());
     cube.texture("Violet/Textures/texture_square.png");
 
     Vi::Sphere sphere{};
-    sphere.position = Vi::Vec3d::xpos();
+    sphere.position = Vi::Vec3::xpos();
     sphere.paint(Vi::Color::white());
     sphere.texture("Violet/Textures/texture_rect.png");
 
@@ -53,8 +53,8 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
         if (keyboard.pressing(GLFW_KEY_A)) { camera.position += camera.right() * -speed; }
         if (keyboard.pressing(GLFW_KEY_S)) { camera.position += forward * -speed; }
         if (keyboard.pressing(GLFW_KEY_D)) { camera.position += camera.right() * speed; }
-        if (keyboard.pressing(GLFW_KEY_SPACE)) { camera.position += Vi::Vec3d::ypos() * speed; }
-        if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += Vi::Vec3d::yneg() * speed; }
+        if (keyboard.pressing(GLFW_KEY_SPACE)) { camera.position += static_cast<Vi::Vec3d>(Vi::Vec3::ypos()) * speed; }
+        if (keyboard.pressing(GLFW_KEY_LEFT_SHIFT)) { camera.position += static_cast<Vi::Vec3d>(Vi::Vec3::yneg()) * speed; }
     }
 
     Vi::Mouse& mouse = window.mouse();
@@ -66,7 +66,7 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
             double x_movement = mouse.velocity().x;
             double y_movement = mouse.velocity().y;
             // Lateral Rotation
-            Vi::Vec3d up = Vi::Vec3d::ypos();
+            Vi::Vec3d up = Vi::Vec3::ypos();
             Vi::Quat lateral_rotation = Vi::Quat::rotation(up, sensitivity * -x_movement);
             camera.orientation = lateral_rotation * camera.orientation;
             // Longitudinal Rotation

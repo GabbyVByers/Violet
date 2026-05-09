@@ -139,20 +139,16 @@ namespace Vi {
         static int    dot(const Vec2i&, const Vec2i&);
         static float  dot(const Vec2f&, const Vec2f&);
         static double dot(const Vec2d&, const Vec2d&);
-
         static int    cross(const Vec2i&, const Vec2i&);
         static float  cross(const Vec2f&, const Vec2f&);
         static double cross(const Vec2d&, const Vec2d&);
-
         static double angle(const Vec2i&, const Vec2i&);
         static double angle(const Vec2f&, const Vec2f&);
         static double angle(const Vec2d&, const Vec2d&);
-
         static Vec2i xpos();
         static Vec2i xneg();
         static Vec2i ypos();
         static Vec2i yneg();
-
     private:
         Vec2() = delete;
         Vec2(const Vec2&) = delete;
@@ -164,22 +160,18 @@ namespace Vi {
         static int    dot(const Vec3i&, const Vec3i&);
         static float  dot(const Vec3f&, const Vec3f&);
         static double dot(const Vec3d&, const Vec3d&);
-
         static Vec3i  cross(const Vec3i&, const Vec3i&);
         static Vec3f  cross(const Vec3f&, const Vec3f&);
         static Vec3d  cross(const Vec3d&, const Vec3d&);
-
         static double angle(const Vec3i&, const Vec3i&);
         static double angle(const Vec3f&, const Vec3f&);
         static double angle(const Vec3d&, const Vec3d&);
-
         static Vec3i xpos();
         static Vec3i xneg();
         static Vec3i ypos();
         static Vec3i yneg();
         static Vec3i zpos();
         static Vec3i zneg();
-
     private:
         Vec3() = delete;
         Vec3(const Vec3&) = delete;

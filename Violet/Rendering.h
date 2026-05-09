@@ -18,9 +18,9 @@
 #define Vi Vi
 #endif // Vi
 
-// -----------------------------------------------------
-// [Section] INTEGER, FLOAT, & DOUBLE VECTORS
-// -----------------------------------------------------
+//|--------------------------------------------------------
+//| [Section] 2D & 3D Vectors for ints, floats, & doubles
+//|--------------------------------------------------------
 
 namespace Vi {
 
@@ -36,10 +36,10 @@ namespace Vi {
     public:
         int x{}, y{};
         double length() const;
-        Vec2i  operator +  (const Vec2i&) const;
-        Vec2i  operator -  (const Vec2i&) const;
-        Vec2i  operator *  (const int) const;
-        Vec2i  operator /  (const int) const;
+        Vec2i operator + (const Vec2i&) const;
+        Vec2i operator - (const Vec2i&) const;
+        Vec2i operator * (const int) const;
+        Vec2i operator / (const int) const;
         Vec2i& operator += (const Vec2i&);
         Vec2i& operator -= (const Vec2i&);
         Vec2i& operator *= (const int);
@@ -53,10 +53,10 @@ namespace Vi {
         float x{}, y{};
         float length() const;
         Vec2f normalized() const;
-        Vec2f  operator +  (const Vec2f&) const;
-        Vec2f  operator -  (const Vec2f&) const;
-        Vec2f  operator *  (const float) const;
-        Vec2f  operator /  (const float) const;
+        Vec2f operator + (const Vec2f&) const;
+        Vec2f operator - (const Vec2f&) const;
+        Vec2f operator * (const float) const;
+        Vec2f operator / (const float) const;
         Vec2f& operator += (const Vec2f&);
         Vec2f& operator -= (const Vec2f&);
         Vec2f& operator *= (const float);
@@ -70,10 +70,10 @@ namespace Vi {
         double x{}, y{};
         double length() const;
         Vec2d normalized() const;
-        Vec2d  operator +  (const Vec2d&) const;
-        Vec2d  operator -  (const Vec2d&) const;
-        Vec2d  operator *  (const double) const;
-        Vec2d  operator /  (const double) const;
+        Vec2d operator + (const Vec2d&) const;
+        Vec2d operator - (const Vec2d&) const;
+        Vec2d operator * (const double) const;
+        Vec2d operator / (const double) const;
         Vec2d& operator += (const Vec2d&);
         Vec2d& operator -= (const Vec2d&);
         Vec2d& operator *= (const double);
@@ -86,10 +86,10 @@ namespace Vi {
     public:
         int x{}, y{}, z{};
         double length() const;
-        Vec3i  operator +  (const Vec3i&) const;
-        Vec3i  operator -  (const Vec3i&) const;
-        Vec3i  operator *  (const int) const;
-        Vec3i  operator /  (const int) const;
+        Vec3i operator + (const Vec3i&) const;
+        Vec3i operator - (const Vec3i&) const;
+        Vec3i operator * (const int) const;
+        Vec3i operator / (const int) const;
         Vec3i& operator += (const Vec3i&);
         Vec3i& operator -= (const Vec3i&);
         Vec3i& operator *= (const int);
@@ -103,10 +103,10 @@ namespace Vi {
         float x{}, y{}, z{};
         float length() const;
         Vec3f normalized() const;
-        Vec3f  operator +  (const Vec3f&) const;
-        Vec3f  operator -  (const Vec3f&) const;
-        Vec3f  operator *  (const float) const;
-        Vec3f  operator /  (const float) const;
+        Vec3f operator + (const Vec3f&) const;
+        Vec3f operator - (const Vec3f&) const;
+        Vec3f operator * (const float) const;
+        Vec3f operator / (const float) const;
         Vec3f& operator += (const Vec3f&);
         Vec3f& operator -= (const Vec3f&);
         Vec3f& operator *= (const float);
@@ -122,10 +122,10 @@ namespace Vi {
         Vec3d normalized() const;
         Vec3d rotated_around(const Vec3d&, double) const;
         Vec3d rotated_using(const Quat&) const;
-        Vec3d  operator +  (const Vec3d&) const;
-        Vec3d  operator -  (const Vec3d&) const;
-        Vec3d  operator *  (const double) const;
-        Vec3d  operator /  (const double) const;
+        Vec3d operator + (const Vec3d&) const;
+        Vec3d operator - (const Vec3d&) const;
+        Vec3d operator * (const double) const;
+        Vec3d operator / (const double) const;
         Vec3d& operator += (const Vec3d&);
         Vec3d& operator -= (const Vec3d&);
         Vec3d& operator *= (const double);
@@ -187,9 +187,9 @@ namespace Vi {
     };
 }
 
-// -----------------------------------------------------
-// [Section] RENDERING & MATH PRIMATIVES
-// -----------------------------------------------------
+//|-----------------------------------------------------------------
+//| [Section] Fundamental Primatives for Rendering and Mathematics
+//|-----------------------------------------------------------------
 
 namespace Vi {
     
@@ -261,9 +261,9 @@ namespace Vi {
     };
 }
 
-// -----------------------------------------------------
-// [Section] MESH, CAMERA, WINDOW, MOUSE & KEYBOARD
-// -----------------------------------------------------
+//|--------------------------------------
+//| [Section] Core Rendering Components
+//|--------------------------------------
 
 namespace Vi {
 
@@ -384,9 +384,9 @@ namespace Vi {
     };
 }
 
-// -----------------------------------------------------
-// [Section] SHAPES, SPRITES, & TEXT
-// -----------------------------------------------------
+//|--------------------------------------------------------
+//| [Section] Shapes, Sprites, & Text - Derived from Mesh
+//|--------------------------------------------------------
 
 namespace Vi {
 

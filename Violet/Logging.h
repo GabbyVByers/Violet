@@ -17,9 +17,8 @@ namespace Vi {
 
     class Log {
     public:
-        Log() = delete;
-        Log(const Log&) = delete;
-        Log(Log&&) = delete;
+        
+        /* Default Logging Methods - Overloaded by Templates */
 
         static void error() {
             std::cerr << "\033[31mError\033[0m\n";
@@ -33,6 +32,8 @@ namespace Vi {
         static void info() {
             std::cerr << "\033[32mInfo\033[0m\n";
         }
+
+        /* Templated Overloading */
 
         template<typename... Args>
         static void error(std::ostream& os, Args&&... args) {
@@ -62,6 +63,8 @@ namespace Vi {
             os << "\n";
         }
 
+        /* Convenience Overloads - Using std::cerr by Default */
+
         template<typename... Args>
         static void error(Args&&... args) {
             error(std::cerr, std::forward<Args>(args)...);
@@ -77,8 +80,10 @@ namespace Vi {
             info(std::cerr, std::forward<Args>(args)...);
         }
 
+        /* Utility for C++23 Style Printing */
+
         template<typename... Args>
-        static void print(std::ostream& os, Args&&... args) {
+        static void print(std::ostream& os, Args&&... args) { // todo: impl python-style formatting support
             if constexpr (sizeof...(Args) > 0) {
                 (os << ... << std::forward<Args>(args));
             }
@@ -88,6 +93,11 @@ namespace Vi {
         static void print(Args&&... args) {
             print(std::cout, std::forward<Args>(args)...);
         }
+
+    private:
+        Log() = delete;
+        Log(const Log&) = delete;
+        Log(Log&&) = delete;
     };
 }
 

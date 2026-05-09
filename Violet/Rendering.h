@@ -264,6 +264,7 @@ namespace Vi {
     class Mouse;
     class Keyboard;
     class Window;
+    class Sprite; // Fwrd Dec
 
     class Mesh {
     public:
@@ -362,6 +363,7 @@ namespace Vi {
         void poll_events();
         void clear(const Color&);
         void draw(const Mesh&, const Camera&);
+        void draw(Sprite&);
         void display();
         Mouse& mouse() const;
         Keyboard& keyboard() const;
@@ -373,6 +375,7 @@ namespace Vi {
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);
         static void callback_mousescroll(GLFWwindow*, double, double);
+        static inline bool aspect_ratio_changed = false;
     };
 }
 
@@ -401,7 +404,18 @@ namespace Vi {
 
     class Sprite : public Mesh {
     public:
-        Sprite() {}
+        Sprite();
+        void set_position(const Vec2i&);
+        void set_size(const Vec2f&);
+    private:
+        friend Window;
+        void preserve_aspect_ratio();
+        Vec2i screen_position{};
+        Vec2i screen_size = Vec2i(100, 100);
+        double scale = 1.0;
+        Vec3d position{};
+        Quat orientation{};
+        std::vector<Vertex> vertices{};
     };
 
     class Text : public Sprite {

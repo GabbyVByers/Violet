@@ -29,16 +29,20 @@ int main() {
 
     Vi::Sprite sprite{};
     sprite.texture = Vi::Texture("Violet/Textures/Default/tulips.png");
-    sprite.position = Vi::Vec2d(100, 100);
-    sprite.size = Vi::Vec2d(100, 100);
+    sprite.position = Vi::Vec2d(500, 500);
+    sprite.size = Vi::Vec2d(500, 500);
 
     while (window.is_open()) {
         window.poll_events();
         window.clear(Vi::Color::blue() * 0.5);
         control_camera(camera, window);
-        //demo_gui(window);
+        demo_gui(window);
         window.draw(cube, camera);
         window.draw(sphere, camera);
+
+        Vi::Mouse& mouse = window.mouse();
+        sprite.position = mouse.position();
+
         window.draw(sprite);
         window.display();
     }
@@ -65,8 +69,8 @@ static void control_camera(Vi::Camera& camera, Vi::Window& window) {
 
     Vi::Mouse& mouse = window.mouse();
     if (!mouse.imgui_captured()) {
-        if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { Vi::Log::print("pressed!\n"); mouse.cursor(GLFW_CURSOR_DISABLED); }
-        if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { Vi::Log::print("released!\n"); mouse.cursor(GLFW_CURSOR_NORMAL); }
+        if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS)) { mouse.cursor(GLFW_CURSOR_DISABLED); }
+        if (mouse.pressed(GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE)) { mouse.cursor(GLFW_CURSOR_NORMAL); }
         if (mouse.pressing(GLFW_MOUSE_BUTTON_LEFT)) {        
             double sensitivity = 0.1 * (1.0 / frame_rate);
             double x_movement = mouse.velocity().x;

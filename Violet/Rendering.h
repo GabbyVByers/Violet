@@ -253,6 +253,50 @@ namespace Vi {
     };
 }
 
+//|---------------------------------------
+//| [Section] Material & Texture Classes
+//|---------------------------------------
+
+namespace Vi {
+
+    class Texture;
+    class Material;
+    class Window; // Fwrd Dec
+
+    class Texture {
+    public:
+        Texture(const std::string& = "");
+        Texture(const Texture&);
+        Texture(Texture&&) noexcept;
+        Texture& operator = (const Texture&);
+        Texture& operator = (Texture&&) noexcept;
+        ~Texture();
+    private:
+        friend Window;
+        void destroy_texture() noexcept;
+        std::string path{};
+        GLuint texture_id = NULL;
+    };
+
+    class Material {
+    public:
+        Material(const std::string& = "default", const GLenum = GL_TRIANGLES);
+        Material(const Material&);
+        Material(Material&&) noexcept;
+        Material& operator = (const Material&);
+        Material& operator = (Material&&) noexcept;
+        ~Material();
+    private:
+        friend Window;
+        void destroy_material() noexcept;
+        std::string path{};
+        GLenum primitive = NULL;
+        GLuint shader_program = NULL;
+        GLuint vao = NULL;
+        GLuint vbo = NULL;
+    };
+}
+
 //|--------------------------------------
 //| [Section] Core Rendering Components
 //|--------------------------------------
@@ -268,31 +312,16 @@ namespace Vi {
 
     class Mesh {
     public:
-        Mesh();
-        Mesh(const Mesh&);
-        Mesh(Mesh&&) noexcept;
-        Mesh& operator = (const Mesh&);
-        Mesh& operator = (Mesh&&) noexcept;
-        ~Mesh();
+        void paint(const Color&);
         double scale = 1.0;
         Vec3d position{};
         Quat orientation{};
         std::vector<Vertex> vertices{};
-        void paint(const Color&);
-        void texture(const std::string & = "");
-        void material(const std::string & = "default", const GLenum = GL_TRIANGLES);
+        Texture texture{};
+        Material material{};
     private:
         friend Window;
-        std::string texture_path{};
-        GLuint texture_id{};
-        std::string shader_path{};
-        GLuint shader{};
-        GLuint primitive{};
-        GLuint vao{};
-        GLuint vbo{};
         Mat4 model_matrix() const;
-        void destroy_texture();
-        void destroy_material();
     };
 
     class Camera {
@@ -375,13 +404,12 @@ namespace Vi {
         static void callback_keyboard(GLFWwindow*, int, int, int, int);
         static void callback_mouse(GLFWwindow*, int, int, int);
         static void callback_mousescroll(GLFWwindow*, double, double);
-        static inline bool aspect_ratio_changed = false;
     };
 }
 
-//|--------------------------------------------------------
-//| [Section] Shapes, Sprites, & Text - Derived from Mesh
-//|--------------------------------------------------------
+//|------------------------
+//| [Section] Cube-Sphere
+//|------------------------
 
 namespace Vi {
 
@@ -401,20 +429,24 @@ namespace Vi {
     public:
         Arrow();
     };
+}
 
-    class Sprite : public Mesh {
+//|---------------------------
+//| [Section] Sprites & Text
+//|---------------------------
+
+namespace Vi {
+
+    class Sprite {
     public:
         Sprite();
-        void set_position(const Vec2i&);
-        void set_size(const Vec2f&);
+        Vec2i position{};
+        Vec2i size{};
+        Texture texture{};
     private:
         friend Window;
-        void preserve_aspect_ratio();
-        Vec2i screen_position{};
-        Vec2i screen_size = Vec2i(100, 100);
-        double scale = 1.0;
-        Vec3d position{};
-        Quat orientation{};
+        Mat4 model_matrix(const Vec2i&) const;
+        Material material{};
         std::vector<Vertex> vertices{};
     };
 

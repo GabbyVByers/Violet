@@ -20,17 +20,17 @@ int main() {
     Vi::Cube cube{};
     cube.position = Vi::Vec3::xneg();
     cube.paint(Vi::Color::white());
-    cube.texture("Violet/Textures/Default/square.png");
+    cube.texture = Vi::Texture("Violet/Textures/Default/square.png");
 
     Vi::Sphere sphere{};
     sphere.position = Vi::Vec3::xpos();
     sphere.paint(Vi::Color::white());
-    sphere.texture("Violet/Textures/Default/rect.png");
+    sphere.texture = Vi::Texture("Violet/Textures/Default/rect.png");
 
     Vi::Sprite sprite{};
-    sprite.texture("Violet/Textures/Default/tulips.png");
-    sprite.set_position(Vi::Vec2i(100, 100));
-    sprite.set_size(Vi::Vec2i(500, 500));
+    sprite.texture = Vi::Texture("Violet/Textures/Default/tulips.png");
+    sprite.position = Vi::Vec2d(100, 100);
+    sprite.size = Vi::Vec2d(100, 100);
 
     while (window.is_open()) {
         window.poll_events();
@@ -39,13 +39,7 @@ int main() {
         //demo_gui(window);
         window.draw(cube, camera);
         window.draw(sphere, camera);
-
-        for (int i = 0; i < 15; i++) {
-            sprite.set_position(Vi::Vec2i((i * 20) + 100, (i * 20) + 100));
-            window.draw(sprite);
-        }
-
-        //window.draw(sprite);
+        window.draw(sprite);
         window.display();
     }
 

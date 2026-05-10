@@ -123,11 +123,11 @@ namespace Vi {
     }
 
     void Window::draw(const Mesh& mesh, const Camera& camera) {
-        const GLuint vao = mesh.vao;
-        const GLuint vbo = mesh.vbo;
-        const GLuint shader = mesh.shader;
-        const GLuint primitive = mesh.primitive;
-        const GLuint texture = mesh.texture_id;
+        const GLuint vao = mesh.material.vao;
+        const GLuint vbo = mesh.material.vbo;
+        const GLuint shader = mesh.material.shader_program;
+        const GLuint primitive = mesh.material.primitive;
+        const GLuint texture = mesh.texture.texture_id;
         const std::vector<Vertex>& vertices = mesh.vertices;
 
         if (vertices.size() == 0)
@@ -153,14 +153,11 @@ namespace Vi {
     }
 
     void Window::draw(Sprite& sprite) {
-        if (aspect_ratio_changed)
-            sprite.preserve_aspect_ratio();
-
-        const GLuint vao = sprite.vao;
-        const GLuint vbo = sprite.vbo;
-        const GLuint shader = sprite.shader;
-        const GLuint primitive = sprite.primitive;
-        const GLuint texture = sprite.texture_id;
+        const GLuint vao = sprite.material.vao;
+        const GLuint vbo = sprite.material.vbo;
+        const GLuint shader = sprite.material.shader_program;
+        const GLuint primitive = sprite.material.primitive;
+        const GLuint texture = sprite.texture.texture_id;
         const std::vector<Vertex>& vertices = sprite.vertices;
 
         if (vertices.size() == 0)
@@ -174,7 +171,8 @@ namespace Vi {
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-        Mat4f mvp_f = static_cast<Mat4f>(sprite.model_matrix());
+        Mat4 mvp = sprite.model_matrix(size());
+        Mat4f mvp_f = static_cast<Mat4f>(mvp);
         glUniformMatrix4fv(glGetUniformLocation(shader, "uModelViewProject"), 1, GL_TRUE, mvp_f.ptr());
 
         glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
@@ -186,7 +184,6 @@ namespace Vi {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         GLFWwindow* window = glfwGetCurrentContext();
         glfwSwapBuffers(window);
-        aspect_ratio_changed = false;
     }
 
     Mouse& Window::mouse() const {
@@ -238,7 +235,6 @@ namespace Vi {
 
     void Window::callback_window_resize(GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);
-        aspect_ratio_changed = true;
     }
 
     void Window::callback_keyboard(GLFWwindow* window, int key, int scancode, int action, int mods) {

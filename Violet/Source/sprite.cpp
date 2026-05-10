@@ -8,58 +8,33 @@
 
 namespace Vi {
 
+    /* Public */
+
     Sprite::Sprite() {
-        set_position(screen_position);
-        set_size(screen_size);
+        Vertex tl = Vertex(Vec3f(0.0f, 0.0f, 0.0f), Color::white(), Vec2f(0.0f, 1.0f));
+        Vertex tr = Vertex(Vec3f(1.0f, 0.0f, 0.0f), Color::white(), Vec2f(1.0f, 1.0f));
+        Vertex bl = Vertex(Vec3f(0.0f,-1.0f, 0.0f), Color::white(), Vec2f(0.0f, 0.0f));
+        Vertex br = Vertex(Vec3f(1.0f,-1.0f, 0.0f), Color::white(), Vec2f(1.0f, 0.0f));
+        std::vector<Vertex> verts = { tl, tr, bl, tr, br, bl };
+        vertices.insert(vertices.begin(), verts.begin(), verts.end());
     }
 
-    void Sprite::set_position(const Vec2i& pos) {
-        screen_position = pos;
-        GLFWwindow* window = glfwGetCurrentContext();
-        if (window == nullptr) {
-            Log::error("Sprite position cannot be set without an active viewport!");
-        }
-        Vec2i window_dimensions{};
-        glfwGetFramebufferSize(window, &window_dimensions.x, &window_dimensions.y);
+    /* Private */
 
-        float x = ((((float)screen_position.x / (float)window_dimensions.x) * 2.0f) - 1.0f);
-        float y = (1.0f - (((float)screen_position.y / (float)window_dimensions.y) * 2.0f));
-
-        vertices.clear();
-        Vec2f true_screen_size = static_cast<Vec2f>(screen_size);
-        true_screen_size.x /= (float)window_dimensions.x;
-        true_screen_size.y /= (float)window_dimensions.y;
-        Vertex tl = Vertex(Vec3f(x, y, 0.0f), Color::white(), Vec2f(0.0f, 0.0f));
-        Vertex tr = Vertex(Vec3f(x + (float)true_screen_size.x, y, 0.0f), Color::white(), Vec2f(1.0f, 0.0f));
-        Vertex bl = Vertex(Vec3f(x, y - (float)true_screen_size.y, 0.0f), Color::white(), Vec2f(0.0f, -1.0f));
-        Vertex br = Vertex(Vec3f(x + (float)true_screen_size.x, y - (float)true_screen_size.y, 0.0f), Color::white(), Vec2f(1.0f, -1.0f));
-        std::vector<Vertex> quad = { tl, tr, bl, tr, br, bl };
-        vertices.insert(vertices.end(), quad.begin(), quad.end());
-    }
-
-    void Sprite::set_size(const Vec2f& size) {
-        screen_size = size;
-        set_position(screen_position);
-    }
-
-    void Sprite::preserve_aspect_ratio() {
-        GLFWwindow* window = glfwGetCurrentContext();
-        Vec2i window_dimensions{};
-        glfwGetFramebufferSize(window, &window_dimensions.x, &window_dimensions.y);
-
-        float x = ((((float)screen_position.x / (float)window_dimensions.x) * 2.0f) - 1.0f);
-        float y = (1.0f - (((float)screen_position.y / (float)window_dimensions.y) * 2.0f));
-
-        vertices.clear();
-        Vec2f true_screen_size = static_cast<Vec2f>(screen_size);
-        true_screen_size.x /= (float)window_dimensions.x;
-        true_screen_size.y /= (float)window_dimensions.y;
-        Vertex tl = Vertex(Vec3f(x, y, 0.0f), Color::white(), Vec2f(0.0f, 0.0f));
-        Vertex tr = Vertex(Vec3f(x + (float)true_screen_size.x, y, 0.0f), Color::white(), Vec2f(1.0f, 0.0f));
-        Vertex bl = Vertex(Vec3f(x, y - (float)true_screen_size.y, 0.0f), Color::white(), Vec2f(0.0f, -1.0f));
-        Vertex br = Vertex(Vec3f(x + (float)true_screen_size.x, y - (float)true_screen_size.y, 0.0f), Color::white(), Vec2f(1.0f, -1.0f));
-        std::vector<Vertex> quad = { tl, tr, bl, tr, br, bl };
-        vertices.insert(vertices.end(), quad.begin(), quad.end());
+    Mat4 Sprite::model_matrix(const Vec2i& viewport_size) const {
+        double aspect_ratio = (double)viewport_size.x / (double)viewport_size.y;
+        double sx = 2.0 * ((double)size.x / (double)viewport_size.x);
+        double sy = 2.0 * ((double)size.y / (double)viewport_size.y);
+        Mat4 scalar_matrix = Mat4(
+            sx, 0, 0, 0,
+            0, sy, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        );
+        double px = (((double)position.x / (double)viewport_size.x) * 2.0) - 1.0;
+        double py = (1.0 - (((double)position.y / (double)viewport_size.y) * 2.0));
+        Mat4 translation_matrix = Mat4::translation_matrix(Vec3d(px, py, 0.0));
+        return translation_matrix * scalar_matrix;
     }
 }
 

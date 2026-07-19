@@ -44,7 +44,7 @@ namespace Vi {
 	}
 
 	void Window::vsync(bool interval) {
-		glfwSwapInterval((int)interval);
+		glfwSwapInterval(int(interval));
 	}
 
 	bool Window::isOpen() {

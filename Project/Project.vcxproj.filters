@@ -45,6 +45,9 @@
     <ClCompile Include="Violet\src\color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Violet\src\quaternion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Violet\rendering.h">

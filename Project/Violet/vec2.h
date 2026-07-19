@@ -9,6 +9,7 @@
 #include <concepts>
 #include <cassert>
 #include <limits>
+#include <algorithm>
 
 #ifndef Vi
 #define Vi Vi

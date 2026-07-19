@@ -5,8 +5,10 @@
 
 #pragma once
 
+#include "vec2.h"
 #include "vec3.h"
 #include <concepts>
+#include <cmath>
 
 #ifndef Vi
 #define Vi Vi
@@ -27,18 +29,20 @@ namespace Vi {
 		void normalize();
 		Quaternion complexconj() const;
 		Quaternion operator * (const Quaternion&) const;
+		template<std::floating_point type>
+		static Quaternion rotation(const Vec3<type>&, const type);
 	};
 
-	void Quaternion::normalize() {
-		
-	}
-	
-	Quaternion Quaternion::complexconj() const {
-		
-	}
-	
-	Quaternion Quaternion::operator * (const Quaternion& quat) const {
-		
+	template<std::floating_point type>
+	Quaternion Quaternion::rotation(const Vec3<type>& axis, const type theta) {
+		type half = theta / type(2);
+		type sine = std::sin(half);
+		return Quaternion{
+			std::cos(half),
+			sine * axis.x,
+			sine * axis.y,
+			sine * axis.z
+		};
 	}
 
 	/******************/
@@ -77,7 +81,7 @@ namespace Vi {
 			);
 		}
 
-		static Matrix translation(const Vec3<type> p) {
+		static Matrix translation(const Vec3<type>& p) {
 			return Matrix(
 				1, 0, 0, p.x,
 				0, 1, 0, p.y,
@@ -113,10 +117,10 @@ namespace Vi {
 		template<std::floating_point cast>
 		operator Matrix<cast>() const {
 			return Matrix<cast>(
-				(cast)data[0][0], (cast)data[0][1], (cast)data[0][2], (cast)data[0][3],
-				(cast)data[1][0], (cast)data[1][1], (cast)data[1][2], (cast)data[1][3],
-				(cast)data[2][0], (cast)data[2][1], (cast)data[2][2], (cast)data[2][3],
-				(cast)data[3][0], (cast)data[3][1], (cast)data[3][2], (cast)data[3][3]
+				cast(data[0][0]), cast(data[0][1]), cast(data[0][2]), cast(data[0][3]),
+				cast(data[1][0]), cast(data[1][1]), cast(data[1][2]), cast(data[1][3]),
+				cast(data[2][0]), cast(data[2][1]), cast(data[2][2]), cast(data[2][3]),
+				cast(data[3][0]), cast(data[3][1]), cast(data[3][2]), cast(data[3][3])
 			);
 		}
 

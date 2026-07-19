@@ -10,11 +10,11 @@ namespace Vi {
 	
 	/* Public */
 
-	Vec2i<int> Mouse::position() {
+	Vec2i<size_t> Mouse::position() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		assert(window != nullptr);
 		double x, y; glfwGetCursorPos(window, &x, &y);
-		return Vec2i<int>{(int)x, (int)y};
+		return Vec2i<size_t>{size_t(x), size_t(y)};
 	}
 
 	bool Mouse::pressing(int button) {

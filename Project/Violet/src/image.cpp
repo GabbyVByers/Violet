@@ -27,7 +27,7 @@ namespace Vi {
 		unsigned char* stbi_image = stbi_load(path, &w, &h, &n, 4);
 		assert(stbi_image != nullptr);
 		size.x = w; size.y = h;
-		size_t buffer_size = (size_t)w * (size_t)h * 4;
+		size_t buffer_size = size_t(w) * size_t(h) * 4;
 		pixels = std::make_shared<unsigned char[]>(buffer_size);
 		for (size_t i{}; i < buffer_size; i++) {
 			pixels[i] = stbi_image[i];

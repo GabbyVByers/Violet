@@ -9,6 +9,7 @@
 #include <concepts>
 #include <cassert>
 #include <limits>
+#include <algorithm>
 
 #ifndef Vi
 #define Vi Vi
@@ -51,7 +52,7 @@ namespace Vi {
 		static Vec3 zpos() { return Vec3( 0, 0, 1); }
 		static Vec3 zneg() { return Vec3( 0, 0,-1); }
 		template<std::floating_point cast>
-		operator Vec3<cast>() const { return Vec3<cast>{ (cast)x, (cast)y, (cast)z }; }
+		operator Vec3<cast>() const { return Vec3<cast>{ cast(x), cast(y), cast(z) }; }
 	};
 
 	template<std::floating_point type>

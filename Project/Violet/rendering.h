@@ -13,6 +13,7 @@
 #include <string>
 #include <memory>
 
+#include "algebra.h"
 #include "vec2.h"
 #include "vec3.h"
 
@@ -21,8 +22,6 @@
 #endif /* Vi */
 
 namespace Vi {
-	
-	class Quaternion {};
 
 	/***************************************************/
 	/*        Color, Vertex, Mesh, Sprite, Text        */
@@ -163,7 +162,7 @@ namespace Vi {
 
 	class Mouse {
 	public:
-		static Vec2i<int> position();
+		static Vec2i<size_t> position();
 		static bool pressing(int);
 		static bool pressed(int, int);
 		static double scroll();

@@ -30,7 +30,7 @@ void inputTest() {
 	if (Vi::Keyboard::pressed(GLFW_KEY_W, GLFW_RELEASE)) {std::cout << "Released W\n"; }
 
 	if (Vi::Keyboard::pressing(GLFW_KEY_M)) {
-		Vi::Vec2i<int> pos = Vi::Mouse::position();
+		Vi::Vec2i<size_t> pos = Vi::Mouse::position();
 		std::cout << "(x: " << pos.x << ", y: " << pos.y << ")\n";
 	}
 }

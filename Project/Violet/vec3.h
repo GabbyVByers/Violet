@@ -58,8 +58,8 @@ namespace Vi {
 
 	template<std::floating_point type>
 	Vec3<type>& Vec3<type>::normalize() {
-		type length = std::hypot(x, y, z);
-		x /= length; y /= length; z /= length;
+		type len = length();
+		x /= len; y /= len; z /= len;
 		return *this;
 	}
 

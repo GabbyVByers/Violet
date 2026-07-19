@@ -50,13 +50,13 @@ namespace Vi {
 
 	template<std::floating_point type>
 	type Vec2<type>::length() const {
-		return std::hypot((type)x, (type)y);
+		return std::hypot(x, y);
 	}
 
 	template<std::floating_point type>
 	Vec2<type>& Vec2<type>::normalize() {
-		type length = std::hypot((type)x, (type)y);
-		x /= length; y /= length;
+		type len = length();
+		x /= len; y /= len;
 		return *this;
 	}
 

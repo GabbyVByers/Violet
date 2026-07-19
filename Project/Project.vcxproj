@@ -153,6 +153,8 @@
   <ItemGroup>
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="demo.cpp" />
+    <ClCompile Include="Libraries\include\stb\stb_image.cpp" />
+    <ClCompile Include="Violet\src\image.cpp" />
     <ClCompile Include="Violet\src\keyboard.cpp" />
     <ClCompile Include="Violet\src\material.cpp" />
     <ClCompile Include="Violet\src\mouse.cpp" />
@@ -163,6 +165,7 @@
     <ClInclude Include="Libraries\include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\include\GLFW\glfw3native.h" />
     <ClInclude Include="Libraries\include\KHR\khrplatform.h" />
+    <ClInclude Include="Libraries\include\stb\stb_image.h" />
     <ClInclude Include="Violet\rendering.h" />
     <ClInclude Include="Violet\vec2.h" />
     <ClInclude Include="Violet\vec3.h" />

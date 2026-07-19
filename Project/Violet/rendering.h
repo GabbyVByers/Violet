@@ -5,6 +5,7 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "stb/stb_image.h"
 
 #include <iostream>
 #include <vector>
@@ -45,12 +46,15 @@ namespace Vi {
 
 	class Image {
 	public:
-		Image(const Vec2i<int> = Vec2i<int>{}); /* User Created */
-		Image(const std::string&);              /* Loaded From File */
-		void getPixel();
-		void setPixel();
+		Image(const Vec2i<int>& = Vec2i<int>{1, 1}); /* User Created */
+		Image(const char*);                          /* Loaded From File */
+		int width() const;
+		int height() const;
+		Color getPixel(const Vec2i<int>&) const;
+		void setPixel(const Vec2i<int>&, const Color&);
 	private:
-		//std::unique_ptr<unsigned char[]> pixels{};
+		Vec2i<int> size{};
+		std::unique_ptr<unsigned char[]> pixels{};
 	};
 
 	class Texture {

@@ -20,25 +20,8 @@ namespace Vi {
 	
 	class Quaternion {};
 
-	//
-	//class Quaternion {
-	//public:
-	//	void normalize();
-	//	double w{};
-	//	double x{};
-	//	double y{};
-	//	double z{};
-	//};
-	//
-	//template<typename type>
-	//class Matrix {
-	//public:
-	//};
-	//
-	//#include "matrix.ipp"
-
 	/***************************************************/
-	/*        Color, Vertex, Mesh, Sprite, Text        */
+	/*     Color, Vertex, Mesh, Sprite, Text, Lines     */
 	/***************************************************/
 	
 	class Color {
@@ -54,7 +37,7 @@ namespace Vi {
 	class Vertex {
 	public:
 		Vec3<float> position{};
-		Vec2<float> textureCoords{};
+		Vec2<float> texCoord{};
 		Color color{};
 	};
 
@@ -68,6 +51,21 @@ namespace Vi {
 	private:
 	};
 
+	class Material {
+	public:
+		Material();
+		Material(const Material&);
+		Material(Material&& other) noexcept;
+		Material& operator = (const Material&);
+		Material& operator = (Material&& other) noexcept;
+		~Material();
+	private:
+		void generate();
+		void destroy();
+		GLuint VAO{};
+		GLuint VBO{};
+	};
+
 	class Mesh {
 	public:
 		std::vector<Vertex> vertices{};
@@ -75,6 +73,8 @@ namespace Vi {
 		Vec3<double> position{};
 		Quaternion orientation{};
 	private:
+		Texture texture{};
+		Material material{};
 	};
 
 	class Sprite {
@@ -83,6 +83,11 @@ namespace Vi {
 	};
 
 	class Text {
+	public:
+	private:
+	};
+
+	class Lines {
 	public:
 	private:
 	};
@@ -111,7 +116,7 @@ namespace Vi {
 
 	class Mouse {
 	public:
-		static Vec2<int> position();
+		static Vec2i<int> position();
 		static bool pressing(int);
 		static bool pressed(int, int);
 		static double scroll();

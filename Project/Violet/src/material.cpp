@@ -2,6 +2,7 @@
 /* material.cpp */
 
 #include "rendering.h"
+#include <cassert>
 
 namespace Vi {
 
@@ -48,6 +49,8 @@ namespace Vi {
 	/* Private */
 
 	void Material::generate() {
+		assert(VAO == 0);
+		assert(VBO == 0);
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 		glBindVertexArray(VAO);

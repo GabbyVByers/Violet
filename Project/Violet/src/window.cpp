@@ -2,6 +2,7 @@
 /* window.cpp */
 
 #include "rendering.h"
+#include <cassert>
 
 namespace Vi {
 

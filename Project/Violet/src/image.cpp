@@ -3,6 +3,7 @@
 
 #include "rendering.h"
 #include "stb/stb_image.h"
+#include <cassert>
 
 namespace Vi {
 

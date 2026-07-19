@@ -154,6 +154,7 @@
     <ClCompile Include="Libraries\include\glad\glad.c" />
     <ClCompile Include="demo.cpp" />
     <ClCompile Include="Libraries\include\stb\stb_image.cpp" />
+    <ClCompile Include="Violet\src\color.cpp" />
     <ClCompile Include="Violet\src\image.cpp" />
     <ClCompile Include="Violet\src\keyboard.cpp" />
     <ClCompile Include="Violet\src\material.cpp" />

@@ -25,15 +25,21 @@ namespace Vi {
 	/***************************************************/
 	/*        Color, Vertex, Mesh, Sprite, Text        */
 	/***************************************************/
-	
+
+	class Color;
+	class Vertex;
+
 	class Color {
 	public:
-		static Color white() { return Color{1.f, 1.f, 1.f, 1.f}; }
-		static Color black() { return Color{0.f, 0.f, 0.f, 1.f}; }
-		static Color red()   { return Color{1.f, 0.f, 0.f, 1.f}; }
-		static Color green() { return Color{0.f, 1.f, 0.f, 1.f}; }
-		static Color blue()  { return Color{0.f, 0.f, 1.f, 1.f}; }
-		float r{1.f}, g{1.f}, b{1.f}, a{1.f};
+		static Color white();
+		static Color black();
+		static Color red();
+		static Color green();
+		static Color blue();
+		float r{1.0f};
+		float g{1.0f};
+		float b{1.0f};
+		float a{1.0f};
 	};
 
 	class Vertex {
@@ -43,7 +49,13 @@ namespace Vi {
 		Color color{};
 	};
 
-	class Texture; // Fwrd Dec
+	/***************************************************/
+	/*             Image, Texture, Material            */
+	/***************************************************/
+
+	class Image;
+	class Texture;
+	class Material;
 
 	class Image {
 	public:
@@ -94,6 +106,14 @@ namespace Vi {
 		GLuint VBO{};
 	};
 
+	/***************************************************/
+	/*                Mesh, Sprite, Text               */
+	/***************************************************/
+
+	class Mesh;
+	class Sprite;
+	class Text;
+
 	class Mesh {
 	public:
 		std::vector<Vertex> vertices{};
@@ -119,7 +139,9 @@ namespace Vi {
 	/*             Keyboard, Mouse, Window             */
 	/***************************************************/
 
-	class Window; /* Fwrd Dec */
+	class Keyboard;
+	class Mouse;
+	class Window;
 
 	class Keyboard {
 	public:
@@ -130,11 +152,11 @@ namespace Vi {
 		struct KeyboardEvent { int key, scancode, action, mods; };
 		static inline std::vector<KeyboardEvent> keyboard_events{};
 		Keyboard()                        = delete;
-		~Keyboard()                       = delete;
 		Keyboard(const Keyboard&)         = delete;
 		Keyboard(Keyboard&&)              = delete;
 		void operator = (const Keyboard&) = delete;
 		void operator = (Keyboard&&)      = delete;
+		~Keyboard()                       = delete;
 	};
 
 	class Mouse {
@@ -151,11 +173,11 @@ namespace Vi {
 		static inline std::vector<MouseEvent> mouse_events{};
 		static inline std::vector<ScrollEvent> scroll_events{};
 		Mouse()                        = delete;
-		~Mouse()                       = delete;
 		Mouse(const Mouse&)            = delete;
 		Mouse(Mouse&&)                 = delete;
 		void operator = (const Mouse&) = delete;
 		void operator = (Mouse&&)      = delete;
+		~Mouse()                       = delete;
 	};
 
 	class Window {
@@ -176,11 +198,11 @@ namespace Vi {
 		static void callbackScroll(GLFWwindow*, double, double);
 		static inline unsigned int glslShaderProgramID{};
 		Window()                        = delete;
-		~Window()                       = delete;
 		Window(const Window&)           = delete;
 		Window(Window&&)                = delete;
 		void operator = (const Window&) = delete;
 		void operator = (Window&&)      = delete;
+		~Window()                       = delete;
 	};
 }
 

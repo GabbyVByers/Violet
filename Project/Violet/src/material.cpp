@@ -1,5 +1,7 @@
 
-/* material.cpp */
+/********************/
+/*   material.cpp   */
+/********************/
 
 #include "rendering.h"
 #include <cassert>

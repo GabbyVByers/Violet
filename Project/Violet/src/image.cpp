@@ -1,5 +1,7 @@
 
-/* image.cpp */
+/*****************/
+/*   image.cpp   */
+/*****************/
 
 #include "rendering.h"
 #include "stb/stb_image.h"

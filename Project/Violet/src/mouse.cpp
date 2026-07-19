@@ -1,5 +1,7 @@
 
-/* mouse.cpp */
+/*****************/
+/*   mouse.cpp   */
+/*****************/
 
 #include "rendering.h"
 #include <cassert>

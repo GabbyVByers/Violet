@@ -74,5 +74,8 @@
     <ClInclude Include="Violet\logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Violet\algebra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

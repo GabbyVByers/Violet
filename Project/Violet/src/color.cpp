@@ -1,5 +1,7 @@
 
-/* color.h */
+/*****************/
+/*   color.cpp   */
+/*****************/
 
 #include "rendering.h"
 

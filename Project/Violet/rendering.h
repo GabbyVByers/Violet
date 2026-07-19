@@ -1,5 +1,7 @@
 
-/* rendering.h */
+/*******************/
+/*   rendering.h   */
+/*******************/
 
 #pragma once
 
@@ -184,6 +186,7 @@ namespace Vi {
 	public:
 		static void create(const char*, int, int);
 		static void destroy();
+		static void vsync(bool);
 		static bool isOpen();
 		static void pollEvents();
 		static void clear(Color color);

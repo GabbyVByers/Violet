@@ -1,5 +1,7 @@
 
-/* texture.cpp */
+/*******************/
+/*   texture.cpp   */
+/*******************/
 
 #include "rendering.h"
 #include <cassert>

@@ -1,5 +1,7 @@
 
-/* keyboard.cpp */
+/********************/
+/*   keyboard.cpp   */
+/********************/
 
 #include "rendering.h"
 #include <cassert>

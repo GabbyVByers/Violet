@@ -1,5 +1,7 @@
 
-/* window.cpp */
+/******************/
+/*   window.cpp   */
+/******************/
 
 #include "rendering.h"
 #include <cassert>
@@ -20,6 +22,7 @@ namespace Vi {
 		window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 		glfwMakeContextCurrent(window);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		glfwSwapInterval((int)false);
 		
 		glViewport(0, 0, width, height);
 		glEnable(GL_DEPTH_TEST);
@@ -38,6 +41,10 @@ namespace Vi {
 		assert(window != nullptr);
 		glfwDestroyWindow(window);
 		glfwTerminate();
+	}
+
+	void Window::vsync(bool interval) {
+		glfwSwapInterval((int)interval);
 	}
 
 	bool Window::isOpen() {

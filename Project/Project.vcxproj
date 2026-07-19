@@ -166,6 +166,7 @@
     <ClInclude Include="Libraries\include\GLFW\glfw3native.h" />
     <ClInclude Include="Libraries\include\KHR\khrplatform.h" />
     <ClInclude Include="Libraries\include\stb\stb_image.h" />
+    <ClInclude Include="Violet\logging.h" />
     <ClInclude Include="Violet\rendering.h" />
     <ClInclude Include="Violet\vec2.h" />
     <ClInclude Include="Violet\vec3.h" />

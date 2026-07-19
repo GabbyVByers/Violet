@@ -6,6 +6,7 @@
 #include <cmath>
 #include <concepts>
 #include <cassert>
+#include <limits>
 
 #ifndef Vi
 #define Vi Vi
@@ -41,13 +42,13 @@ namespace Vi {
 		static type dot(const Vec3&, const Vec3&);
 		static Vec3 cross(const Vec3&, const Vec3&);
 		static type angle(const Vec3&, const Vec3&);
-		static Vec3 xpos() { return Vec3{ (type) 1, (type) 0, (type) 0 }; }
-		static Vec3 xneg() { return Vec3{ (type)-1, (type) 0, (type) 0 }; }
-		static Vec3 ypos() { return Vec3{ (type) 0, (type) 1, (type) 0 }; }
-		static Vec3 yneg() { return Vec3{ (type) 0, (type)-1, (type) 0 }; }
-		static Vec3 zpos() { return Vec3{ (type) 0, (type) 0, (type) 1 }; }
-		static Vec3 zneg() { return Vec3{ (type) 0, (type) 0, (type)-1 }; }
-		template<typename cast>
+		static Vec3 xpos() { return Vec3( 1, 0, 0); }
+		static Vec3 xneg() { return Vec3(-1, 0, 0); }
+		static Vec3 ypos() { return Vec3( 0, 1, 0); }
+		static Vec3 yneg() { return Vec3( 0,-1, 0); }
+		static Vec3 zpos() { return Vec3( 0, 0, 1); }
+		static Vec3 zneg() { return Vec3( 0, 0,-1); }
+		template<std::floating_point cast>
 		operator Vec3<cast>() const { return Vec3<cast>{ (cast)x, (cast)y, (cast)z }; }
 	};
 
@@ -59,6 +60,7 @@ namespace Vi {
 	template<std::floating_point type>
 	Vec3<type>& Vec3<type>::normalize() {
 		type len = length();
+		assert(len > std::numeric_limits<type>::epsilon());
 		x /= len; y /= len; z /= len;
 		return *this;
 	}
@@ -66,13 +68,14 @@ namespace Vi {
 	template<std::floating_point type>
 	Vec3<type>& Vec3<type>::rotate(const Vec3& axis, const type theta) {
 		const type len = axis.length();
-		const Vec3<type> k = Vec3<type>{ axis.x / len, axis.y / len, axis.z / len };
-		const Vec3<type> v = Vec3<type>{ x, y, z };
-		const Vec3<type> kv_cross = Vec3<type>::cross(k, v);
-		const type kv_dot = Vec3<type>::dot(k, v);
+		assert(len > std::numeric_limits<type>::epsilon());
+		const Vec3 k = Vec3{ axis.x / len, axis.y / len, axis.z / len };
+		const Vec3 v = Vec3{ x, y, z };
+		const Vec3 kv_cross = Vec3::cross(k, v);
+		const type kv_dot = Vec3::dot(k, v);
 		const type c = std::cos(theta);
 		const type s = std::sin(theta);
-		const Vec3<type> result = (v * c) + (kv_cross * s) + (k * (kv_dot * (1.0 - c)));
+		const Vec3 result = (v * c) + (kv_cross * s) + (k * (kv_dot * (1.0 - c)));
 		x = result.x; y = result.y; z = result.z;
 		return *this;
 	}
@@ -97,7 +100,10 @@ namespace Vi {
 	template<std::floating_point type>
 	type Vec3<type>::angle(const Vec3& a, const Vec3& b) {
 		type product = a.length() * b.length();
-		return std::acos(dot(a, b) / product);
+		assert(product > std::numeric_limits<type>::epsilon());
+		type cosarg = dot(a, b) / product;
+		cosarg = std::max(type(-1), std::min(cosarg, type(1)));
+		return std::acos(cosarg);
 	}
 }
 

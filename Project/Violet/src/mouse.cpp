@@ -9,12 +9,14 @@ namespace Vi {
 
 	Vec2i<int> Mouse::position() {
 		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
 		double x, y; glfwGetCursorPos(window, &x, &y);
 		return Vec2i<int>{(int)x, (int)y};
 	}
 
 	bool Mouse::pressing(int button) {
 		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
 		return glfwGetMouseButton(window, button) == GLFW_PRESS;
 	}
 
@@ -37,6 +39,7 @@ namespace Vi {
 		/* GLFW_CURSOR_HIDDEN */
 		/**********************/
 		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
 		glfwSetInputMode(window, GLFW_CURSOR, setting);
 	}
 }

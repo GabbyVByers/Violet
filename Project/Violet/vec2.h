@@ -6,6 +6,7 @@
 #include <cmath>
 #include <concepts>
 #include <cassert>
+#include <limits>
 
 #ifndef Vi
 #define Vi Vi
@@ -40,10 +41,10 @@ namespace Vi {
 		static type dot(const Vec2&, const Vec2&);
 		static type cross(const Vec2&, const Vec2&);
 		static type angle(const Vec2&, const Vec2&);
-		static Vec2 xpos() { return Vec2{(type) 1, (type) 0}; }
-		static Vec2 xneg() { return Vec2{(type)-1, (type) 0}; }
-		static Vec2 ypos() { return Vec2{(type) 0, (type) 1}; }
-		static Vec2 yneg() { return Vec2{(type) 0, (type)-1}; }
+		static Vec2 xpos() { return Vec2( 1, 0); }
+		static Vec2 xneg() { return Vec2(-1, 0); }
+		static Vec2 ypos() { return Vec2( 0, 1); }
+		static Vec2 yneg() { return Vec2( 0,-1); }
 		template<std::floating_point cast>
 		operator Vec2<cast>() const { return Vec2<cast>{(cast)x, (cast)y}; }
 	};
@@ -56,6 +57,7 @@ namespace Vi {
 	template<std::floating_point type>
 	Vec2<type>& Vec2<type>::normalize() {
 		type len = length();
+		assert(len > std::numeric_limits<type>::epsilon());
 		x /= len; y /= len;
 		return *this;
 	}

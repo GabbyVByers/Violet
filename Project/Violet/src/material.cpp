@@ -22,7 +22,9 @@ namespace Vi {
 		other.VBO = 0;
 	}
 
-	Material& Material::operator = (const Material&) {
+	Material& Material::operator = (const Material& other) {
+		if (this == &other)
+			return *this;
 		destroy();
 		generate();
 		return *this;

@@ -8,12 +8,15 @@ namespace Vi {
 	/* Public */
 
 	void Window::create(const char* title, int width, int height) {
+		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window == nullptr);
+		
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		GLFWwindow* window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+		window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 		glfwMakeContextCurrent(window);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		
@@ -30,11 +33,15 @@ namespace Vi {
 	}
 
 	void Window::destroy() {
+		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
+		glfwDestroyWindow(window);
 		glfwTerminate();
 	}
 
 	bool Window::isOpen() {
 		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
 		return !glfwWindowShouldClose(window);
 	}
 
@@ -69,6 +76,7 @@ namespace Vi {
 
 	void Window::display() {
 		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
 		glfwSwapBuffers(window);
 	}
 

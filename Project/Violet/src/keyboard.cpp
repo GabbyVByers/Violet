@@ -15,6 +15,7 @@ namespace Vi {
 
 	bool Keyboard::pressing(int key) {
 		GLFWwindow* window = glfwGetCurrentContext();
+		assert(window != nullptr);
 		return (glfwGetKey(window, key) == GLFW_PRESS);
 	}
 }

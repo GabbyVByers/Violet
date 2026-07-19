@@ -5,7 +5,6 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "stb/stb_image.h"
 
 #include <iostream>
 #include <vector>
@@ -24,7 +23,7 @@ namespace Vi {
 	class Quaternion {};
 
 	/***************************************************/
-	/*     Color, Vertex, Mesh, Sprite, Text, Lines     */
+	/*        Color, Vertex, Mesh, Sprite, Text        */
 	/***************************************************/
 	
 	class Color {
@@ -46,14 +45,14 @@ namespace Vi {
 
 	class Image {
 	public:
-		Image(const Vec2i<int>& = Vec2i<int>{1, 1}); /* User Created */
-		Image(const char*);                          /* Loaded From File */
-		int width() const;
-		int height() const;
-		Color getPixel(const Vec2i<int>&) const;
-		void setPixel(const Vec2i<int>&, const Color&);
+		Image(const Vec2i<size_t>& = Vec2i<size_t>{1, 1});
+		Image(const char*);
+		size_t width() const;
+		size_t height() const;
+		Color getPixel(const Vec2i<size_t>&) const;
+		void setPixel(const Vec2i<size_t>&, const Color&);
 	private:
-		Vec2i<int> size{};
+		Vec2i<size_t> size{};
 		std::unique_ptr<unsigned char[]> pixels{};
 	};
 
@@ -94,11 +93,6 @@ namespace Vi {
 	};
 
 	class Text {
-	public:
-	private:
-	};
-
-	class Lines {
 	public:
 	private:
 	};

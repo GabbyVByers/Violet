@@ -6,11 +6,13 @@
 
 namespace Vi {
 
+	/* Public */
+
 	Image::Image(const Vec2i<size_t>& size) {
 		assert((size.x != 0) && (size.y != 0));
 		this->size = size;
 		size_t buffer_size = size.x * size.y * 4;
-		pixels = std::make_unique<unsigned char[]>(buffer_size);
+		pixels = std::make_shared<unsigned char[]>(buffer_size);
 		for (size_t i{}; i < buffer_size; i++) {
 			pixels[i] = 255u;
 		}
@@ -23,7 +25,7 @@ namespace Vi {
 		assert(stbi_image != nullptr);
 		size.x = w; size.y = h;
 		size_t buffer_size = (size_t)w * (size_t)h * 4;
-		pixels = std::make_unique<unsigned char[]>(buffer_size);
+		pixels = std::make_shared<unsigned char[]>(buffer_size);
 		for (size_t i{}; i < buffer_size; i++) {
 			pixels[i] = stbi_image[i];
 		} stbi_image_free(stbi_image);

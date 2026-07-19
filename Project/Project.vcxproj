@@ -158,6 +158,7 @@
     <ClCompile Include="Violet\src\keyboard.cpp" />
     <ClCompile Include="Violet\src\material.cpp" />
     <ClCompile Include="Violet\src\mouse.cpp" />
+    <ClCompile Include="Violet\src\texture.cpp" />
     <ClCompile Include="Violet\src\window.cpp" />
   </ItemGroup>
   <ItemGroup>

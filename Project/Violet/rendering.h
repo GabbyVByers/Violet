@@ -43,22 +43,40 @@ namespace Vi {
 		Color color{};
 	};
 
+	class Texture; // Fwrd Dec
+
 	class Image {
 	public:
 		Image(const Vec2i<size_t>& = Vec2i<size_t>{1, 1});
 		Image(const char*);
+		Image(const Image&)                  = default;
+		Image(Image&&) noexcept              = default;
+		Image& operator = (const Image&)     = default;
+		Image& operator = (Image&&) noexcept = default;
+		~Image()                             = default;
 		size_t width() const;
 		size_t height() const;
 		Color getPixel(const Vec2i<size_t>&) const;
 		void setPixel(const Vec2i<size_t>&, const Color&);
 	private:
+		friend Texture;
 		Vec2i<size_t> size{};
-		std::unique_ptr<unsigned char[]> pixels{};
+		std::shared_ptr<unsigned char[]> pixels{};
 	};
 
 	class Texture {
 	public:
+		Texture(const Image& = Image{});
+		Texture(const Texture&);
+		Texture(Texture&&) noexcept;
+		Texture& operator = (const Texture&);
+		Texture& operator = (Texture&&) noexcept;
+		~Texture();
 	private:
+		void generate();
+		void destroy();
+		Image image{};
+		GLuint glTextureID{};
 	};
 
 	class Material {

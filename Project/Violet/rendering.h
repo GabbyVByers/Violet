@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <memory>
 
 #include "vec2.h"
 #include "vec3.h"
@@ -43,7 +45,12 @@ namespace Vi {
 
 	class Image {
 	public:
+		Image(const Vec2i<int> = Vec2i<int>{}); /* User Created */
+		Image(const std::string&);              /* Loaded From File */
+		void getPixel();
+		void setPixel();
 	private:
+		//std::unique_ptr<unsigned char[]> pixels{};
 	};
 
 	class Texture {

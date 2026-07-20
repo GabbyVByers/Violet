@@ -115,7 +115,7 @@ namespace Vi {
 		}
 		
 		template<std::floating_point cast>
-		operator Matrix<cast>() const {
+		explicit operator Matrix<cast>() const {
 			return Matrix<cast>(
 				cast(data[0][0]), cast(data[0][1]), cast(data[0][2]), cast(data[0][3]),
 				cast(data[1][0]), cast(data[1][1]), cast(data[1][2]), cast(data[1][3]),

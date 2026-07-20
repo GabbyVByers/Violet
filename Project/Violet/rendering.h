@@ -24,11 +24,24 @@
 namespace Vi {
 
 	/***************************************************/
-	/*        Color, Vertex, Mesh, Sprite, Text        */
+	/*               Forward Declarations              */
 	/***************************************************/
 
 	class Color;
 	class Vertex;
+	class Image;
+	class Texture;
+	class Material;
+	class Mesh;
+	class Sprite;
+	class Text;
+	class Keyboard;
+	class Mouse;
+	class Window;
+
+	/***************************************************/
+	/*                  Color, Vertex                  */
+	/***************************************************/
 
 	class Color {
 	public:
@@ -53,10 +66,6 @@ namespace Vi {
 	/***************************************************/
 	/*             Image, Texture, Material            */
 	/***************************************************/
-
-	class Image;
-	class Texture;
-	class Material;
 
 	class Image {
 	public:
@@ -86,6 +95,7 @@ namespace Vi {
 		Texture& operator = (Texture&&) noexcept;
 		~Texture();
 	private:
+		friend Window;
 		void generate();
 		void destroy();
 		Image image{};
@@ -101,6 +111,7 @@ namespace Vi {
 		Material& operator = (Material&& other) noexcept;
 		~Material();
 	private:
+		friend Window;
 		void generate();
 		void destroy();
 		GLuint VAO{};
@@ -111,10 +122,6 @@ namespace Vi {
 	/*                Mesh, Sprite, Text               */
 	/***************************************************/
 
-	class Mesh;
-	class Sprite;
-	class Text;
-
 	class Mesh {
 	public:
 		std::vector<Vertex> vertices{};
@@ -122,6 +129,8 @@ namespace Vi {
 		Vec3<double> position{};
 		Quaternion orientation{};
 	private:
+		friend Window;
+		Matrix<double> modelMatrix() const;
 		Texture texture{};
 		Material material{};
 	};
@@ -137,12 +146,26 @@ namespace Vi {
 	};
 
 	/***************************************************/
-	/*             Keyboard, Mouse, Window             */
+	/*         Camera, Keyboard, Mouse, Window         */
 	/***************************************************/
 
-	class Keyboard;
-	class Mouse;
-	class Window;
+	class Camera {
+	public:
+		static inline double fov{45.0};
+		static inline double near{0.1};
+		static inline Vec3<double> position{};
+		static inline Quaternion orientation{};
+	private:
+		friend Window;
+		static Matrix<double> viewMatrix();
+		static Matrix<double> projectionMatrix();
+		Camera()                        = delete;
+		Camera(const Camera&)           = delete;
+		Camera(Camera&&)                = delete;
+		void operator = (const Camera&) = delete;
+		void operator = (Camera&&)      = delete;
+		~Camera()                       = delete;
+	};
 
 	class Keyboard {
 	public:
@@ -190,8 +213,8 @@ namespace Vi {
 		static void pollEvents();
 		static void clear(Color color);
 		static void draw(const Mesh&);
-		static void draw(const Sprite&);
-		static void draw(const Text&);
+		//static void draw(const Sprite&);
+		//static void draw(const Text&);
 		static void display();
 	private:
 		static void callbackResize(GLFWwindow*, int, int);

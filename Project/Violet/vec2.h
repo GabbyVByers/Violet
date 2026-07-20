@@ -49,7 +49,7 @@ namespace Vi {
 		static Vec2 ypos() { return Vec2( 0, 1); }
 		static Vec2 yneg() { return Vec2( 0,-1); }
 		template<std::floating_point cast>
-		operator Vec2<cast>() const { return Vec2<cast>{(cast)x, (cast)y}; }
+		explicit operator Vec2<cast>() const { return Vec2<cast>{cast(x), cast(y)}; }
 	};
 
 	template<std::floating_point type>

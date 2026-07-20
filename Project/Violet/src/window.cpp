@@ -64,6 +64,7 @@ namespace Vi {
 		glGetShaderiv(frag_program, GL_COMPILE_STATUS, &success);
 		assert(success);
 
+		assert(glslShaderProgramID == 0);
 		glslShaderProgramID = glCreateProgram();
 		glAttachShader(glslShaderProgramID, vert_program);
 		glAttachShader(glslShaderProgramID, frag_program);
@@ -105,21 +106,38 @@ namespace Vi {
 	}
 
 	void Window::draw(const Mesh& mesh) {
-		glUseProgram(glslShaderProgramID); // move to constructor? (won't change @ each call)
-		
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, mesh.glTextureID);
+		const GLuint VAO = mesh.material.VAO;
+		const GLuint VBO = mesh.material.VBO;
+		const GLuint glTextureID = mesh.texture.glTextureID;
+		const std::vector<Vertex>& vertices = mesh.vertices;
+		if (vertices.size() == 0) return;
+
+		glUseProgram(glslShaderProgramID);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, glTextureID);
+		glUniform1i(glGetUniformLocation(glslShaderProgramID, "ourTexture"), 0);
+
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+		Matrix<double> M = mesh.modelMatrix();
+		Matrix<double> V = Camera::viewMatrix();
+		Matrix<double> P = Camera::projectionMatrix();
+		Matrix<double> MVP = P * V * M;
+		Matrix<float> glmvp = static_cast<Matrix<float>>(MVP);
+		glUniformMatrix4fv(glGetUniformLocation(glslShaderProgramID, "uModelViewProject"), 1, GL_TRUE, glmvp.get());
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertices.size());
 	}
 
-	void Window::draw(const Sprite& sprite) {
+	//void Window::draw(const Sprite& sprite) {
+	//
+	//}
 
-	}
-
-	void Window::draw(const Text& text) {
-
-	}
-
-	/* Private */
+	//void Window::draw(const Text& text) {
+	//
+	//}
 
 	void Window::display() {
 		GLFWwindow* window = glfwGetCurrentContext();
@@ -127,7 +145,7 @@ namespace Vi {
 		glfwSwapBuffers(window);
 	}
 
-	/* Callbacks */
+	/* Private */
 
 	void Window::callbackResize(GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);

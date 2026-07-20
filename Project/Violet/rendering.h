@@ -18,8 +18,6 @@
 #include <memory>
 
 #include "algebra.h"
-#include "vec2.h"
-#include "vec3.h"
 
 #ifndef Vi
 #define Vi Vi
@@ -131,7 +129,7 @@ namespace Vi {
 	public:
 		double scale{1.0};
 		Vec3<double> position{};
-		Quaternion orientation{};
+		Rotation orientation{};
 		std::vector<Vertex> vertices{};
 		bool upload{true};
 		GLuint glPrimitiveType{GL_TRIANGLES};
@@ -165,7 +163,7 @@ namespace Vi {
 		static inline double fov{45.0};
 		static inline double near{0.1};
 		static inline Vec3<double> position{};
-		static inline Quaternion orientation{};
+		static inline Rotation orientation{};
 	private:
 		friend Window;
 		static Matrix<double> viewMatrix();

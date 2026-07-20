@@ -6,7 +6,7 @@
 #include "algebra.h"
 
 namespace Vi {
-
+	
 	/* Public */
 
 	void Quaternion::normalize() {

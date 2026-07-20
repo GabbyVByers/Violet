@@ -168,6 +168,7 @@
     <ClCompile Include="Violet\src\mouse.cpp" />
     <ClCompile Include="Violet\src\mvp.cpp" />
     <ClCompile Include="Violet\src\quaternion.cpp" />
+    <ClCompile Include="Violet\src\rotation.cpp" />
     <ClCompile Include="Violet\src\sprite.cpp" />
     <ClCompile Include="Violet\src\texture.cpp" />
     <ClCompile Include="Violet\src\window.cpp" />
@@ -187,7 +188,6 @@
     <ClInclude Include="Libraries\include\imgui\imstb_truetype.h" />
     <ClInclude Include="Libraries\include\KHR\khrplatform.h" />
     <ClInclude Include="Libraries\include\stb\stb_image.h" />
-    <ClInclude Include="Violet\logging.h" />
     <ClInclude Include="Violet\algebra.h" />
     <ClInclude Include="Violet\rendering.h" />
     <ClInclude Include="Violet\vec2.h" />

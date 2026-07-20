@@ -16,9 +16,9 @@
 
 namespace Vi {
 	
-	/******************/
-	/*   Quaternion   */
-	/******************/
+	/************************************/
+	/*   Quaternion, Rotation, Matrix   */
+	/************************************/
 
 	class Quaternion {
 	public:
@@ -29,25 +29,18 @@ namespace Vi {
 		void normalize();
 		Quaternion complexconj() const;
 		Quaternion operator * (const Quaternion&) const;
-		template<std::floating_point type>
-		static Quaternion rotation(const Vec3<type>&, const type);
 	};
 
-	template<std::floating_point type>
-	Quaternion Quaternion::rotation(const Vec3<type>& axis, const type theta) {
-		type half = theta / type(2);
-		type sine = std::sin(half);
-		return Quaternion{
-			std::cos(half),
-			sine * axis.x,
-			sine * axis.y,
-			sine * axis.z
-		};
-	}
-
-	/******************/
-	/*     Matrix     */
-	/******************/
+	class Rotation {
+	public:
+		Vec3<double> forward() const;
+		Vec3<double> up() const;
+		Vec3<double> right() const;
+		void rotate(const Vec3<double>&, double);
+		static Quaternion makeRotation(const Vec3<double>&, double);
+		static Vec3<double> applyRotation(const Vec3<double>&, const Quaternion&);
+		Quaternion quat{};
+	};
 
 	template<std::floating_point type>
 	class Matrix {
@@ -100,7 +93,9 @@ namespace Vi {
 			);
 		}
 
-		type* get() const { return (type*)data; }
+		type* get() const {
+			return (type*)data;
+		}
 
 		Matrix operator * (const Matrix& other) const {
 			Matrix result{};

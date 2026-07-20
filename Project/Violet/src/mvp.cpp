@@ -14,7 +14,7 @@ namespace Vi {
 	Matrix<double> Mesh::modelMatrix() const {
 		Matrix<double> scalar_matrix = Matrix<double>::scalar(scale);
 		Matrix<double> translation_matrix = Matrix<double>::translation(position);
-		Matrix<double> rotation_matrix = Matrix<double>::rotation(orientation);
+		Matrix<double> rotation_matrix = Matrix<double>::rotation(orientation.quat);
 		return scalar_matrix * translation_matrix * rotation_matrix;
 	}
 
@@ -22,7 +22,7 @@ namespace Vi {
 	
 	Matrix<double> Camera::viewMatrix() {
 		Matrix<double> translation_matrix_inverse = Matrix<double>::translation(-position);
-		Matrix<double> rotation_matrix_inverse = Matrix<double>::rotation(orientation.complexconj());
+		Matrix<double> rotation_matrix_inverse = Matrix<double>::rotation(orientation.quat.complexconj());
 		return rotation_matrix_inverse * translation_matrix_inverse;
 	}
 	

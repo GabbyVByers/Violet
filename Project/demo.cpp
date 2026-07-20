@@ -9,6 +9,7 @@ static void inputTest();
 
 int main() {	
 	Vi::Window::create("Title", 500, 500);
+	Vi::Window::vsync(true);
 
 	Vi::Mesh mesh{};
 	mesh.vertices.push_back({ Vi::Vec3<float>{0, 0, 0}, {0, 0}, {} });
@@ -32,6 +33,8 @@ int main() {
 		Vi::Window::clear(Vi::Color::blue());
 
 		sprite.position = Vi::Mouse::position();
+
+		mesh.orientation.rotate(Vi::Vec3<double>::ypos(), 0.1);
 
 		Vi::Window::draw(mesh);
 		Vi::Window::draw(sprite);

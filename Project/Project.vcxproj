@@ -165,8 +165,9 @@
     <ClCompile Include="Violet\src\image.cpp" />
     <ClCompile Include="Violet\src\keyboard.cpp" />
     <ClCompile Include="Violet\src\material.cpp" />
+    <ClCompile Include="Violet\src\mesh.cpp" />
     <ClCompile Include="Violet\src\mouse.cpp" />
-    <ClCompile Include="Violet\src\mvp.cpp" />
+    <ClCompile Include="Violet\src\camera.cpp" />
     <ClCompile Include="Violet\src\quaternion.cpp" />
     <ClCompile Include="Violet\src\rotation.cpp" />
     <ClCompile Include="Violet\src\sprite.cpp" />

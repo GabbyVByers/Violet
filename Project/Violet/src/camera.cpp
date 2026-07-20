@@ -1,7 +1,7 @@
 
-/***************/
-/*   mvp.cpp   */
-/***************/
+/******************/
+/*   camera.cpp   */
+/******************/
 
 #include "rendering.h"
 #include <numbers>
@@ -9,24 +9,35 @@
 
 namespace Vi {
 	
-	/* MODEL */
+	/* Public */
 
-	Matrix<double> Mesh::modelMatrix() const {
-		Matrix<double> scalar_matrix = Matrix<double>::scalar(scale);
-		Matrix<double> translation_matrix = Matrix<double>::translation(position);
-		Matrix<double> rotation_matrix = Matrix<double>::rotation(orientation.quat);
-		return scalar_matrix * translation_matrix * rotation_matrix;
+	Vec3<double> Camera::forward() {
+		const Vec3<double> forward_basis = Vec3<double>::zneg();
+		return Rotation::applyRotation(forward_basis, orientation.quat);
 	}
 
-	/* VIEW */
-	
+	Vec3<double> Camera::up() {
+		const Vec3<double> up_basis = Vec3<double>::ypos();
+		return Rotation::applyRotation(up_basis, orientation.quat);
+	}
+
+	Vec3<double> Camera::right() {
+		const Vec3<double> right_basis = Vec3<double>::xpos();
+		return Rotation::applyRotation(right_basis, orientation.quat);
+	}
+
+	void Camera::rotate(const Vec3<double>& axis, double theta) {
+		Quaternion rotation = Rotation::makeRotation(axis, theta);
+		orientation.quat = rotation * orientation.quat;
+	}
+
+	/* Private */
+
 	Matrix<double> Camera::viewMatrix() {
 		Matrix<double> translation_matrix_inverse = Matrix<double>::translation(-position);
 		Matrix<double> rotation_matrix_inverse = Matrix<double>::rotation(orientation.quat.complexconj());
 		return rotation_matrix_inverse * translation_matrix_inverse;
 	}
-	
-	/* PROJECT */
 
 	Matrix<double> Camera::projectionMatrix() {
 		GLFWwindow* window = glfwGetCurrentContext();

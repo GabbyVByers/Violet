@@ -127,9 +127,12 @@ namespace Vi {
 
 	class Mesh {
 	public:
+		Vec3<double> forward() const;
+		Vec3<double> up() const;
+		Vec3<double> right() const;
+		void rotate(const Vec3<double>&, double);
 		double scale{1.0};
 		Vec3<double> position{};
-		Rotation orientation{};
 		std::vector<Vertex> vertices{};
 		bool upload{true};
 		GLuint glPrimitiveType{GL_TRIANGLES};
@@ -137,6 +140,7 @@ namespace Vi {
 	private:
 		friend Window;
 		Matrix<double> modelMatrix() const;
+		Rotation orientation{};
 		Material material{};
 	};
 
@@ -160,14 +164,18 @@ namespace Vi {
 
 	class Camera {
 	public:
+		static Vec3<double> forward();
+		static Vec3<double> up();
+		static Vec3<double> right();
+		static void rotate(const Vec3<double>&, double);
 		static inline double fov{45.0};
 		static inline double near{0.1};
 		static inline Vec3<double> position{};
-		static inline Rotation orientation{};
 	private:
 		friend Window;
 		static Matrix<double> viewMatrix();
 		static Matrix<double> projectionMatrix();
+		static inline Rotation orientation{};
 		Camera()                        = delete;
 		Camera(const Camera&)           = delete;
 		Camera(Camera&&)                = delete;

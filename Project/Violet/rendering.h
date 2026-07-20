@@ -8,6 +8,10 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -124,10 +128,12 @@ namespace Vi {
 
 	class Mesh {
 	public:
-		std::vector<Vertex> vertices{};
 		double scale{1.0};
 		Vec3<double> position{};
 		Quaternion orientation{};
+		std::vector<Vertex> vertices{};
+		bool upload{true};
+		GLuint glPrimitiveType{GL_TRIANGLES};
 	private:
 		friend Window;
 		Matrix<double> modelMatrix() const;
@@ -212,7 +218,7 @@ namespace Vi {
 		static bool isOpen();
 		static void pollEvents();
 		static void clear(Color color);
-		static void draw(const Mesh&);
+		static void draw(Mesh&);
 		static void display();
 	private:
 		static void callbackResize(GLFWwindow*, int, int);

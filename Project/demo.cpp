@@ -11,17 +11,22 @@ int main() {
 	Vi::Window::create("Title", 500, 500);
 
 	Vi::Mesh mesh{};
+	mesh.vertices.push_back({ Vi::Vec3<float>{4, 1, 0}, {}, Vi::Color::red() });
 	mesh.vertices.push_back({ Vi::Vec3<float>{0, 0, 0}, {}, Vi::Color::red() });
-	mesh.vertices.push_back({ Vi::Vec3<float>{1, 0, 0}, {}, Vi::Color::red() });
+	mesh.vertices.push_back({ Vi::Vec3<float>{3, 0, 0}, {}, Vi::Color::red() });
 	mesh.vertices.push_back({ Vi::Vec3<float>{0, 1, 0}, {}, Vi::Color::red() });
+	mesh.glPrimitiveType = GL_LINES;
 
-	Vi::Camera::position = Vi::Vec3<double>{ 0, 0, 5 };
+	Vi::Camera::position = Vi::Vec3<double>{0, 0, 5};
 
 	while (Vi::Window::isOpen()) {
 		Vi::Window::pollEvents();
 		Vi::Window::clear(Vi::Color::blue());
 		Vi::Window::draw(mesh);
 		inputTest();
+		ImGui::Begin("A gui!");
+		ImGui::Button("A Button!");
+		ImGui::End();
 		Vi::Window::display();
 	}
 

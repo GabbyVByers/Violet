@@ -73,11 +73,24 @@ namespace Vi {
 		glDeleteShader(frag_program);
 		glGetProgramiv(glslShaderProgramID, GL_LINK_STATUS, &success);
 		assert(success);
+
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+		io.FontGlobalScale = 1.0f;
+		io.IniFilename = nullptr;
+		io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+		ImGui::StyleColorsDark();
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 
 	void Window::destroy() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		assert(window != nullptr);
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 		glDeleteProgram(glslShaderProgramID);
 		glfwDestroyWindow(window);
 		glfwTerminate();
@@ -98,6 +111,9 @@ namespace Vi {
 		Mouse::scroll_events.clear();
 		Keyboard::keyboard_events.clear();
 		glfwPollEvents();
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 	}
 
 	void Window::clear(Color color) {
@@ -105,11 +121,12 @@ namespace Vi {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void Window::draw(const Mesh& mesh) {
+	void Window::draw(Mesh& mesh) {
 		const GLuint VAO = mesh.material.VAO;
 		const GLuint VBO = mesh.material.VBO;
 		const GLuint glTextureID = mesh.texture.glTextureID;
 		const std::vector<Vertex>& vertices = mesh.vertices;
+		const GLuint glPrimitiveType = mesh.glPrimitiveType;
 		if (vertices.size() == 0) return;
 
 		glUseProgram(glslShaderProgramID);
@@ -127,13 +144,17 @@ namespace Vi {
 		Matrix<float> glmvp = static_cast<Matrix<float>>(MVP);
 		glUniformMatrix4fv(glGetUniformLocation(glslShaderProgramID, "uMVP"), 1, GL_TRUE, glmvp.get());
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
-		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertices.size());
+		if (mesh.upload) {
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+			mesh.upload = false;
+		} glDrawArrays(glPrimitiveType, 0, (GLsizei)vertices.size());
 	}
 
 	void Window::display() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		assert(window != nullptr);
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		glfwSwapBuffers(window);
 	}
 

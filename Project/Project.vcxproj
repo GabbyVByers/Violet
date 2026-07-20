@@ -175,6 +175,10 @@
     <ClInclude Include="Violet\vec2.h" />
     <ClInclude Include="Violet\vec3.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Violet\glsl\default.frag" />
+    <None Include="Violet\glsl\default.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

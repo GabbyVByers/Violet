@@ -81,4 +81,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Violet\glsl\default.frag" />
+    <None Include="Violet\glsl\default.vert" />
+  </ItemGroup>
 </Project>

@@ -46,7 +46,7 @@ namespace Vi {
 	class Vertex {
 	public:
 		Vec3<float> position{};
-		Vec2<float> texCoord{};
+		Vec2<float> texcoord{};
 		Color color{};
 	};
 

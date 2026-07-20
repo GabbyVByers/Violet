@@ -5,6 +5,8 @@
 
 #include "rendering.h"
 #include <cassert>
+#include <fstream>
+#include <sstream>
 
 namespace Vi {
 
@@ -34,11 +36,48 @@ namespace Vi {
 		glfwSetKeyCallback(window, callbackKeyboard);
 		glfwSetMouseButtonCallback(window, callbackMouse);
 		glfwSetScrollCallback(window, callbackScroll);
+
+		auto load = [](std::string path) -> std::string {
+			std::ifstream file(path);
+			assert(file);
+			std::stringstream buffer;
+			buffer << file.rdbuf();
+			return buffer.str();
+		};
+
+		std::string root = __FILE__;
+		std::string vert_source = load(root + "/../../glsl/default.vert");
+		std::string frag_source = load(root + "/../../glsl/default.frag");
+		const char* vert_c_str = vert_source.c_str();
+		const char* frag_c_str = frag_source.c_str();
+
+		GLint success{};
+		GLuint vert_program = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vert_program, 1, &vert_c_str, nullptr);
+		glCompileShader(vert_program);
+		glGetShaderiv(vert_program, GL_COMPILE_STATUS, &success);
+		assert(success);
+
+		GLuint frag_program = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(frag_program, 1, &frag_c_str, nullptr);
+		glCompileShader(frag_program);
+		glGetShaderiv(frag_program, GL_COMPILE_STATUS, &success);
+		assert(success);
+
+		glslShaderProgramID = glCreateProgram();
+		glAttachShader(glslShaderProgramID, vert_program);
+		glAttachShader(glslShaderProgramID, frag_program);
+		glLinkProgram(glslShaderProgramID);
+		glDeleteShader(vert_program);
+		glDeleteShader(frag_program);
+		glGetProgramiv(glslShaderProgramID, GL_LINK_STATUS, &success);
+		assert(success);
 	}
 
 	void Window::destroy() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		assert(window != nullptr);
+		glDeleteProgram(glslShaderProgramID);
 		glfwDestroyWindow(window);
 		glfwTerminate();
 	}

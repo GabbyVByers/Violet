@@ -168,6 +168,7 @@
     <ClCompile Include="Violet\src\mouse.cpp" />
     <ClCompile Include="Violet\src\mvp.cpp" />
     <ClCompile Include="Violet\src\quaternion.cpp" />
+    <ClCompile Include="Violet\src\sprite.cpp" />
     <ClCompile Include="Violet\src\texture.cpp" />
     <ClCompile Include="Violet\src\window.cpp" />
   </ItemGroup>
@@ -195,6 +196,12 @@
   <ItemGroup>
     <None Include="Violet\glsl\default.frag" />
     <None Include="Violet\glsl\default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Textures\JetBrainsMono-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\tulips.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

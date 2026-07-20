@@ -100,6 +100,7 @@ namespace Vi {
 		~Texture();
 	private:
 		friend Window;
+		friend Sprite;
 		void generate();
 		void destroy();
 		Image image{};
@@ -134,21 +135,25 @@ namespace Vi {
 		std::vector<Vertex> vertices{};
 		bool upload{true};
 		GLuint glPrimitiveType{GL_TRIANGLES};
+		Texture texture{};
 	private:
 		friend Window;
 		Matrix<double> modelMatrix() const;
-		Texture texture{};
 		Material material{};
 	};
 
 	class Sprite {
 	public:
+		Sprite(const Texture& = Texture{});
+		Vec2i<size_t> size{};
+		Vec2i<size_t> position;
+		Texture texture{};
 	private:
-	};
-
-	class Text {
-	public:
-	private:
+		friend Window;
+		Matrix<double> modelMatrix() const;
+		std::vector<Vertex> vertices{};
+		bool upload{true};
+		Material material{};
 	};
 
 	/***************************************************/
@@ -219,6 +224,7 @@ namespace Vi {
 		static void pollEvents();
 		static void clear(Color color);
 		static void draw(Mesh&);
+		static void draw(Sprite&);
 		static void display();
 	private:
 		static void callbackResize(GLFWwindow*, int, int);

@@ -150,6 +150,31 @@ namespace Vi {
 		} glDrawArrays(glPrimitiveType, 0, (GLsizei)vertices.size());
 	}
 
+	void Window::draw(Sprite& sprite) {
+		const GLuint VAO = sprite.material.VAO;
+		const GLuint VBO = sprite.material.VBO;
+		const GLuint glTextureID = sprite.texture.glTextureID;
+		const std::vector<Vertex>& vertices = sprite.vertices;
+		if (vertices.size() == 0) return;
+
+		glUseProgram(glslShaderProgramID);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, glTextureID);
+		glUniform1i(glGetUniformLocation(glslShaderProgramID, "ourTexture"), 0);
+
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+		Matrix<double> MVP = sprite.modelMatrix();
+		Matrix<float> glmvp = static_cast<Matrix<float>>(MVP);
+		glUniformMatrix4fv(glGetUniformLocation(glslShaderProgramID, "uMVP"), 1, GL_TRUE, glmvp.get());
+
+		if (sprite.upload) {
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+			sprite.upload = false;
+		} glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertices.size());
+	}
+
 	void Window::display() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		assert(window != nullptr);

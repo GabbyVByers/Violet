@@ -72,6 +72,9 @@
     <ClCompile Include="Libraries\include\imgui\imgui_impl_glfw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Violet\src\sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Violet\rendering.h">
@@ -135,5 +138,13 @@
   <ItemGroup>
     <None Include="Violet\glsl\default.frag" />
     <None Include="Violet\glsl\default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Textures\JetBrainsMono-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\tulips.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

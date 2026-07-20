@@ -11,22 +11,36 @@ int main() {
 	Vi::Window::create("Title", 500, 500);
 
 	Vi::Mesh mesh{};
-	mesh.vertices.push_back({ Vi::Vec3<float>{4, 1, 0}, {}, Vi::Color::red() });
-	mesh.vertices.push_back({ Vi::Vec3<float>{0, 0, 0}, {}, Vi::Color::red() });
-	mesh.vertices.push_back({ Vi::Vec3<float>{3, 0, 0}, {}, Vi::Color::red() });
-	mesh.vertices.push_back({ Vi::Vec3<float>{0, 1, 0}, {}, Vi::Color::red() });
-	mesh.glPrimitiveType = GL_LINES;
+	mesh.vertices.push_back({ Vi::Vec3<float>{0, 0, 0}, {0, 0}, {} });
+	mesh.vertices.push_back({ Vi::Vec3<float>{1, 0, 0}, {1, 0}, {} });
+	mesh.vertices.push_back({ Vi::Vec3<float>{0, 1, 0}, {0, 1}, {} });
+	mesh.vertices.push_back({ Vi::Vec3<float>{1, 0, 0}, {1, 0}, {} });
+	mesh.vertices.push_back({ Vi::Vec3<float>{0, 1, 0}, {0, 1}, {} });
+	mesh.vertices.push_back({ Vi::Vec3<float>{1, 1, 0}, {1, 1}, {} });
+	mesh.glPrimitiveType = GL_TRIANGLES;
+	
+	Vi::Image tulips{"Textures/tulips.png"};
+	mesh.texture = Vi::Texture(tulips);
 
 	Vi::Camera::position = Vi::Vec3<double>{0, 0, 5};
+
+	Vi::Sprite sprite(tulips);
+	sprite.size = { 50,50 };
 
 	while (Vi::Window::isOpen()) {
 		Vi::Window::pollEvents();
 		Vi::Window::clear(Vi::Color::blue());
+
+		sprite.position = Vi::Mouse::position();
+
 		Vi::Window::draw(mesh);
+		Vi::Window::draw(sprite);
+		
 		inputTest();
-		ImGui::Begin("A gui!");
-		ImGui::Button("A Button!");
+		ImGui::Begin("A gui!", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+		ImGui::Text("Some text!");
 		ImGui::End();
+		
 		Vi::Window::display();
 	}
 

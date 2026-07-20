@@ -125,7 +125,7 @@ namespace Vi {
 	class Mesh {
 	public:
 		std::vector<Vertex> vertices{};
-		double scale{};
+		double scale{1.0};
 		Vec3<double> position{};
 		Quaternion orientation{};
 	private:
@@ -213,8 +213,6 @@ namespace Vi {
 		static void pollEvents();
 		static void clear(Color color);
 		static void draw(const Mesh&);
-		//static void draw(const Sprite&);
-		//static void draw(const Text&);
 		static void display();
 	private:
 		static void callbackResize(GLFWwindow*, int, int);

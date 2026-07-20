@@ -10,9 +10,17 @@ static void inputTest();
 int main() {	
 	Vi::Window::create("Title", 500, 500);
 
+	Vi::Mesh mesh{};
+	mesh.vertices.push_back({ Vi::Vec3<float>{0, 0, 0}, {}, Vi::Color::red() });
+	mesh.vertices.push_back({ Vi::Vec3<float>{1, 0, 0}, {}, Vi::Color::red() });
+	mesh.vertices.push_back({ Vi::Vec3<float>{0, 1, 0}, {}, Vi::Color::red() });
+
+	Vi::Camera::position = Vi::Vec3<double>{ 0, 0, 5 };
+
 	while (Vi::Window::isOpen()) {
 		Vi::Window::pollEvents();
 		Vi::Window::clear(Vi::Color::blue());
+		Vi::Window::draw(mesh);
 		inputTest();
 		Vi::Window::display();
 	}

@@ -102,7 +102,7 @@ namespace Vi {
 
 	void Window::clear(Color color) {
 		glClearColor(color.r, color.g, color.b, color.a);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void Window::draw(const Mesh& mesh) {
@@ -125,19 +125,11 @@ namespace Vi {
 		Matrix<double> P = Camera::projectionMatrix();
 		Matrix<double> MVP = P * V * M;
 		Matrix<float> glmvp = static_cast<Matrix<float>>(MVP);
-		glUniformMatrix4fv(glGetUniformLocation(glslShaderProgramID, "uModelViewProject"), 1, GL_TRUE, glmvp.get());
+		glUniformMatrix4fv(glGetUniformLocation(glslShaderProgramID, "uMVP"), 1, GL_TRUE, glmvp.get());
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
 		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertices.size());
 	}
-
-	//void Window::draw(const Sprite& sprite) {
-	//
-	//}
-
-	//void Window::draw(const Text& text) {
-	//
-	//}
 
 	void Window::display() {
 		GLFWwindow* window = glfwGetCurrentContext();

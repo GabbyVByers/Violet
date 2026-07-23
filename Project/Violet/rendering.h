@@ -131,17 +131,18 @@ namespace Vi {
 		Vec3<double> up() const;
 		Vec3<double> right() const;
 		void rotate(const Vec3<double>&, double);
+		void update();
 		double scale{1.0};
 		Vec3<double> position{};
 		std::vector<Vertex> vertices{};
-		bool upload{true};
 		GLuint glPrimitiveType{GL_TRIANGLES};
 		Texture texture{};
 	private:
 		friend Window;
 		Matrix<double> modelMatrix() const;
-		Rotation orientation{};
+		Quaternion orientation{};
 		Material material{};
+		bool upload{true};
 	};
 
 	class Sprite {
@@ -175,7 +176,7 @@ namespace Vi {
 		friend Window;
 		static Matrix<double> viewMatrix();
 		static Matrix<double> projectionMatrix();
-		static inline Rotation orientation{};
+		static inline Quaternion orientation{};
 		Camera()                        = delete;
 		Camera(const Camera&)           = delete;
 		Camera(Camera&&)                = delete;

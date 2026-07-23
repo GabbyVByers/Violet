@@ -28,18 +28,9 @@ namespace Vi {
 		double z{0.0};
 		void normalize();
 		Quaternion complexconj() const;
+		static Quaternion create(const Vec3<double>&, double);
+		static Vec3<double> apply(const Vec3<double>&, const Quaternion&);
 		Quaternion operator * (const Quaternion&) const;
-	};
-
-	class Rotation {
-	public:
-		Vec3<double> forward() const;
-		Vec3<double> up() const;
-		Vec3<double> right() const;
-		void rotate(const Vec3<double>&, double);
-		static Quaternion makeRotation(const Vec3<double>&, double);
-		static Vec3<double> applyRotation(const Vec3<double>&, const Quaternion&);
-		Quaternion quat{};
 	};
 
 	template<std::floating_point type>

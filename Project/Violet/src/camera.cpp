@@ -13,29 +13,29 @@ namespace Vi {
 
 	Vec3<double> Camera::forward() {
 		const Vec3<double> forward_basis = Vec3<double>::zneg();
-		return Rotation::applyRotation(forward_basis, orientation.quat);
+		return Quaternion::apply(forward_basis, orientation);
 	}
 
 	Vec3<double> Camera::up() {
 		const Vec3<double> up_basis = Vec3<double>::ypos();
-		return Rotation::applyRotation(up_basis, orientation.quat);
+		return Quaternion::apply(up_basis, orientation);
 	}
 
 	Vec3<double> Camera::right() {
 		const Vec3<double> right_basis = Vec3<double>::xpos();
-		return Rotation::applyRotation(right_basis, orientation.quat);
+		return Quaternion::apply(right_basis, orientation);
 	}
 
 	void Camera::rotate(const Vec3<double>& axis, double theta) {
-		Quaternion rotation = Rotation::makeRotation(axis, theta);
-		orientation.quat = rotation * orientation.quat;
+		Quaternion rotation = Quaternion::create(axis, theta);
+		orientation = rotation * orientation;
 	}
 
 	/* Private */
 
 	Matrix<double> Camera::viewMatrix() {
 		Matrix<double> translation_matrix_inverse = Matrix<double>::translation(-position);
-		Matrix<double> rotation_matrix_inverse = Matrix<double>::rotation(orientation.quat.complexconj());
+		Matrix<double> rotation_matrix_inverse = Matrix<double>::rotation(orientation.complexconj());
 		return rotation_matrix_inverse * translation_matrix_inverse;
 	}
 

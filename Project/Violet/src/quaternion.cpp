@@ -20,6 +20,28 @@ namespace Vi {
 		return Quaternion{ w, -x, -y, -z };
 	}
 
+	Quaternion Quaternion::create(const Vec3<double>& axis, double theta) {
+		double half = theta / double(2);
+		double sine = std::sin(half);
+		return Quaternion{
+			std::cos(half),
+			sine * axis.x,
+			sine * axis.y,
+			sine * axis.z
+		};
+	}
+
+	Vec3<double> Quaternion::apply(const Vec3<double>& vec, const Quaternion& rotation) {
+		Quaternion complex = rotation.complexconj();
+		Quaternion pure = Quaternion{ 0.0, vec.x, vec.y, vec.z };
+		Quaternion result = rotation * pure * complex;
+		return Vec3<double>{
+			result.x,
+				result.y,
+				result.z
+		};
+	}
+
 	Quaternion Quaternion::operator * (const Quaternion& other) const {
 		const Quaternion& a = *this;
 		const Quaternion& b = other;

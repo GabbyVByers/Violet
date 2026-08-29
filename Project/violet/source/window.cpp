@@ -12,17 +12,19 @@ namespace Vi {
 			throw std::exception{};
 		} created = true;
 
-		constexpr int MIN_WIDTH{ 256 };
-		constexpr int MIN_HEIGHT{ 128 };
-		screen_width = std::max(width, MIN_WIDTH);
-		screen_height = std::max(height, MIN_HEIGHT);
+		constexpr size_t MIN_WIDTH{ 256 };
+		constexpr size_t MIN_HEIGHT{ 128 };
+		dimensions = {
+			std::max(static_cast<size_t>(width), MIN_WIDTH),
+			std::max(static_cast<size_t>(height), MIN_HEIGHT),
+		};
 
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
 			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
 			throw std::exception{};
 		}
 
-		window = SDL_CreateWindow(title, screen_width, screen_height, SDL_WINDOW_RESIZABLE);
+		window = SDL_CreateWindow(title, static_cast<int>(dimensions.x), static_cast<int>(dimensions.y), SDL_WINDOW_RESIZABLE);
 		if (!window) {
 			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
 			throw std::exception{};
@@ -165,8 +167,8 @@ namespace Vi {
 			.type = SDL_GPU_TEXTURETYPE_2D,
 			.format = SDL_GPU_TEXTUREFORMAT_D16_UNORM,
 			.usage = SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET,
-			.width = static_cast<unsigned int>(screen_width),
-			.height = static_cast<unsigned int>(screen_height),
+			.width = static_cast<unsigned int>(dimensions.x),
+			.height = static_cast<unsigned int>(dimensions.y),
 			.layer_count_or_depth = 1,
 			.num_levels = 1,
 			.sample_count = SDL_GPU_SAMPLECOUNT_1
@@ -218,20 +220,65 @@ namespace Vi {
 	}
 
 	Window::~Window() {
+		if (frame) {
+			SDL_EndGPURenderPass(render_pass);
+			if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
+				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
+				throw std::exception{};
+			}
+		}
+		
 		SDL_ReleaseGPUSampler(device, sampler);
 		SDL_ReleaseGPUTexture(device, depth_texture);
 		SDL_ReleaseGPUGraphicsPipeline(device, graphics_pipeline);
 		SDL_DestroyGPUDevice(device);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
-		created = false;
-		screen_width = 0;
-		screen_height = 0;
-		window = nullptr;
-		device = nullptr;
-		sampler = nullptr;
-		depth_texture = nullptr;
-		graphics_pipeline = nullptr;
+
+		created = {};
+		dimensions = {};
+		window = {};
+		device = {};
+		depth_texture = {};
+		sampler = {};
+		graphics_pipeline = {};
+
+		frame = {};
+		minimized = {};
+		render_pass = {};
+		swapchain_texture = {};
+		command_buffer = {};
+	}
+
+	void Window::vsync(bool vsync) {
+
+		throw std::exception{ "KILL!" };
+
+		if (vsync) {
+			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
+				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
+				throw std::exception{};
+			} return;
+		}
+
+		if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
+			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
+				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
+				throw std::exception{};
+			} return;
+		}
+
+		if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_MAILBOX)) {
+			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX)) {
+				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
+				throw std::exception{};
+			} return;
+		}
+
+		if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
+			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
+			throw std::exception{};
+		}
 	}
 
 	bool Window::isOpen() {
@@ -269,9 +316,10 @@ namespace Vi {
 			} return;
 		}
 
-		const bool reconstruct_depth_texture = (width != screen_width) || (height != screen_height);
-		screen_width = width;
-		screen_height = height;
+		unsigned int curr_width = static_cast<unsigned int>(dimensions.x);
+		unsigned int curr_height = static_cast<unsigned int>(dimensions.y);
+		const bool reconstruct_depth_texture = (width != curr_width) || (height != curr_height);
+		dimensions = { width, height };
 
 		if (reconstruct_depth_texture) {
 			SDL_ReleaseGPUTexture(device, depth_texture);
@@ -325,7 +373,34 @@ namespace Vi {
 	}
 
 	void Window::draw(const Mesh& mesh) {
+		if (!frame) { throw std::exception{}; }
+		if (!mesh.vertex_buffer) { throw std::exception{}; }
+		if (!mesh.gpu_texture) { throw std::exception{}; }
+		if (minimized) { return; }
 
+		double width = static_cast<double>(dimensions.x);
+		double height = static_cast<double>(dimensions.y);
+		double aspect_ratio = width / height;
+
+		Matrix model = Matrix::model(mesh.scale, mesh.position, mesh.quaternion);
+		Matrix view = Matrix::view(Camera::position, Camera::quaternion);
+		Matrix project = Matrix::project(Camera::fov, aspect_ratio);
+		Matrix mvp = project * view * model;
+		//Matrix mvp = Matrix::identity();
+		SDL_PushGPUVertexUniformData(command_buffer, 0, mvp.columnmajor(), sizeof(float[16]));
+
+		SDL_GPUBufferBinding buffer_binding {
+			.buffer = mesh.vertex_buffer,
+		};
+
+		SDL_GPUTextureSamplerBinding texture_binding {
+			.texture = mesh.gpu_texture,
+			.sampler = sampler,
+		};
+
+		SDL_BindGPUVertexBuffers(render_pass, 0, &buffer_binding, 1);
+		SDL_BindGPUFragmentSamplers(render_pass, 0, &texture_binding, 1);
+		SDL_DrawGPUPrimitives(render_pass, mesh.num_vertices, 1, 0, 0);
 	}
 
 	void Window::display() {

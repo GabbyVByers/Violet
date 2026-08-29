@@ -8,7 +8,7 @@
 namespace Vi {
 
 	Matrix::Matrix(const double values[16]) {
-		std::memcpy(grid, values, sizeof(values));
+		std::memcpy(grid, values, sizeof(double[16]));
 	}
 
 	Matrix::Matrix(std::initializer_list<double> values) {
@@ -84,13 +84,23 @@ namespace Vi {
 		};
 	}
 
+	const void* Matrix::columnmajor() {
+		static float result[16]{};
+		for (int i{}; i < 4; ++i) {
+			for (int j{}; j < 4; ++j) {
+				float element = static_cast<float>(grid[(i * 4) + j]);
+				result[(j * 4) + i] = element;
+			}
+		} return reinterpret_cast<void*>(result);
+	}
+
 	Matrix Matrix::operator * (const Matrix& other) {
 		double result[16]{};
 		for (int i{}; i < 4; ++i) {
 			for (int j{}; j < 4; ++j) {
 				double sum{};
 				for (int k{}; k < 4; ++k) {
-					sum += this->grid[(i * 4) + k] * other.grid[(k * 4) + i];
+					sum += this->grid[(i * 4) + k] * other.grid[(k * 4) + j];
 				} result[(i * 4) + j] = sum;
 			}
 		} return Matrix{ result };

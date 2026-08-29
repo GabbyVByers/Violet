@@ -165,9 +165,10 @@
     <ClCompile Include="libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="libraries\stb\stb_image.c" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="violet\source\Image.cpp" />
-    <ClCompile Include="violet\source\Matrix.cpp" />
-    <ClCompile Include="violet\source\Violet.cpp" />
+    <ClCompile Include="violet\source\image.cpp" />
+    <ClCompile Include="violet\source\matrix.cpp" />
+    <ClCompile Include="violet\source\mesh.cpp" />
+    <ClCompile Include="violet\source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libraries\imgui\imconfig.h" />

@@ -29,6 +29,7 @@ namespace Vi {
 		pixels = new uint8_t[buffer_size];
 		if (!pixels) { throw std::exception{}; }
 		std::memset(pixels, (uint8_t)255, buffer_size);
+		dimensions = size;
 	}
 
 	Image Image::perlin(Vec2u size, size_t num_layers, double dropoff) {
@@ -81,6 +82,7 @@ namespace Vi {
 	// API Interface
 
 	void Image::putPixel(Vec2u position, Color color) {
+		if (!pixels) { throw std::exception{}; }
 		if (position.x >= dimensions.x) { throw std::exception{}; }
 		if (position.y >= dimensions.y) { throw std::exception{}; }
 		uint8_t r = static_cast<uint8_t>(color.r * 255.0f);
@@ -95,6 +97,7 @@ namespace Vi {
 	}
 
 	Color Image::getPixel(Vec2u position) const {
+		if (!pixels) { throw std::exception{}; }
 		if (position.x >= dimensions.x) { throw std::exception{}; }
 		if (position.y >= dimensions.y) { throw std::exception{}; }
 		size_t index = (((position.y * dimensions.x) + position.x) * (size_t)4);

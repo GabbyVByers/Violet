@@ -14,6 +14,8 @@
 
 namespace Vi {
 
+	class Window;
+
 	template<typename type>
 	class Vec2 {
 	public:
@@ -86,6 +88,8 @@ namespace Vi {
 		static Matrix model(double, Vec3d, Quaternion);
 		static Matrix view(Vec3d, Quaternion);
 		static Matrix project(double, double);
+
+		const void* columnmajor();
 		Matrix operator * (const Matrix&);
 
 	private:
@@ -94,8 +98,7 @@ namespace Vi {
 
 	class Image {
 	public:
-		Image() = default;
-		Image(Vec2u);
+		Image(Vec2u = {1,1});
 		Image(std::filesystem::path);
 		static Image perlin(Vec2u, size_t, double);
 		~Image();
@@ -118,21 +121,39 @@ namespace Vi {
 	class Camera {
 	public:
 
-
-
+		static inline double fov{ 2.0 };
+		static inline Vec3d position{};
+		static inline Quaternion quaternion{};
 	};
 
 	class Mesh {
 	public:
+		Mesh(const Image& = {});
+		~Mesh();
+		void upload(const Vertex*, size_t);
 
+		double scale{ 1.0 };
+		Vec3d position{};
 
+	private:
+		friend Window;
+		Mesh(const Mesh&) = delete;
+		Mesh(Mesh&&) = delete;
+		void operator = (const Mesh&) = delete;
+		void operator = (Mesh&&) = delete;
 
+		size_t num_vertices{};
+		SDL_GPUBuffer* vertex_buffer{};
+		SDL_GPUTexture* gpu_texture{};
+		Quaternion quaternion{};
+		void texture(const Image&);
 	};
 
 	class Window {
 	public:
 		Window(const char*, int, int);
 		~Window();
+		void vsync(bool);
 		bool isOpen();
 		void clear(Color);
 		void draw(const Mesh&);
@@ -146,8 +167,7 @@ namespace Vi {
 		void operator = (Window&&) = delete;
 
 		static inline bool created{};
-		static inline int screen_width{};
-		static inline int screen_height{};
+		static inline Vec2u dimensions{};
 		static inline SDL_Window* window{};
 		static inline SDL_GPUDevice* device{};
 		static inline SDL_GPUTexture* depth_texture{};

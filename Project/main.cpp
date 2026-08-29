@@ -9,8 +9,15 @@
 int main() {
 	Vi::Window window{ "App Title", 500, 500 };
 
+	Vi::Matrix x{
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1,
+	};
+
 	while (window.isOpen()) {
-		window.clear({1,0,1,1});
+		window.clear({ 1, 0, 1, 1 });
 		window.display();
 	}
 

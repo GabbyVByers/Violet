@@ -109,11 +109,12 @@ namespace Vi {
 
 	class Image {
 	public:
+		
 		Image(Vec2u = {1,1});
 		Image(std::filesystem::path);
-		static Image perlin(Vec2u, size_t, double);
+		Image(Vec2u, size_t, double);
 		~Image();
-		
+
 		Image(const Image&);
 		Image(Image&&) noexcept;
 		Image& operator = (const Image&);
@@ -121,7 +122,7 @@ namespace Vi {
 
 		void putPixel(Vec2u, Color);
 		Color getPixel(Vec2u) const;
-		const uint8_t* ptr(size_t&) const;
+		const uint8_t* ptr() const;
 		Vec2u size() const;
 	
 	private:

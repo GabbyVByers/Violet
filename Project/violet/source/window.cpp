@@ -31,7 +31,7 @@ namespace Vi {
 			std::terminate();
 		}
 		
-		#ifdef _DEBUG // DEBUG
+		#ifdef _DEBUG // DEBUG = Enable Vulkan Debug Info
 		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
 		#else // RELEASE
 		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, false, nullptr);

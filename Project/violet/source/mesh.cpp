@@ -100,11 +100,11 @@ namespace Vi {
 	}
 
 	void Mesh::texture(const Image& image) {
-		size_t buffer_size{};
-		const uint8_t* pixels = image.ptr(buffer_size);
 		const Vec2u image_size = image.size();
 		unsigned int width = static_cast<unsigned int>(image_size.x);
 		unsigned int height = static_cast<unsigned int>(image_size.y);
+		size_t buffer_size = (image_size.x * image_size.y * (size_t)4);
+		const uint8_t* pixels = image.ptr();
 
 		SDL_GPUTextureCreateInfo texture_create_info{
 			.type = SDL_GPU_TEXTURETYPE_2D,

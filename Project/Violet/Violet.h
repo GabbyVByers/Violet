@@ -22,24 +22,9 @@ namespace Vi {
 	class Window;
 
 	namespace Log {
-		
-		static void error(const char* FILE, int LINE) {
-			std::filesystem::path filepath{ FILE };
-			std::string filename = filepath.filename().string();
-			std::cerr << "\033[31mAn Error Occurred!\033[0m\n";
-			std::cerr << std::format("\033[32mFILE: \033[0m'{}'\n", filename);
-			std::cerr << std::format("\033[32mLINE: \033[0m{}\n", std::to_string(LINE));
-		}
-
-		static void error(const char* message) {
-			std::cerr << "\033[31mError: \033[0m";
-			std::cerr << message << std::endl;
-		}
-
-		static void error(const std::string& message) {
-			std::cerr << "\033[31mError: \033[0m";
-			std::cerr << message << std::endl;
-		}
+		void error(const char*, int);
+		void error(const char*);
+		void error(const std::string&);
 	}
 
 	template<typename type>

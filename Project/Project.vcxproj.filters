@@ -15,6 +15,7 @@
     <ClCompile Include="libraries\stb\stb_image.c" />
     <ClCompile Include="violet\source\image.cpp" />
     <ClCompile Include="violet\source\mesh.cpp" />
+    <ClCompile Include="violet\source\log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="violet\Violet.h" />

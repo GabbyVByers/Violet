@@ -1,6 +1,6 @@
 
 /*
- *   Source File [Image.cpp]
+ *   Source File [image.cpp]
  */
 
 #include "Violet.h"
@@ -19,17 +19,23 @@ namespace Vi {
 		dimensions = { static_cast<size_t>(width), static_cast<size_t>(height) };
 		size_t buffer_size = (dimensions.x * dimensions.y * (size_t)4);
 		pixels = new uint8_t[buffer_size];
-		if (!pixels) { throw std::exception{}; }
-		std::memcpy(pixels, stbi_image, buffer_size);
+		if (!pixels) {
+			std::string s{ "Out of memory!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} std::memcpy(pixels, stbi_image, buffer_size);
 		stbi_image_free(stbi_image);
 	}
 
 	Image::Image(Vec2u size) {
 		size_t buffer_size = (size.x * size.y * (size_t)4);
-		pixels = new uint8_t[buffer_size];
-		if (!pixels) { throw std::exception{}; }
-		std::memset(pixels, (uint8_t)255, buffer_size);
 		dimensions = size;
+		pixels = new uint8_t[buffer_size];
+		if (!pixels) {
+			std::string s{ "Out of memory!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} std::memset(pixels, (uint8_t)255, buffer_size);
 	}
 
 	Image Image::perlin(Vec2u size, size_t num_layers, double dropoff) {
@@ -45,10 +51,13 @@ namespace Vi {
 
 	Image::Image(const Image& other) {
 		const size_t buffer_size = (other.dimensions.x * other.dimensions.y * (size_t)4);
-		pixels = new uint8_t[buffer_size];
-		if (!pixels) { throw std::exception{}; }
-		std::memcpy(pixels, other.pixels, buffer_size);
 		dimensions = other.dimensions;
+		pixels = new uint8_t[buffer_size];
+		if (!pixels) {
+			std::string s{ "Out of memory!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} std::memcpy(pixels, other.pixels, buffer_size);
 	}
 
 	Image::Image(Image&& other) noexcept {
@@ -59,19 +68,28 @@ namespace Vi {
 	}
 
 	Image& Image::operator = (const Image& other) {
-		if (this == std::addressof(other)) { throw std::exception{}; }
-		const size_t buffer_size = (other.dimensions.x * other.dimensions.y * (size_t)4);
+		if (this == std::addressof(other)) {
+			std::string s{ "Illegal self-assignment!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} const size_t buffer_size = (other.dimensions.x * other.dimensions.y * (size_t)4);
+		dimensions = other.dimensions;
 		delete[] pixels;
 		pixels = new uint8_t[buffer_size];
-		if (!pixels) { throw std::exception{}; }
-		std::memcpy(pixels, other.pixels, buffer_size);
-		dimensions = other.dimensions;
+		if (!pixels) {
+			std::string s{ "Out of memory!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} std::memcpy(pixels, other.pixels, buffer_size);
 		return *this;
 	}
 
 	Image& Image::operator = (Image&& other) noexcept {
-		if (this == std::addressof(other)) { std::terminate(); }
-		delete[] pixels;
+		if (this == std::addressof(other)) {
+			std::string s{ "Illegal self-assignment!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} delete[] pixels;
 		pixels = other.pixels;
 		dimensions = other.dimensions;
 		other.pixels = nullptr;
@@ -82,10 +100,15 @@ namespace Vi {
 	// API Interface
 
 	void Image::putPixel(Vec2u position, Color color) {
-		if (!pixels) { throw std::exception{}; }
-		if (position.x >= dimensions.x) { throw std::exception{}; }
-		if (position.y >= dimensions.y) { throw std::exception{}; }
-		uint8_t r = static_cast<uint8_t>(color.r * 255.0f);
+		if (!pixels) {
+			std::string s{ "Invalid image!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} if ((position.x >= dimensions.x) || (position.y >= dimensions.y)) {
+			std::string s{ "Out of bounds!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} uint8_t r = static_cast<uint8_t>(color.r * 255.0f);
 		uint8_t g = static_cast<uint8_t>(color.g * 255.0f);
 		uint8_t b = static_cast<uint8_t>(color.b * 255.0f);
 		uint8_t a = static_cast<uint8_t>(color.a * 255.0f);
@@ -97,10 +120,15 @@ namespace Vi {
 	}
 
 	Color Image::getPixel(Vec2u position) const {
-		if (!pixels) { throw std::exception{}; }
-		if (position.x >= dimensions.x) { throw std::exception{}; }
-		if (position.y >= dimensions.y) { throw std::exception{}; }
-		size_t index = (((position.y * dimensions.x) + position.x) * (size_t)4);
+		if (!pixels) {
+			std::string s{ "Invalid image!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} if ((position.x >= dimensions.x) || (position.y >= dimensions.y)) {
+			std::string s{ "Out of bounds!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} size_t index = (((position.y * dimensions.x) + position.x) * (size_t)4);
 		uint8_t r = pixels[index + 0];
 		uint8_t g = pixels[index + 1];
 		uint8_t b = pixels[index + 2];

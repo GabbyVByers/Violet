@@ -1,6 +1,6 @@
 
 /*
- *   Source File [Violet.cpp]
+ *   Source File [window.cpp]
  */
 
 #include "Violet.h"
@@ -9,7 +9,9 @@ namespace Vi {
 
 	Window::Window(const char* title, int width, int height) {
 		if (created) {
-			throw std::exception{};
+			std::string s{ "Window already active!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		} created = true;
 
 		constexpr size_t MIN_WIDTH{ 256 };
@@ -20,53 +22,58 @@ namespace Vi {
 		};
 
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		window = SDL_CreateWindow(title, static_cast<int>(dimensions.x), static_cast<int>(dimensions.y), SDL_WINDOW_RESIZABLE);
 		if (!window) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
-
+		
 		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
 		if (!device) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		if (!SDL_ClaimWindowForGPUDevice(device, window)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		if (!SDL_SetWindowMinimumSize(window, MIN_WIDTH, MIN_HEIGHT)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
-		std::filesystem::path current_path = std::filesystem::current_path() / "shaders";
-		std::filesystem::path vertex_path = current_path / "vertex.spv";
-		std::filesystem::path fragment_path = current_path / "fragment.spv";
+		std::filesystem::path vertex_path = std::filesystem::current_path() / "shaders/vertex.spv";
+		std::filesystem::path fragment_path = std::filesystem::current_path() / "shaders/fragment.spv";
 
 		std::ifstream vertex_spv{ vertex_path, std::ios::binary };
 		if (!vertex_spv) {
-			std::string path = vertex_path.string();
-			std::cerr << std::format("Couldn't Load: {}\n", path);
-			throw std::exception{};
+			std::string s{ "Couldn't load: " + vertex_path.string() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		std::ifstream fragment_spv{ fragment_path, std::ios::binary };
 		if (!fragment_spv) {
-			std::string path = vertex_path.string();
-			std::cerr << std::format("Couldn't Load: {}\n", path);
-			throw std::exception{};
+			std::string s{ "Couldn't load: " + fragment_path.string() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		std::vector<uint8_t> vertex_code = {
@@ -99,14 +106,16 @@ namespace Vi {
 
 		SDL_GPUShader* vertex_shader_program = SDL_CreateGPUShader(device, &vertex_shader_create_info);
 		if (!vertex_shader_program) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUShader* fragment_shader_program = SDL_CreateGPUShader(device, &fragment_shader_create_info);
 		if (!fragment_shader_program) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUVertexAttribute position_attribute{
@@ -199,20 +208,23 @@ namespace Vi {
 
 		depth_texture = SDL_CreateGPUTexture(device, &depth_texture_create_info);
 		if (!depth_texture) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		sampler = SDL_CreateGPUSampler(device, &sampler_create_info);
 		if (!sampler) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		graphics_pipeline = SDL_CreateGPUGraphicsPipeline(device, &graphics_pipeline_create_info);
 		if (!graphics_pipeline) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_ReleaseGPUShader(device, vertex_shader_program);
@@ -223,8 +235,9 @@ namespace Vi {
 		if (frame) {
 			SDL_EndGPURenderPass(render_pass);
 			if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-				throw std::exception{};
+				std::string s{ SDL_GetError() };
+				std::cerr << std::format("Error: {}\n", s);
+				std::terminate();
 			}
 		}
 		
@@ -251,33 +264,34 @@ namespace Vi {
 	}
 
 	void Window::vsync(bool vsync) {
-
-		throw std::exception{ "KILL!" };
-
 		if (vsync) {
 			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
-				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-				throw std::exception{};
+				std::string s{ SDL_GetError() };
+				std::cerr << std::format("Error: {}\n", s);
+				std::terminate();
 			} return;
 		}
 
 		if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
 			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
-				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-				throw std::exception{};
+				std::string s{ SDL_GetError() };
+				std::cerr << std::format("Error: {}\n", s);
+				std::terminate();
 			} return;
 		}
 
 		if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_MAILBOX)) {
 			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX)) {
-				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-				throw std::exception{};
+				std::string s{ SDL_GetError() };
+				std::cerr << std::format("Error: {}\n", s);
+				std::terminate();
 			} return;
 		}
 
 		if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 	}
 
@@ -292,27 +306,32 @@ namespace Vi {
 
 	void Window::clear(Color clear_color) {
 		if (frame) {
-			throw std::exception{};
+			std::string s{ "No active frame!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		} frame = true;
 
 		command_buffer = SDL_AcquireGPUCommandBuffer(device);
 		if (!command_buffer) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		unsigned int width{}, height{};
 		if (!SDL_WaitAndAcquireGPUSwapchainTexture(command_buffer, window, &swapchain_texture, &width, &height)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		minimized = false;
 		if ((width == 0) || (height == 0)) {
 			minimized = true;
 			if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-				throw std::exception{};
+				std::string s{ SDL_GetError() };
+				std::cerr << std::format("Error: {}\n", s);
+				std::terminate();
 			} return;
 		}
 
@@ -338,8 +357,9 @@ namespace Vi {
 
 			depth_texture = SDL_CreateGPUTexture(device, &depth_texture_create_info);
 			if (!depth_texture) {
-				std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-				throw std::exception{};
+				std::string s{ SDL_GetError() };
+				std::cerr << std::format("Error: {}\n", s);
+				std::terminate();
 			}
 		}
 
@@ -367,17 +387,26 @@ namespace Vi {
 
 		render_pass = SDL_BeginGPURenderPass(command_buffer, &color_target_info, 1, &depth_stencil_target_info);
 		if (!render_pass) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		} SDL_BindGPUGraphicsPipeline(render_pass, graphics_pipeline);
 	}
 
 	void Window::draw(const Mesh& mesh) {
-		if (!frame) { throw std::exception{}; }
-		if (!mesh.vertex_buffer) { throw std::exception{}; }
-		if (!mesh.gpu_texture) { throw std::exception{}; }
-		if (minimized) { return; }
+		if (!frame) {
+			std::string s{ "No active frame!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		}
 
+		if ((!mesh.vertex_buffer) || (!mesh.gpu_texture)) {
+			std::string s{ "Invlid mesh!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		}
+
+		if (minimized) { return; }
 		double width = static_cast<double>(dimensions.x);
 		double height = static_cast<double>(dimensions.y);
 		double aspect_ratio = width / height;
@@ -386,7 +415,6 @@ namespace Vi {
 		Matrix view = Matrix::view(Camera::position, Camera::quaternion);
 		Matrix project = Matrix::project(Camera::fov, aspect_ratio);
 		Matrix mvp = project * view * model;
-		//Matrix mvp = Matrix::identity();
 		SDL_PushGPUVertexUniformData(command_buffer, 0, mvp.columnmajor(), sizeof(float[16]));
 
 		SDL_GPUBufferBinding buffer_binding {
@@ -405,14 +433,17 @@ namespace Vi {
 
 	void Window::display() {
 		if (!frame) {
-			throw std::exception{};
+			std::string s{ "No active frame!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		} frame = false;
 		if (minimized) { return; }
 
 		SDL_EndGPURenderPass(render_pass);
 		if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 	}
 }

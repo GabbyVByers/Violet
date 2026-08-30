@@ -1,6 +1,6 @@
 
 /*
- *   Source File [Matrix.cpp]
+ *   Source File [matrix.cpp]
  */
 
 #include "Violet.h"
@@ -12,8 +12,11 @@ namespace Vi {
 	}
 
 	Matrix::Matrix(std::initializer_list<double> values) {
-		if (values.size() != 16) { throw std::exception(); }
-		std::copy(values.begin(), values.end(), grid);
+		if (values.size() != 16) {
+			std::string s{ "Matrix requires exactly sixteen values!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} std::copy(values.begin(), values.end(), grid);
 	}
 
 	Matrix Matrix::identity() {

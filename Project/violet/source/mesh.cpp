@@ -1,6 +1,6 @@
 
 /*
- *   Source File [Mesh.cpp]
+ *   Source File [mesh.cpp]
  */
 
 #include "Violet.h"
@@ -8,18 +8,31 @@
 namespace Vi {
 
 	Mesh::Mesh(const Image& image) {
-		if (!Window::created) { throw std::exception{}; }
-		texture(image);
+		if (!Window::created) {
+			std::string s{ "No active window!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		} texture(image);
 	}
 
 	Mesh::~Mesh() {
-		if (!Window::created) { throw std::exception{}; }
+		if (!Window::created) {
+			std::string s{ "No active window!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		}
+
 		if (vertex_buffer) { SDL_ReleaseGPUBuffer(Window::device, vertex_buffer); }
 		if (gpu_texture) { SDL_ReleaseGPUTexture(Window::device, gpu_texture); }
 	}
 
 	void Mesh::upload(const Vertex* vertices, size_t count) {
-		if (!Window::created) { throw std::exception{}; }
+		if (!Window::created) {
+			std::string s{ "No active window!" };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
+		}
+
 		if (vertex_buffer) { SDL_ReleaseGPUBuffer(Window::device, vertex_buffer); }
 		num_vertices = count;
 
@@ -30,8 +43,9 @@ namespace Vi {
 
 		vertex_buffer = SDL_CreateGPUBuffer(Window::device, &vertex_buffer_info);
 		if (!vertex_buffer) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUTransferBufferCreateInfo transfer_buffer_info{
@@ -41,31 +55,36 @@ namespace Vi {
 
 		SDL_GPUTransferBuffer* transfer_buffer = SDL_CreateGPUTransferBuffer(Window::device, &transfer_buffer_info);
 		if (!transfer_buffer) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		void* transfer_buffer_beginning = SDL_MapGPUTransferBuffer(Window::device, transfer_buffer, false);
 		if (!transfer_buffer_beginning) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		if (!SDL_memcpy(transfer_buffer_beginning, vertices, sizeof(Vertex) * num_vertices)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUCommandBuffer* command_buffer = SDL_AcquireGPUCommandBuffer(Window::device);
 		if (!command_buffer) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUCopyPass* copy_pass = SDL_BeginGPUCopyPass(command_buffer);
 		if (!copy_pass) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUTransferBufferLocation source_buffer_location{
@@ -81,8 +100,9 @@ namespace Vi {
 		SDL_EndGPUCopyPass(copy_pass);
 
 		if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_UnmapGPUTransferBuffer(Window::device, transfer_buffer);
@@ -109,8 +129,9 @@ namespace Vi {
 
 		gpu_texture = SDL_CreateGPUTexture(Window::device, &texture_create_info);
 		if (!gpu_texture) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUTransferBufferCreateInfo transfer_buffer_info{
@@ -120,31 +141,36 @@ namespace Vi {
 
 		SDL_GPUTransferBuffer* transfer_buffer = SDL_CreateGPUTransferBuffer(Window::device, &transfer_buffer_info);
 		if (!transfer_buffer) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		void* transfer_buffer_beginning = SDL_MapGPUTransferBuffer(Window::device, transfer_buffer, false);
 		if (!transfer_buffer_beginning) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		if (!SDL_memcpy(transfer_buffer_beginning, pixels, buffer_size)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUCommandBuffer* command_buffer = SDL_AcquireGPUCommandBuffer(Window::device);
 		if (!command_buffer) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUCopyPass* copy_pass = SDL_BeginGPUCopyPass(command_buffer);
 		if (!copy_pass) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_GPUTextureTransferInfo texture_transfer_info {
@@ -164,8 +190,9 @@ namespace Vi {
 		SDL_EndGPUCopyPass(copy_pass);
 		
 		if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-			std::cerr << std::format("SDL Error: {}\n", SDL_GetError());
-			throw std::exception{};
+			std::string s{ SDL_GetError() };
+			std::cerr << std::format("Error: {}\n", s);
+			std::terminate();
 		}
 
 		SDL_UnmapGPUTransferBuffer(Window::device, transfer_buffer);

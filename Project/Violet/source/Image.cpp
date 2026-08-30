@@ -20,8 +20,7 @@ namespace Vi {
 		size_t buffer_size = (dimensions.x * dimensions.y * (size_t)4);
 		pixels = new uint8_t[buffer_size];
 		if (!pixels) {
-			std::string s{ "Out of memory!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} std::memcpy(pixels, stbi_image, buffer_size);
 		stbi_image_free(stbi_image);
@@ -32,8 +31,7 @@ namespace Vi {
 		dimensions = size;
 		pixels = new uint8_t[buffer_size];
 		if (!pixels) {
-			std::string s{ "Out of memory!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} std::memset(pixels, (uint8_t)255, buffer_size);
 	}
@@ -54,8 +52,7 @@ namespace Vi {
 		dimensions = other.dimensions;
 		pixels = new uint8_t[buffer_size];
 		if (!pixels) {
-			std::string s{ "Out of memory!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} std::memcpy(pixels, other.pixels, buffer_size);
 	}
@@ -69,16 +66,14 @@ namespace Vi {
 
 	Image& Image::operator = (const Image& other) {
 		if (this == std::addressof(other)) {
-			std::string s{ "Illegal self-assignment!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} const size_t buffer_size = (other.dimensions.x * other.dimensions.y * (size_t)4);
 		dimensions = other.dimensions;
 		delete[] pixels;
 		pixels = new uint8_t[buffer_size];
 		if (!pixels) {
-			std::string s{ "Out of memory!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} std::memcpy(pixels, other.pixels, buffer_size);
 		return *this;
@@ -86,8 +81,7 @@ namespace Vi {
 
 	Image& Image::operator = (Image&& other) noexcept {
 		if (this == std::addressof(other)) {
-			std::string s{ "Illegal self-assignment!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} delete[] pixels;
 		pixels = other.pixels;
@@ -101,12 +95,10 @@ namespace Vi {
 
 	void Image::putPixel(Vec2u position, Color color) {
 		if (!pixels) {
-			std::string s{ "Invalid image!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} if ((position.x >= dimensions.x) || (position.y >= dimensions.y)) {
-			std::string s{ "Out of bounds!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} uint8_t r = static_cast<uint8_t>(color.r * 255.0f);
 		uint8_t g = static_cast<uint8_t>(color.g * 255.0f);
@@ -121,12 +113,10 @@ namespace Vi {
 
 	Color Image::getPixel(Vec2u position) const {
 		if (!pixels) {
-			std::string s{ "Invalid image!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} if ((position.x >= dimensions.x) || (position.y >= dimensions.y)) {
-			std::string s{ "Out of bounds!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} size_t index = (((position.y * dimensions.x) + position.x) * (size_t)4);
 		uint8_t r = pixels[index + 0];

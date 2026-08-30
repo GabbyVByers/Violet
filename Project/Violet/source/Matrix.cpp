@@ -8,13 +8,15 @@
 namespace Vi {
 
 	Matrix::Matrix(const double values[16]) {
-		std::memcpy(grid, values, sizeof(double[16]));
+		if (!values) {
+			Log::error(HERE);
+			std::terminate();
+		} std::memcpy(grid, values, sizeof(double[16]));
 	}
 
 	Matrix::Matrix(std::initializer_list<double> values) {
 		if (values.size() != 16) {
-			std::string s{ "Matrix requires exactly sixteen values!" };
-			std::cerr << std::format("Error: {}\n", s);
+			Log::error(HERE);
 			std::terminate();
 		} std::copy(values.begin(), values.end(), grid);
 	}

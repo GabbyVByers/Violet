@@ -34,7 +34,11 @@ namespace Vi {
 			std::terminate();
 		}
 		
+		#ifdef _DEBUG // DEBUG
 		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
+		#else // RELEASE
+		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, false, nullptr);
+		#endif /* _DEBUG */
 		if (!device) {
 			std::string s{ SDL_GetError() };
 			std::cerr << std::format("Error: {}\n", s);
@@ -428,7 +432,7 @@ namespace Vi {
 
 		SDL_BindGPUVertexBuffers(render_pass, 0, &buffer_binding, 1);
 		SDL_BindGPUFragmentSamplers(render_pass, 0, &texture_binding, 1);
-		SDL_DrawGPUPrimitives(render_pass, mesh.num_vertices, 1, 0, 0);
+		SDL_DrawGPUPrimitives(render_pass, static_cast<unsigned int>(mesh.num_vertices), 1, 0, 0);
 	}
 
 	void Window::display() {

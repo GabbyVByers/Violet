@@ -149,6 +149,26 @@ namespace Vi {
 		void texture(const Image&);
 	};
 
+	class Mouse {
+
+	};
+
+	class Keyboard {
+	public:
+		static bool pressed(int);
+		static bool released(int);
+		static bool pressing(int);
+
+	private:
+		friend Window;
+		static inline bool curr_keys[SDL_SCANCODE_COUNT]{};
+		static inline bool prev_keys[SDL_SCANCODE_COUNT]{};
+
+		Keyboard() = delete;
+		Keyboard(const Keyboard&) = delete;
+		Keyboard(Keyboard&&) = delete;
+	};
+
 	class Window {
 	public:
 		Window(const char*, int, int);

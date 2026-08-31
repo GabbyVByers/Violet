@@ -168,12 +168,14 @@ namespace Vi {
 		static bool pressing(int);
 		static bool pressed(int);
 		static bool released(int);
+		static Vec2f position();
+		static Vec2f velocity();
 
 	private:
 		friend Window;
 		static inline Vec2f saved_position{};
-		static inline Vec2f position{};
-		static inline Vec2f velocity{};
+		static inline Vec2f pos{};
+		static inline Vec2f vel{};
 		static inline int prev_state{};
 		static inline int curr_state{};
 

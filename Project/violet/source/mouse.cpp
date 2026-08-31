@@ -13,7 +13,7 @@ namespace Vi {
 			std::terminate();
 		}
 
-		saved_position = position;
+		saved_position = pos;
 		if (!SDL_SetWindowRelativeMouseMode(Window::window, true)) {
 			Log::error(SDL_GetError());
 			std::terminate();
@@ -26,8 +26,8 @@ namespace Vi {
 			std::terminate();
 		}
 
-		position = saved_position;
-		SDL_WarpMouseInWindow(Window::window, position.x, position.y);
+		pos = saved_position;
+		SDL_WarpMouseInWindow(Window::window, pos.x, pos.y);
 		if (!SDL_SetWindowRelativeMouseMode(Window::window, false)) {
 			Log::error(SDL_GetError());
 			std::terminate();
@@ -53,6 +53,20 @@ namespace Vi {
 			Log::error(HERE);
 			std::terminate();
 		} return ((prev_state & SDL_BUTTON_MASK(button)) != 0) && ((curr_state & SDL_BUTTON_MASK(button)) == 0);
+	}
+
+	Vec2f Mouse::position() {
+		if (!Window::created) {
+			Log::error(HERE);
+			std::terminate();
+		} return pos;
+	}
+
+	Vec2f Mouse::velocity() {
+		if (!Window::created) {
+			Log::error(HERE);
+			std::terminate();
+		} return vel;
 	}
 }
 

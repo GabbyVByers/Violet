@@ -283,7 +283,7 @@ namespace Vi {
 	}
 
 	bool Window::isOpen() {
-		Mouse::velocity = {};
+		Mouse::vel = {};
 
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
@@ -292,13 +292,13 @@ namespace Vi {
 			}
 
 			if (event.type == SDL_EVENT_MOUSE_MOTION) {
-				Mouse::velocity.x += event.motion.xrel;
-				Mouse::velocity.y += event.motion.yrel;
+				Mouse::vel.x += event.motion.xrel;
+				Mouse::vel.y += event.motion.yrel;
 			}
 		}
 		
 		Mouse::prev_state = Mouse::curr_state;
-		Mouse::curr_state = SDL_GetMouseState(&Mouse::position.x, &Mouse::position.y);
+		Mouse::curr_state = SDL_GetMouseState(&Mouse::pos.x, &Mouse::pos.y);
 		return true;
 	}
 

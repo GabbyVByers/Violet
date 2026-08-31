@@ -7,8 +7,6 @@
 
 namespace Vi {
 	
-	// PUBLIC
-
 	void Mouse::hide() {
 		if (!Window::created) {
 			Log::error(HERE);

@@ -12,20 +12,14 @@ namespace Vi {
 	void Mouse::hide() {
 		if (!Window::created) { throw std::exception{}; }
 		saved_position = pos;
-		if (!SDL_SetWindowRelativeMouseMode(Window::window, true)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_SetWindowRelativeMouseMode(Window::window, true);
 	}
 	
 	void Mouse::reveal() {
 		if (!Window::created) { throw std::exception{}; }
 		pos = saved_position;
 		SDL_WarpMouseInWindow(Window::window, pos.x, pos.y);
-		if (!SDL_SetWindowRelativeMouseMode(Window::window, false)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_SetWindowRelativeMouseMode(Window::window, false);
 	}
 	
 	bool Mouse::pressing(int button) {

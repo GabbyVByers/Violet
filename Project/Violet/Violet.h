@@ -16,20 +16,9 @@
 #include <filesystem>
 #include <limits>
 
-#ifdef HERE
-#undef HERE
-#endif /* HERE */
-#define HERE __FILE__, __LINE__
-
 namespace Vi {
 
 	class Window;
-
-	namespace Log {
-		void error(const char*, int);
-		void error(const char*);
-		void error(const std::string&);
-	}
 
 	template<typename type>
 	class Vec2 {

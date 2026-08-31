@@ -162,14 +162,31 @@ namespace Vi {
 	};
 
 	class Mouse {
+	public:
+		static void hide();
+		static void reveal();
+		static bool pressing(int);
+		static bool pressed(int);
+		static bool released(int);
 
+	private:
+		friend Window;
+		static inline Vec2f saved_position{};
+		static inline Vec2f position{};
+		static inline Vec2f velocity{};
+		static inline int prev_state{};
+		static inline int curr_state{};
+
+		Mouse() = delete;
+		Mouse(const Mouse&) = delete;
+		Mouse(Mouse&&) = delete;
 	};
 
 	class Keyboard {
 	public:
+		static bool pressing(int);
 		static bool pressed(int);
 		static bool released(int);
-		static bool pressing(int);
 
 	private:
 		friend Window;
@@ -193,6 +210,8 @@ namespace Vi {
 
 	private:
 		friend Mesh;
+		friend Mouse;
+		friend Keyboard;
 		Window(const Window&) = delete;
 		Window(Window&&) = delete;
 		void operator = (const Window&) = delete;

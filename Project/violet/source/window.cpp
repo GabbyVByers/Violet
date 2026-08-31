@@ -31,7 +31,7 @@ namespace Vi {
 			std::terminate();
 		}
 		
-		#ifdef _DEBUG // DEBUG = Enable Vulkan Debug Info
+		#ifdef _DEBUG // DEBUG -> Enable Vulkan Debugger
 		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
 		#else // RELEASE
 		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, false, nullptr);
@@ -283,12 +283,23 @@ namespace Vi {
 	}
 
 	bool Window::isOpen() {
+		Mouse::velocity = {};
+
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
 				return false;
 			}
-		} return true;
+
+			if (event.type == SDL_EVENT_MOUSE_MOTION) {
+				Mouse::velocity.x += event.motion.xrel;
+				Mouse::velocity.y += event.motion.yrel;
+			}
+		}
+		
+		Mouse::prev_state = Mouse::curr_state;
+		Mouse::curr_state = SDL_GetMouseState(&Mouse::position.x, &Mouse::position.y);
+		return true;
 	}
 
 	void Window::clear(Color clear_color) {

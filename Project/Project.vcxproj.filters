@@ -16,6 +16,7 @@
     <ClCompile Include="violet\source\image.cpp" />
     <ClCompile Include="violet\source\mesh.cpp" />
     <ClCompile Include="violet\source\log.cpp" />
+    <ClCompile Include="violet\source\mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="violet\Violet.h" />

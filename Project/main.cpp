@@ -10,14 +10,7 @@ static void testInput();
 
 int main() {
 	Vi::Window window{ "App Title", 1200, 700, true };
-	window.vsync(true);
-
-	Vi::Matrix x{
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, 0, 1,
-	};
+	window.vsync(false);
 
 	Vi::Vertex vertices[] = {
 		{ {-0.5,-0.4, 0 }, { 1, 0, 0, 1 }, { 0, 0 } },

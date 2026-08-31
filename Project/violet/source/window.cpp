@@ -168,11 +168,10 @@ namespace Vi {
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-		ImGui_ImplSDLGPU3_InitInfo init_info {
+		ImGui_ImplSDLGPU3_InitInfo imgui_init_info {
 			.Device = device,
 			.ColorTargetFormat = SDL_GetGPUSwapchainTextureFormat(device, window),
-			.PresentMode = SDL_GPU_PRESENTMODE_VSYNC, // todo: reinit when change?
-		}; ImGui_ImplSDLGPU3_Init(&init_info);
+		}; ImGui_ImplSDLGPU3_Init(&imgui_init_info);
 	}
 
 	Window::~Window() {
@@ -201,7 +200,7 @@ namespace Vi {
 			SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_IMMEDIATE);
 		} else if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_MAILBOX)) {
 			SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX);
-		} SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC);
+		} else { SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC); }
 	}
 
 	bool Window::isOpen() {
@@ -335,11 +334,9 @@ namespace Vi {
 			.cycle = false,
 		};
 
-		SDL_GPURenderPass* imgui_render_pass{};
-		imgui_render_pass = SDL_BeginGPURenderPass(command_buffer, &target_info, 1, nullptr);
-
-		ImGui_ImplSDLGPU3_RenderDrawData(draw_data, command_buffer, imgui_render_pass);
-		SDL_EndGPURenderPass(imgui_render_pass);
+		render_pass = SDL_BeginGPURenderPass(command_buffer, &target_info, 1, nullptr);
+		ImGui_ImplSDLGPU3_RenderDrawData(draw_data, command_buffer, render_pass);
+		SDL_EndGPURenderPass(render_pass);
 		SDL_SubmitGPUCommandBuffer(command_buffer);
 	}
 }

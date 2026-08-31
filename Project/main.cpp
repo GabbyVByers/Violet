@@ -11,7 +11,7 @@ static void testInput();
 
 int main() {
 	Vi::Window window{ "App Title", 1200, 700, true };
-	window.vsync(false);
+	window.vsync(true);
 
 	Vi::Vertex vertices[] = {
 		{ {-0.5,-0.4, 0 }, { 1, 0, 0, 1 }, { 0, 0 } },
@@ -35,6 +35,30 @@ int main() {
 }
 
 static void controlCamera() {
+
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_W)) {
+		Vi::Camera::position.z += 0.05;
+	}
+
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_S)) {
+		Vi::Camera::position.z -= 0.05;
+	}
+
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_A)) {
+		Vi::Camera::position.x -= 0.05;
+	}
+
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_D)) {
+		Vi::Camera::position.x += 0.05;
+	}
+
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_SPACE)) {
+		Vi::Camera::position.y += 0.05;
+	}
+	
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_LSHIFT)) {
+		Vi::Camera::position.y -= 0.05;
+	}
 
 }
 

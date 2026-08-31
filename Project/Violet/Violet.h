@@ -34,6 +34,10 @@ namespace Vi {
 		Vec2& operator /= (type scale) { x /= scale; y /= scale; return *this; }
 		Vec2 operator - () const { return { -x, -y }; }
 		friend Vec2 operator * (type scale, const Vec2& vec) { return vec * scale; }
+		static Vec2 xpos() { return { 1, 0 }; }
+		static Vec2 xneg() { return {-1, 0 }; }
+		static Vec2 ypos() { return { 0, 1 }; }
+		static Vec2 yneg() { return { 0,-1 }; }
 	};
 
 	template<typename type>
@@ -50,6 +54,12 @@ namespace Vi {
 		Vec3& operator /= (type scale) { x /= scale; y /= scale; z /= scale; return *this; }
 		Vec3 operator - () const { return { -x, -y, -z }; }
 		friend Vec3 operator * (type scale, const Vec3& vec) { return vec * scale; }
+		static Vec3 xpos() { return { 1, 0, 0 }; }
+		static Vec3 xneg() { return {-1, 0, 0 }; }
+		static Vec3 ypos() { return { 0, 1, 0 }; }
+		static Vec3 yneg() { return { 0,-1, 0 }; }
+		static Vec3 zpos() { return { 0, 0, 1 }; }
+		static Vec3 zneg() { return { 0, 0,-1 }; }
 	};
 
 	typedef Vec2<float>  Vec2f;
@@ -75,7 +85,17 @@ namespace Vi {
 	class Quaternion {
 	public:
 		double w{ 1.0 }, x{}, y{}, z{};
-		Quaternion complexconj() { return { w, -x, -y, -z }; }
+		Quaternion complexconj() const { return { w, -x, -y, -z }; }
+		Quaternion operator * (const Quaternion& other) {
+			const Quaternion& a = *this;
+			const Quaternion& b = other;
+			return {
+				.w = (a.w * b.w) - (a.x * b.x) - (a.y * b.y) - (a.z * b.z),
+				.x = (a.w * b.x) + (a.x * b.w) + (a.y * b.z) - (a.z * b.y),
+				.y = (a.w * b.y) - (a.x * b.z) + (a.y * b.w) + (a.z * b.x),
+				.z = (a.w * b.z) + (a.x * b.y) - (a.y * b.x) + (a.z * b.w),
+			};
+		}
 	};
 
 	class Matrix {
@@ -125,10 +145,24 @@ namespace Vi {
 
 	class Camera {
 	public:
-
 		static inline double fov{ 2.0 };
 		static inline Vec3d position{};
 		static inline Quaternion quaternion{};
+
+		static Vec3d forward() {
+			Vec3d direction = Vec3d::zpos();
+			return {};
+		}
+
+		static Vec3d right() {
+			Vec3d direction = Vec3d::xpos();
+			return {};
+		}
+
+		static Vec3d up() {
+			Vec3d direction = Vec3d::ypos();
+			return {};
+		}
 	};
 
 	class Mesh {

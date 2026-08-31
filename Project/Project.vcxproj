@@ -166,11 +166,10 @@
     <ClCompile Include="libraries\stb\stb_image.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="violet\source\image.cpp" />
-    <ClCompile Include="violet\source\keyboard.cpp" />
     <ClCompile Include="violet\source\log.cpp" />
     <ClCompile Include="violet\source\matrix.cpp" />
     <ClCompile Include="violet\source\mesh.cpp" />
-    <ClCompile Include="violet\source\mouse.cpp" />
+    <ClCompile Include="violet\source\peripherals.cpp" />
     <ClCompile Include="violet\source\window.cpp" />
   </ItemGroup>
   <ItemGroup>

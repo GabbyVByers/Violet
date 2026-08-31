@@ -7,49 +7,6 @@
 #include "stb_image.h"
 #include <cstdint>
 
-// STB Image Wrapper
-
-static struct STB_LoadPNGResult {
-	uint8_t* pixels;
-	size_t buffer_size;
-	size_t width;
-	size_t height;
-};
-
-[[nodiscard]] static bool STB_LoadPNG(STB_LoadPNGResult& result, const std::filesystem::path& path) {
-	result = STB_LoadPNGResult {
-		.pixels = nullptr,
-		.buffer_size = 0,
-		.width = 0,
-		.height = 0,
-	};
-
-	std::string path_string = path.string();
-	const char* path_cstr = path_string.c_str();
-
-	int w, h, n;
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char* pixels = stbi_load(path_cstr, &w, &h, &n, 4);
-	if (!pixels) { return false; }
-	if (w <= 0) { return false; }
-	if (h <= 0) { return false; }
-	size_t width = static_cast<size_t>(w);
-	size_t height = static_cast<size_t>(h);
-
-	result = STB_LoadPNGResult{
-		.pixels = pixels,
-		.buffer_size = (width * height * (size_t)4),
-		.width = width,
-		.height = height,
-	}; return true;
-}
-
-[[nodiscard]] static bool STB_FreePNG(unsigned char* pixels) {
-	if (!pixels) { return false; }
-	stbi_image_free(pixels);
-	return true;
-}
-
 namespace Vi {
 	
 	// Constructors
@@ -57,39 +14,33 @@ namespace Vi {
 	Image::Image(Vec2u dimensions) {
 		size_t buffer_size = (dimensions.x * dimensions.y * (size_t)4);
 		if (buffer_size == 0) {
-			this->dimensions = {};
 			pixels = nullptr;
+			this->dimensions = {};
 			return;
-		} this->dimensions = dimensions;
-		try { pixels = new uint8_t[buffer_size]; }
-		catch (...) {
-			Log::error(HERE);
-			std::terminate();
-		} std::memset(pixels, (uint8_t)255, buffer_size);
+		}
+
+		this->dimensions = dimensions;
+		pixels = new uint8_t[buffer_size];
+		std::memset(pixels, (uint8_t)255, buffer_size);
 	}
 
 	Image::Image(std::filesystem::path path) {
-		STB_LoadPNGResult result{};
-		if (!STB_LoadPNG(result, path)) {
-			Log::error(HERE);
-			std::terminate();
-		}
+		std::string path_string = path.string();
+		const char* path_cstr = path_string.c_str();
 
-		pixels = new uint8_t[result.buffer_size];
-		if (!pixels) {
-			Log::error(HERE);
-			std::terminate();
-		} std::memcpy(pixels, result.pixels, result.buffer_size);
+		int w, h, n;
+		stbi_set_flip_vertically_on_load(true);
+		unsigned char* stbi_image = stbi_load(path_cstr, &w, &h, &n, 4);
+		if (!stbi_image) { std::cout << std::format("Couldn't Open: {}\n", path.string()); std::terminate(); }
 
-		dimensions = Vec2u {
-			.x = result.width,
-			.y = result.height,
-		};
+		size_t width = static_cast<size_t>(w);
+		size_t height = static_cast<size_t>(h);
+		size_t buffer_size = (width * height * (size_t)4);
 
-		if (!STB_FreePNG(result.pixels)) {
-			Log::error(HERE);
-			std::terminate();
-		}
+		pixels = new uint8_t[buffer_size];
+		std::memcpy(pixels, stbi_image, buffer_size);
+		dimensions = { width, height, };
+		stbi_image_free(stbi_image);
 	}
 
 	Image::Image(Vec2u dimesnsions, size_t layers, double attenuation) {
@@ -108,11 +59,8 @@ namespace Vi {
 		pixels = nullptr;
 		size_t buffer_size = dimensions.x * dimensions.y * 4;
 		if (buffer_size != 0) {
-			try { pixels = new uint8_t[buffer_size]; }
-			catch (...) {
-				Log::error(HERE);
-				std::terminate();
-			} std::memcpy(pixels, other.pixels, buffer_size);
+			pixels = new uint8_t[buffer_size];
+			std::memcpy(pixels, other.pixels, buffer_size);
 		}
 	}
 
@@ -130,16 +78,13 @@ namespace Vi {
 		pixels = nullptr;
 		const size_t buffer_size = dimensions.x * dimensions.y * 4;
 		if (buffer_size != 0) {
-			try { pixels = new uint8_t[buffer_size]; }
-			catch (...) {
-				Log::error(HERE);
-				std::terminate();
-			} std::memcpy(pixels, other.pixels, buffer_size);
+			pixels = new uint8_t[buffer_size];
+			std::memcpy(pixels, other.pixels, buffer_size);
 		} return *this;
 	}
 
 	Image& Image::operator=(Image&& other) noexcept {
-		if (this == std::addressof(other)) { return *this; }
+		if (this == &other) { return *this; }
 		delete[] pixels;
 		pixels = other.pixels;
 		dimensions = other.dimensions;
@@ -151,13 +96,10 @@ namespace Vi {
 	// API Interface
 
 	void Image::putPixel(Vec2u position, Color color) {
-		if (!pixels) {
-			Log::error(HERE);
-			std::terminate();
-		} if ((position.x >= dimensions.x) || (position.y >= dimensions.y)) {
-			Log::error(HERE);
-			std::terminate();
-		} uint8_t r = static_cast<uint8_t>(color.r * 255.0f);
+		if (!pixels) { throw std::exception{}; }
+		if (position.x >= dimensions.x) { throw std::exception{}; }
+		if (position.y >= dimensions.y) { throw std::exception{}; }
+		uint8_t r = static_cast<uint8_t>(color.r * 255.0f);
 		uint8_t g = static_cast<uint8_t>(color.g * 255.0f);
 		uint8_t b = static_cast<uint8_t>(color.b * 255.0f);
 		uint8_t a = static_cast<uint8_t>(color.a * 255.0f);
@@ -169,13 +111,10 @@ namespace Vi {
 	}
 
 	Color Image::getPixel(Vec2u position) const {
-		if (!pixels) {
-			Log::error(HERE);
-			std::terminate();
-		} if ((position.x >= dimensions.x) || (position.y >= dimensions.y)) {
-			Log::error(HERE);
-			std::terminate();
-		} size_t index = (((position.y * dimensions.x) + position.x) * (size_t)4);
+		if (!pixels) { throw std::exception{}; }
+		if (position.x >= dimensions.x) { throw std::exception{}; }
+		if (position.y >= dimensions.y) { throw std::exception{}; }
+		size_t index = (((position.y * dimensions.x) + position.x) * (size_t)4);
 		uint8_t r = pixels[index + 0];
 		uint8_t g = pixels[index + 1];
 		uint8_t b = pixels[index + 2];

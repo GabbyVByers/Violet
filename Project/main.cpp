@@ -9,7 +9,7 @@
 static void testInput();
 
 int main() {
-	Vi::Window window{ "App Title", 0, 0 };
+	Vi::Window window{ "App Title", 1200, 700, true };
 	window.vsync(true);
 
 	Vi::Matrix x{
@@ -40,17 +40,9 @@ int main() {
 }
 
 static void testInput() {
-	if (Vi::Keyboard::pressing(SDL_SCANCODE_A)) {
-		std::cout << "Holding 'A' Key!\n";
-	}
-
-	if (Vi::Keyboard::pressed(SDL_SCANCODE_B)) {
-		std::cout << "Pressed 'B' Key!\n";
-	}
-
-	if (Vi::Keyboard::released(SDL_SCANCODE_B)) {
-		std::cout << "Released 'B' Key!\n";
-	}
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_A)) { std::cout << "Holding 'A' Key!\n"; }
+	if (Vi::Keyboard::pressed(SDL_SCANCODE_B))  { std::cout << "Pressed 'B' Key!\n"; }
+	if (Vi::Keyboard::released(SDL_SCANCODE_B)) { std::cout << "Released 'B' Key!\n"; }
 
 	if (Vi::Mouse::pressing(SDL_BUTTON_MIDDLE)) {
 		Vi::Vec2f pos = Vi::Mouse::position();

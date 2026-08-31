@@ -206,7 +206,7 @@ namespace Vi {
 
 	class Window {
 	public:
-		Window(const char*, int, int);
+		Window(const char*, int, int, bool = false);
 		~Window();
 		void vsync(bool);
 		bool isOpen();
@@ -214,7 +214,7 @@ namespace Vi {
 		void draw(const Mesh&);
 		void display();
 
-	//private:
+	private:
 		friend Mesh;
 		friend Mouse;
 		friend Keyboard;

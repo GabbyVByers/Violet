@@ -8,17 +8,13 @@
 namespace Vi {
 
 	Matrix::Matrix(const double values[16]) {
-		if (!values) {
-			Log::error(HERE);
-			std::terminate();
-		} std::memcpy(grid, values, sizeof(double[16]));
+		if (!values) { throw std::exception{}; }
+		std::memcpy(grid, values, sizeof(double[16]));
 	}
 
 	Matrix::Matrix(std::initializer_list<double> values) {
-		if (values.size() != 16) {
-			Log::error(HERE);
-			std::terminate();
-		} std::copy(values.begin(), values.end(), grid);
+		if (values.size() != 16) { throw std::exception{}; }
+		std::copy(values.begin(), values.end(), grid);
 	}
 
 	Matrix Matrix::identity() {

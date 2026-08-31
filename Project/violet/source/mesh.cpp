@@ -8,41 +8,25 @@
 namespace Vi {
 
 	Mesh::Mesh(const Image& image) {
-		if (!Window::created) {
-			Log::error(HERE);
-			std::terminate();
-		} texture(image);
+		if (!Window::created) { throw std::exception{}; }
+		texture(image);
 	}
 
 	Mesh::~Mesh() {
-		if (!Window::created) {
-			Log::error(HERE);
-			std::terminate();
-		}
-
+		if (!Window::created) { throw std::exception{}; }
 		if (vertex_buffer) { SDL_ReleaseGPUBuffer(Window::device, vertex_buffer); }
 		if (gpu_texture) { SDL_ReleaseGPUTexture(Window::device, gpu_texture); }
 	}
 
 	void Mesh::upload(const Vertex* vertices, size_t count) {
-		if (!Window::created) {
-			Log::error(HERE);
-			std::terminate();
-		}
-
+		if (!Window::created) { throw std::exception{}; }
 		if (vertex_buffer) { SDL_ReleaseGPUBuffer(Window::device, vertex_buffer); }
 		num_vertices = count;
 
 		SDL_GPUBufferCreateInfo vertex_buffer_info{
 			.usage = SDL_GPU_BUFFERUSAGE_VERTEX,
 			.size = static_cast<unsigned int>(sizeof(Vertex) * num_vertices),
-		};
-
-		vertex_buffer = SDL_CreateGPUBuffer(Window::device, &vertex_buffer_info);
-		if (!vertex_buffer) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		}; vertex_buffer = SDL_CreateGPUBuffer(Window::device, &vertex_buffer_info);
 
 		SDL_GPUTransferBufferCreateInfo transfer_buffer_info{
 			.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD,
@@ -50,33 +34,11 @@ namespace Vi {
 		};
 
 		SDL_GPUTransferBuffer* transfer_buffer = SDL_CreateGPUTransferBuffer(Window::device, &transfer_buffer_info);
-		if (!transfer_buffer) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		void* transfer_buffer_beginning = SDL_MapGPUTransferBuffer(Window::device, transfer_buffer, false);
-		if (!transfer_buffer_beginning) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
-		if (!SDL_memcpy(transfer_buffer_beginning, vertices, sizeof(Vertex) * num_vertices)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_memcpy(transfer_buffer_beginning, vertices, sizeof(Vertex) * num_vertices);
 
 		SDL_GPUCommandBuffer* command_buffer = SDL_AcquireGPUCommandBuffer(Window::device);
-		if (!command_buffer) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		SDL_GPUCopyPass* copy_pass = SDL_BeginGPUCopyPass(command_buffer);
-		if (!copy_pass) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
 
 		SDL_GPUTransferBufferLocation source_buffer_location{
 			.transfer_buffer = transfer_buffer,
@@ -89,11 +51,7 @@ namespace Vi {
 
 		SDL_UploadToGPUBuffer(copy_pass, &source_buffer_location, &destination_buffer_region, true);
 		SDL_EndGPUCopyPass(copy_pass);
-
-		if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_SubmitGPUCommandBuffer(command_buffer);
 
 		SDL_UnmapGPUTransferBuffer(Window::device, transfer_buffer);
 		SDL_ReleaseGPUTransferBuffer(Window::device, transfer_buffer);
@@ -115,13 +73,7 @@ namespace Vi {
 			.layer_count_or_depth = 1,
 			.num_levels = 1,
 			.sample_count = SDL_GPU_SAMPLECOUNT_1,
-		};
-
-		gpu_texture = SDL_CreateGPUTexture(Window::device, &texture_create_info);
-		if (!gpu_texture) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		}; gpu_texture = SDL_CreateGPUTexture(Window::device, &texture_create_info);
 
 		SDL_GPUTransferBufferCreateInfo transfer_buffer_info{
 			.usage = SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD,
@@ -129,33 +81,11 @@ namespace Vi {
 		};
 
 		SDL_GPUTransferBuffer* transfer_buffer = SDL_CreateGPUTransferBuffer(Window::device, &transfer_buffer_info);
-		if (!transfer_buffer) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		void* transfer_buffer_beginning = SDL_MapGPUTransferBuffer(Window::device, transfer_buffer, false);
-		if (!transfer_buffer_beginning) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
-		if (!SDL_memcpy(transfer_buffer_beginning, pixels, buffer_size)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_memcpy(transfer_buffer_beginning, pixels, buffer_size);
 
 		SDL_GPUCommandBuffer* command_buffer = SDL_AcquireGPUCommandBuffer(Window::device);
-		if (!command_buffer) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		SDL_GPUCopyPass* copy_pass = SDL_BeginGPUCopyPass(command_buffer);
-		if (!copy_pass) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
 
 		SDL_GPUTextureTransferInfo texture_transfer_info {
 			.transfer_buffer = transfer_buffer,
@@ -172,12 +102,8 @@ namespace Vi {
 
 		SDL_UploadToGPUTexture(copy_pass, &texture_transfer_info, &destination_texture_region, false);
 		SDL_EndGPUCopyPass(copy_pass);
+		SDL_SubmitGPUCommandBuffer(command_buffer);
 		
-		if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		SDL_UnmapGPUTransferBuffer(Window::device, transfer_buffer);
 		SDL_ReleaseGPUTransferBuffer(Window::device, transfer_buffer);
 	}

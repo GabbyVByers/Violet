@@ -7,11 +7,9 @@
 
 namespace Vi {
 
-	Window::Window(const char* title, int width, int height) {
-		if (created) {
-			Log::error(HERE);
-			std::terminate();
-		} created = true;
+	Window::Window(const char* title, int width, int height, bool vkdebug) {
+		if (created) { throw std::exception{}; }
+		created = true;
 
 		constexpr size_t MIN_WIDTH{ 256 };
 		constexpr size_t MIN_HEIGHT{ 128 };
@@ -20,58 +18,21 @@ namespace Vi {
 			std::max(static_cast<size_t>(height), MIN_HEIGHT),
 		};
 
-		if (!SDL_Init(SDL_INIT_VIDEO)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
+		SDL_Init(SDL_INIT_VIDEO);
 		window = SDL_CreateWindow(title, static_cast<int>(dimensions.x), static_cast<int>(dimensions.y), SDL_WINDOW_RESIZABLE);
-		if (!window) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-		
-		#ifdef _DEBUG // DEBUG -> Enable Vulkan Debugger
-		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, true, nullptr);
-		#else // RELEASE
-		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, false, nullptr);
-		#endif /* _DEBUG */
-		if (!device) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, vkdebug, nullptr);
 
-		if (!SDL_ClaimWindowForGPUDevice(device, window)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
-		if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
-		if (!SDL_SetWindowMinimumSize(window, MIN_WIDTH, MIN_HEIGHT)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_ClaimWindowForGPUDevice(device, window);
+		SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC);
+		SDL_SetWindowMinimumSize(window, MIN_WIDTH, MIN_HEIGHT);
 
 		std::filesystem::path vertex_path = std::filesystem::current_path() / "shaders/vertex.spv";
 		std::filesystem::path fragment_path = std::filesystem::current_path() / "shaders/fragment.spv";
 
 		std::ifstream vertex_spv{ vertex_path, std::ios::binary };
-		if (!vertex_spv) {
-			std::string path = vertex_path.string();
-			Log::error({ "Couldn't Load: " + path });
-			std::terminate();
-		}
-
 		std::ifstream fragment_spv{ fragment_path, std::ios::binary };
-		if (!fragment_spv) {
-			std::string path = fragment_path.string();
-			Log::error({ "Couldn't Load: " + path });
-			std::terminate();
-		}
+		if (!vertex_spv) { std::cout << std::format("Couldn't Open: {}\n", vertex_path.string()); std::terminate(); }
+		if (!fragment_spv) { std::cout << std::format("Couldn't Open: {}\n", fragment_path.string()); std::terminate(); }
 
 		std::vector<uint8_t> vertex_code = {
 			std::istreambuf_iterator<char>(vertex_spv),
@@ -102,16 +63,7 @@ namespace Vi {
 		};
 
 		SDL_GPUShader* vertex_shader_program = SDL_CreateGPUShader(device, &vertex_shader_create_info);
-		if (!vertex_shader_program) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		SDL_GPUShader* fragment_shader_program = SDL_CreateGPUShader(device, &fragment_shader_create_info);
-		if (!fragment_shader_program) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
 
 		SDL_GPUVertexAttribute position_attribute{
 			.location = 0,
@@ -202,22 +154,8 @@ namespace Vi {
 		};
 
 		depth_texture = SDL_CreateGPUTexture(device, &depth_texture_create_info);
-		if (!depth_texture) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		sampler = SDL_CreateGPUSampler(device, &sampler_create_info);
-		if (!sampler) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
 		graphics_pipeline = SDL_CreateGPUGraphicsPipeline(device, &graphics_pipeline_create_info);
-		if (!graphics_pipeline) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
 
 		SDL_ReleaseGPUShader(device, vertex_shader_program);
 		SDL_ReleaseGPUShader(device, fragment_shader_program);
@@ -229,30 +167,23 @@ namespace Vi {
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
 		ImGui_ImplSDLGPU3_InitInfo init_info {
 			.Device = device,
 			.ColorTargetFormat = SDL_GetGPUSwapchainTextureFormat(device, window),
-			//.MSAASamples = SDL_GPU_SAMPLECOUNT_1,
-			//.SwapchainComposition = SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
-			.PresentMode = SDL_GPU_PRESENTMODE_VSYNC, // reinit when change?
-		};
-
-		ImGui_ImplSDLGPU3_Init(&init_info);
+			.PresentMode = SDL_GPU_PRESENTMODE_VSYNC, // todo: reinit when change?
+		}; ImGui_ImplSDLGPU3_Init(&init_info);
 	}
 
 	Window::~Window() {
+		created = false;
 		ImGui_ImplSDL3_Shutdown();
 		ImGui_ImplSDLGPU3_Shutdown();
 		ImGui::DestroyContext();
 
 		if (frame) {
 			SDL_EndGPURenderPass(render_pass);
-			if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-				Log::error(SDL_GetError());
-				std::terminate();
-			}
+			SDL_SubmitGPUCommandBuffer(command_buffer);
 		}
 		
 		SDL_ReleaseGPUSampler(device, sampler);
@@ -261,48 +192,16 @@ namespace Vi {
 		SDL_DestroyGPUDevice(device);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
-
-		created = {};
-		dimensions = {};
-		window = {};
-		device = {};
-		depth_texture = {};
-		sampler = {};
-		graphics_pipeline = {};
-
-		frame = {};
-		minimized = {};
-		render_pass = {};
-		swapchain_texture = {};
-		command_buffer = {};
 	}
 
 	void Window::vsync(bool vsync) {
 		if (vsync) {
-			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
-				Log::error(SDL_GetError());
-				std::terminate();
-			} return;
-		}
-
-		if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
-			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
-				Log::error(SDL_GetError());
-				std::terminate();
-			} return;
-		}
-
-		if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_MAILBOX)) {
-			if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX)) {
-				Log::error(SDL_GetError());
-				std::terminate();
-			} return;
-		}
-
-		if (!SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+			SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC);
+		} else if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_IMMEDIATE)) {
+			SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_IMMEDIATE);
+		} else if (SDL_WindowSupportsGPUPresentMode(device, window, SDL_GPU_PRESENTMODE_MAILBOX)) {
+			SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX);
+		} SDL_SetGPUSwapchainParameters(device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_VSYNC);
 	}
 
 	bool Window::isOpen() {
@@ -310,15 +209,7 @@ namespace Vi {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 			ImGui_ImplSDL3_ProcessEvent(&event);
-			// todo: discard mouse/keyboard events when io.WantCaptureMouse/io.WantCaptureKeyboard is set.
-			//ImGuiIO& io = ImGui::GetIO();
-			//if (io.WantCaptureMouse && event.type == SDL_EVENT_MOUSE_MOTION) continue;
-			//if (io.WantCaptureKeyboard && event.type == SDL_EVENT_KEY_DOWN) continue;
-
-			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
-				return false;
-			}
-
+			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) { return false; }
 			if (event.type == SDL_EVENT_MOUSE_MOTION) {
 				Mouse::vel.x += event.motion.xrel;
 				Mouse::vel.y += event.motion.yrel;
@@ -328,40 +219,24 @@ namespace Vi {
 		std::memcpy(Keyboard::prev_keys, Keyboard::curr_keys, SDL_SCANCODE_COUNT);
 		int num_keys = SDL_SCANCODE_COUNT;
 		const bool* new_keys = SDL_GetKeyboardState(&num_keys);
-		if (!new_keys) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		} std::memcpy(Keyboard::curr_keys, new_keys, SDL_SCANCODE_COUNT);
+		std::memcpy(Keyboard::curr_keys, new_keys, SDL_SCANCODE_COUNT);
 		Mouse::prev_state = Mouse::curr_state;
 		Mouse::curr_state = SDL_GetMouseState(&Mouse::pos.x, &Mouse::pos.y);
 		return true;
 	}
 
 	void Window::clear(Color clear_color) {
-		if (frame) {
-			Log::error(HERE);
-			std::terminate();
-		} frame = true;
+		if (frame) { throw std::exception{}; }
+		frame = true;
 
+		unsigned int width, height;
 		command_buffer = SDL_AcquireGPUCommandBuffer(device);
-		if (!command_buffer) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+		SDL_WaitAndAcquireGPUSwapchainTexture(command_buffer, window, &swapchain_texture, &width, &height);
 
-		unsigned int width{}, height{};
-		if (!SDL_WaitAndAcquireGPUSwapchainTexture(command_buffer, window, &swapchain_texture, &width, &height)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
-
-		minimized = false;
-		if ((width == 0) || (height == 0)) {
-			minimized = true;
-			if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-				Log::error(SDL_GetError());
-				std::terminate();
-			} return;
+		minimized = (width == 0) || (height == 0);
+		if (minimized) {
+			SDL_SubmitGPUCommandBuffer(command_buffer);
+			return;
 		}
 
 		unsigned int curr_width = static_cast<unsigned int>(dimensions.x);
@@ -371,8 +246,6 @@ namespace Vi {
 
 		if (reconstruct_depth_texture) {
 			SDL_ReleaseGPUTexture(device, depth_texture);
-			depth_texture = nullptr;
-
 			SDL_GPUTextureCreateInfo depth_texture_create_info{
 				.type = SDL_GPU_TEXTURETYPE_2D,
 				.format = SDL_GPU_TEXTUREFORMAT_D16_UNORM,
@@ -382,13 +255,7 @@ namespace Vi {
 				.layer_count_or_depth = 1,
 				.num_levels = 1,
 				.sample_count = SDL_GPU_SAMPLECOUNT_1
-			};
-
-			depth_texture = SDL_CreateGPUTexture(device, &depth_texture_create_info);
-			if (!depth_texture) {
-				Log::error(SDL_GetError());
-				std::terminate();
-			}
+			}; depth_texture = SDL_CreateGPUTexture(device, &depth_texture_create_info);
 		}
 
 		SDL_GPUColorTargetInfo color_target_info{
@@ -414,10 +281,7 @@ namespace Vi {
 		};
 
 		render_pass = SDL_BeginGPURenderPass(command_buffer, &color_target_info, 1, &depth_stencil_target_info);
-		if (!render_pass) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		} SDL_BindGPUGraphicsPipeline(render_pass, graphics_pipeline);
+		SDL_BindGPUGraphicsPipeline(render_pass, graphics_pipeline);
 
 		ImGui_ImplSDLGPU3_NewFrame();
 		ImGui_ImplSDL3_NewFrame();
@@ -425,13 +289,9 @@ namespace Vi {
 	}
 
 	void Window::draw(const Mesh& mesh) {
-		if (!frame) {
-			Log::error(HERE);
-			std::terminate();
-		}
-
+		if (!frame) { throw std::exception{}; }
+		if (!mesh.vertex_buffer) { throw std::exception{}; }
 		if (minimized) { return; }
-		if (!mesh.vertex_buffer) { return; }
 
 		double width = static_cast<double>(dimensions.x);
 		double height = static_cast<double>(dimensions.y);
@@ -461,14 +321,14 @@ namespace Vi {
 		if (!frame) { throw std::exception{}; }
 		if (minimized) { return; }
 		frame = false;
-		SDL_EndGPURenderPass(render_pass);
 
 		ImGui::Render();
 		ImDrawData* draw_data = ImGui::GetDrawData();
-		ImGui_ImplSDLGPU3_PrepareDrawData(draw_data, Vi::Window::command_buffer);
+		SDL_EndGPURenderPass(render_pass);
+		ImGui_ImplSDLGPU3_PrepareDrawData(draw_data, command_buffer);
 
 		SDL_GPUColorTargetInfo target_info{
-			.texture = Vi::Window::swapchain_texture,
+			.texture = swapchain_texture,
 			.mip_level = 0,
 			.layer_or_depth_plane = 0,
 			.store_op = SDL_GPU_STOREOP_STORE,
@@ -476,11 +336,11 @@ namespace Vi {
 		};
 
 		SDL_GPURenderPass* imgui_render_pass{};
-		imgui_render_pass = SDL_BeginGPURenderPass(Vi::Window::command_buffer, &target_info, 1, nullptr);
+		imgui_render_pass = SDL_BeginGPURenderPass(command_buffer, &target_info, 1, nullptr);
 
-		ImGui_ImplSDLGPU3_RenderDrawData(draw_data, Vi::Window::command_buffer, imgui_render_pass);
+		ImGui_ImplSDLGPU3_RenderDrawData(draw_data, command_buffer, imgui_render_pass);
 		SDL_EndGPURenderPass(imgui_render_pass);
-		SDL_SubmitGPUCommandBuffer(Vi::Window::command_buffer);
+		SDL_SubmitGPUCommandBuffer(command_buffer);
 	}
 }
 

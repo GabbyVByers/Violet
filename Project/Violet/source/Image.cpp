@@ -31,6 +31,8 @@ static struct STB_LoadPNGResult {
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* pixels = stbi_load(path_cstr, &w, &h, &n, 4);
 	if (!pixels) { return false; }
+	if (w <= 0) { return false; }
+	if (h <= 0) { return false; }
 	size_t width = static_cast<size_t>(w);
 	size_t height = static_cast<size_t>(h);
 
@@ -54,9 +56,13 @@ namespace Vi {
 
 	Image::Image(Vec2u dimensions) {
 		size_t buffer_size = (dimensions.x * dimensions.y * (size_t)4);
-		this->dimensions = dimensions;
-		pixels = new uint8_t[buffer_size];
-		if (!pixels) {
+		if (buffer_size == 0) {
+			this->dimensions = {};
+			pixels = nullptr;
+			return;
+		} this->dimensions = dimensions;
+		try { pixels = new uint8_t[buffer_size]; }
+		catch (...) {
 			Log::error(HERE);
 			std::terminate();
 		} std::memset(pixels, (uint8_t)255, buffer_size);
@@ -98,13 +104,16 @@ namespace Vi {
 	// Copy & Move Semantics
 
 	Image::Image(const Image& other) {
-		const size_t buffer_size = (other.dimensions.x * other.dimensions.y * (size_t)4);
 		dimensions = other.dimensions;
-		pixels = new uint8_t[buffer_size];
-		if (!pixels) {
-			Log::error(HERE);
-			std::terminate();
-		} std::memcpy(pixels, other.pixels, buffer_size);
+		pixels = nullptr;
+		size_t buffer_size = dimensions.x * dimensions.y * 4;
+		if (buffer_size != 0) {
+			try { pixels = new uint8_t[buffer_size]; }
+			catch (...) {
+				Log::error(HERE);
+				std::terminate();
+			} std::memcpy(pixels, other.pixels, buffer_size);
+		}
 	}
 
 	Image::Image(Image&& other) noexcept {
@@ -114,26 +123,24 @@ namespace Vi {
 		other.dimensions = {};
 	}
 
-	Image& Image::operator = (const Image& other) {
-		if (this == std::addressof(other)) {
-			Log::error(HERE);
-			std::terminate();
-		} const size_t buffer_size = (other.dimensions.x * other.dimensions.y * (size_t)4);
+	Image& Image::operator=(const Image& other) {
+		if (this == &other) { return *this; }
 		dimensions = other.dimensions;
 		delete[] pixels;
-		pixels = new uint8_t[buffer_size];
-		if (!pixels) {
-			Log::error(HERE);
-			std::terminate();
-		} std::memcpy(pixels, other.pixels, buffer_size);
-		return *this;
+		pixels = nullptr;
+		const size_t buffer_size = dimensions.x * dimensions.y * 4;
+		if (buffer_size != 0) {
+			try { pixels = new uint8_t[buffer_size]; }
+			catch (...) {
+				Log::error(HERE);
+				std::terminate();
+			} std::memcpy(pixels, other.pixels, buffer_size);
+		} return *this;
 	}
 
-	Image& Image::operator = (Image&& other) noexcept {
-		if (this == std::addressof(other)) {
-			Log::error(HERE);
-			std::terminate();
-		} delete[] pixels;
+	Image& Image::operator=(Image&& other) noexcept {
+		if (this == std::addressof(other)) { return *this; }
+		delete[] pixels;
 		pixels = other.pixels;
 		dimensions = other.dimensions;
 		other.pixels = nullptr;

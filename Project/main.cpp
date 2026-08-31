@@ -6,7 +6,18 @@
 #include "Violet.h"
 #include <iostream>
 
-static void testMouse() {
+static void testInput() {
+	if (Vi::Keyboard::pressing(SDL_SCANCODE_A)) {
+		std::cout << "Holding 'A' Key!\n";
+	}
+
+	if (Vi::Keyboard::pressed(SDL_SCANCODE_B)) {
+		std::cout << "Pressed 'B' Key!\n";
+	}
+
+	if (Vi::Keyboard::released(SDL_SCANCODE_B)) {
+		std::cout << "Released 'B' Key!\n";
+	}
 
 	if (Vi::Mouse::pressing(SDL_BUTTON_MIDDLE)) {
 		Vi::Vec2f pos = Vi::Mouse::position();
@@ -27,7 +38,6 @@ static void testMouse() {
 		std::cout << "Released Right Mouse Button!\n";
 		Vi::Mouse::reveal();
 	}
-
 }
 
 int main() {
@@ -53,7 +63,7 @@ int main() {
 	Vi::Camera::position.z = -1;
 
 	while (window.isOpen()) {
-		testMouse();
+		testInput();
 		window.clear({ 0.1, 0, 0.1, 1 });
 		window.draw(mesh);
 		window.display();

@@ -284,7 +284,6 @@ namespace Vi {
 
 	bool Window::isOpen() {
 		Mouse::vel = {};
-
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
@@ -297,6 +296,13 @@ namespace Vi {
 			}
 		}
 		
+		std::memcpy(Keyboard::prev_keys, Keyboard::curr_keys, SDL_SCANCODE_COUNT);
+		int num_keys = SDL_SCANCODE_COUNT;
+		const bool* new_keys = SDL_GetKeyboardState(&num_keys);
+		if (!new_keys) {
+			Log::error(SDL_GetError());
+			std::terminate();
+		} std::memcpy(Keyboard::curr_keys, new_keys, SDL_SCANCODE_COUNT);
 		Mouse::prev_state = Mouse::curr_state;
 		Mouse::curr_state = SDL_GetMouseState(&Mouse::pos.x, &Mouse::pos.y);
 		return true;
@@ -391,17 +397,9 @@ namespace Vi {
 			std::terminate();
 		}
 
-		if (!mesh.gpu_texture) {
-			Log::error(HERE);
-			std::terminate();
-		}
-
-		if (!mesh.vertex_buffer) {
-			Log::error(HERE);
-			std::terminate();
-		}
-
 		if (minimized) { return; }
+		if (!mesh.vertex_buffer) { return; }
+
 		double width = static_cast<double>(dimensions.x);
 		double height = static_cast<double>(dimensions.y);
 		double aspect_ratio = width / height;

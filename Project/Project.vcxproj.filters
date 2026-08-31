@@ -17,6 +17,7 @@
     <ClCompile Include="violet\source\mesh.cpp" />
     <ClCompile Include="violet\source\log.cpp" />
     <ClCompile Include="violet\source\mouse.cpp" />
+    <ClCompile Include="violet\source\keyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="violet\Violet.h" />

@@ -6,6 +6,39 @@
 #include "Violet.h"
 #include <iostream>
 
+static void testInput();
+
+int main() {
+	Vi::Window window{ "App Title", 0, 0 };
+	window.vsync(true);
+
+	Vi::Matrix x{
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1,
+	};
+
+	Vi::Vertex vertices[] = {
+		{ {-0.5,-0.4, 0 }, { 1, 0, 0, 1 }, { 0, 0 } },
+		{ { 0.5,-0.4, 0 }, { 0, 1, 0, 1 }, { 0, 0 } },
+		{ {   0, 0.4, 0 }, { 0, 0, 1, 1 }, { 0, 0 } },
+	};
+
+	Vi::Mesh mesh{};
+	mesh.upload(vertices, 3);
+
+	Vi::Camera::position.z = -1;
+
+	while (window.isOpen()) {
+		testInput();
+		window.clear({ 0.1, 0, 0.1, 1 });
+		window.draw(mesh);
+		ImGui::ShowDemoWindow();
+		window.display();
+	} return EXIT_SUCCESS;
+}
+
 static void testInput() {
 	if (Vi::Keyboard::pressing(SDL_SCANCODE_A)) {
 		std::cout << "Holding 'A' Key!\n";
@@ -38,35 +71,5 @@ static void testInput() {
 		std::cout << "Released Right Mouse Button!\n";
 		Vi::Mouse::reveal();
 	}
-}
-
-int main() {
-	Vi::Window window{ "App Title", 0, 0 };
-	window.vsync(true);
-
-	Vi::Matrix x{
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, 0, 1,
-	};
-
-	Vi::Vertex vertices[] = {
-		{ {-0.5,-0.4, 0 }, { 1, 0, 0, 1 }, { 0, 0 } },
-		{ { 0.5,-0.4, 0 }, { 0, 1, 0, 1 }, { 0, 0 } },
-		{ {   0, 0.4, 0 }, { 0, 0, 1, 1 }, { 0, 0 } },
-	};
-
-	Vi::Mesh mesh{};
-	mesh.upload(vertices, 3);
-
-	Vi::Camera::position.z = -1;
-
-	while (window.isOpen()) {
-		testInput();
-		window.clear({ 0.1, 0, 0.1, 1 });
-		window.draw(mesh);
-		window.display();
-	} return EXIT_SUCCESS;
 }
 

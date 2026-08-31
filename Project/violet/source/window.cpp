@@ -221,9 +221,32 @@ namespace Vi {
 
 		SDL_ReleaseGPUShader(device, vertex_shader_program);
 		SDL_ReleaseGPUShader(device, fragment_shader_program);
+
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui::StyleColorsDark();
+		ImGui_ImplSDL3_InitForSDLGPU(window);
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+
+		ImGui_ImplSDLGPU3_InitInfo init_info {
+			.Device = device,
+			.ColorTargetFormat = SDL_GetGPUSwapchainTextureFormat(device, window),
+			//.MSAASamples = SDL_GPU_SAMPLECOUNT_1,
+			//.SwapchainComposition = SDL_GPU_SWAPCHAINCOMPOSITION_SDR,
+			.PresentMode = SDL_GPU_PRESENTMODE_VSYNC, // reinit when change?
+		};
+
+		ImGui_ImplSDLGPU3_Init(&init_info);
 	}
 
 	Window::~Window() {
+		ImGui_ImplSDL3_Shutdown();
+		ImGui_ImplSDLGPU3_Shutdown();
+		ImGui::DestroyContext();
+
 		if (frame) {
 			SDL_EndGPURenderPass(render_pass);
 			if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
@@ -286,6 +309,12 @@ namespace Vi {
 		Mouse::vel = {};
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
+			ImGui_ImplSDL3_ProcessEvent(&event);
+			// todo: discard mouse/keyboard events when io.WantCaptureMouse/io.WantCaptureKeyboard is set.
+			//ImGuiIO& io = ImGui::GetIO();
+			//if (io.WantCaptureMouse && event.type == SDL_EVENT_MOUSE_MOTION) continue;
+			//if (io.WantCaptureKeyboard && event.type == SDL_EVENT_KEY_DOWN) continue;
+
 			if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
 				return false;
 			}
@@ -389,6 +418,10 @@ namespace Vi {
 			Log::error(SDL_GetError());
 			std::terminate();
 		} SDL_BindGPUGraphicsPipeline(render_pass, graphics_pipeline);
+
+		ImGui_ImplSDLGPU3_NewFrame();
+		ImGui_ImplSDL3_NewFrame();
+		ImGui::NewFrame();
 	}
 
 	void Window::draw(const Mesh& mesh) {
@@ -425,17 +458,29 @@ namespace Vi {
 	}
 
 	void Window::display() {
-		if (!frame) {
-			Log::error(HERE);
-			std::terminate();
-		} frame = false;
+		if (!frame) { throw std::exception{}; }
 		if (minimized) { return; }
-
+		frame = false;
 		SDL_EndGPURenderPass(render_pass);
-		if (!SDL_SubmitGPUCommandBuffer(command_buffer)) {
-			Log::error(SDL_GetError());
-			std::terminate();
-		}
+
+		ImGui::Render();
+		ImDrawData* draw_data = ImGui::GetDrawData();
+		ImGui_ImplSDLGPU3_PrepareDrawData(draw_data, Vi::Window::command_buffer);
+
+		SDL_GPUColorTargetInfo target_info{
+			.texture = Vi::Window::swapchain_texture,
+			.mip_level = 0,
+			.layer_or_depth_plane = 0,
+			.store_op = SDL_GPU_STOREOP_STORE,
+			.cycle = false,
+		};
+
+		SDL_GPURenderPass* imgui_render_pass{};
+		imgui_render_pass = SDL_BeginGPURenderPass(Vi::Window::command_buffer, &target_info, 1, nullptr);
+
+		ImGui_ImplSDLGPU3_RenderDrawData(draw_data, Vi::Window::command_buffer, imgui_render_pass);
+		SDL_EndGPURenderPass(imgui_render_pass);
+		SDL_SubmitGPUCommandBuffer(Vi::Window::command_buffer);
 	}
 }
 
